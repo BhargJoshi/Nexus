@@ -1,0 +1,2661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Checkout Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-base: #0e0f11;
+    --bg-surface: #14161a;
+    --bg-raised: #1c1f24;
+    --bg-hover: #22262d;
+    --border: #2a2e36;
+    --border-light: #343940;
+    --text-primary: #e8eaf0;
+    --text-secondary: #8b9099;
+    --text-muted: #555c66;
+    --navy: #1a2744;
+    --navy-mid: #1e3060;
+    --accent-blue: #3b6ef8;
+    --accent-blue-dim: rgba(59,110,248,0.12);
+    --state-green: #2dd4a0;
+    --state-green-dim: rgba(45,212,160,0.1);
+    --state-amber: #f5a623;
+    --state-amber-dim: rgba(245,166,35,0.1);
+    --state-red: #f05050;
+    --state-red-dim: rgba(240,80,80,0.1);
+    --state-blue: #3b6ef8;
+    --nav-width: 64px;
+    --topbar-height: 48px;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg-base);
+    color: var(--text-primary);
+    height: 100vh;
+    overflow: hidden;
+    font-size: 13px;
+  }
+
+  /* ─── SCREENS ─────────────────────────────────── */
+  .screen { display: none; width: 100vw; height: 100vh; }
+  .screen.active { display: flex; }
+
+  /* ══════════════════════════════════════════════════
+     SCREEN 1 — LOGIN
+  ══════════════════════════════════════════════════ */
+  #screen-login {
+    background: var(--bg-base);
+    flex-direction: row;
+  }
+
+  .login-left {
+    width: 52%;
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px;
+  }
+
+  .login-left::before {
+    content: '';
+    position: absolute;
+    top: -120px; left: -120px;
+    width: 480px; height: 480px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59,110,248,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .login-left::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; right: -80px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(45,212,160,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .login-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .brand-icon {
+    width: 36px; height: 36px;
+    background: var(--accent-blue);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .brand-icon svg { width: 20px; height: 20px; }
+
+  .brand-name {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--text-primary);
+  }
+
+  .brand-sub {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+  }
+
+  .login-hero {
+    position: relative;
+    z-index: 1;
+  }
+
+  .login-hero h1 {
+    font-family: var(--font-display);
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+  }
+
+  .login-hero h1 span { color: var(--accent-blue); }
+
+  .login-hero p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    max-width: 340px;
+  }
+
+  .login-stats {
+    display: flex;
+    gap: 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .login-stat-item { }
+  .login-stat-value {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .login-stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-family: var(--font-mono);
+    margin-top: 2px;
+  }
+
+  .login-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+  }
+
+  .login-form-wrap {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .login-form-wrap h2 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .login-form-wrap p {
+    color: var(--text-secondary);
+    font-size: 13px;
+    margin-bottom: 32px;
+  }
+
+  .form-group { margin-bottom: 18px; }
+
+  .form-label {
+    display: block;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+
+  .form-input, .form-select {
+    width: 100%;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+
+  .form-input:focus, .form-select:focus { border-color: var(--accent-blue); }
+  .form-select { cursor: pointer; }
+
+  .role-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .role-btn {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 12px;
+    text-align: left;
+    transition: all 0.15s;
+  }
+
+  .role-btn:hover { border-color: var(--border-light); color: var(--text-primary); }
+  .role-btn.selected { border-color: var(--accent-blue); background: var(--accent-blue-dim); color: var(--text-primary); }
+  .role-btn .role-icon { font-size: 16px; display: block; margin-bottom: 4px; }
+  .role-btn .role-label { font-weight: 500; font-size: 11px; }
+
+  .btn-primary {
+    width: 100%;
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 13px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-primary:hover { opacity: 0.88; }
+
+  .system-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 10px 14px;
+    background: var(--state-green-dim);
+    border: 1px solid rgba(45,212,160,0.2);
+    border-radius: 8px;
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--state-green);
+    animation: pulse-dot 2s infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .status-text {
+    font-size: 11px;
+    color: var(--state-green);
+    font-family: var(--font-mono);
+  }
+
+  /* ══════════════════════════════════════════════════
+     APP SHELL
+  ══════════════════════════════════════════════════ */
+  #screen-app {
+    flex-direction: row;
+  }
+
+  /* ─── NAV RAIL ─── */
+  .nav-rail {
+    width: var(--nav-width);
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 0;
+    gap: 4px;
+    z-index: 100;
+    flex-shrink: 0;
+  }
+
+  .nav-logo {
+    width: 36px; height: 36px;
+    background: var(--accent-blue);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .nav-item {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.15s;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .nav-item:hover { background: var(--bg-hover); color: var(--text-secondary); }
+  .nav-item.active { background: var(--accent-blue-dim); color: var(--accent-blue); }
+
+  .nav-item svg { width: 18px; height: 18px; }
+
+  .nav-tooltip {
+    position: absolute;
+    left: 52px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+    z-index: 999;
+  }
+
+  .nav-item:hover .nav-tooltip { opacity: 1; }
+
+  .nav-divider {
+    width: 24px;
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0;
+    flex-shrink: 0;
+  }
+
+  .nav-spacer { flex: 1; }
+
+  /* ─── MAIN AREA ─── */
+  .main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ─── TOP BAR ─── */
+  .top-bar {
+    height: var(--topbar-height);
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+
+  .top-bar-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .top-bar-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .top-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+  }
+
+  .top-indicator .dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+  }
+
+  .dot-green { background: var(--state-green); animation: pulse-dot 2s infinite; }
+  .dot-amber { background: var(--state-amber); }
+  .dot-blue { background: var(--accent-blue); }
+
+  .top-pill {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .time-display {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  /* ─── VIEWS ─── */
+  .view { display: none; flex: 1; overflow: hidden; }
+  .view.active { display: flex; }
+
+  /* ══════════════════════════════════════════════════
+     VIEW: LIVE CHECKOUT
+  ══════════════════════════════════════════════════ */
+  #view-checkout {
+    flex-direction: row;
+    gap: 0;
+  }
+
+  /* LEFT PANEL */
+  .checkout-left {
+    width: 280px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+
+  .panel-header {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .panel-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+  }
+
+  .panel-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: var(--accent-blue-dim);
+    color: var(--accent-blue);
+  }
+
+  .product-feed {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .product-feed::-webkit-scrollbar { width: 3px; }
+  .product-feed::-webkit-scrollbar-track { background: transparent; }
+  .product-feed::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .product-card {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    animation: slide-in 0.25s ease;
+    transition: border-color 0.2s;
+  }
+
+  @keyframes slide-in {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .product-card.verified { border-left: 2px solid var(--state-green); }
+  .product-card.ambiguous { border-left: 2px solid var(--state-amber); }
+  .product-card.checking { border-left: 2px solid var(--accent-blue); }
+
+  .product-thumb {
+    width: 40px; height: 40px;
+    border-radius: 6px;
+    background: var(--bg-hover);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .product-info { flex: 1; min-width: 0; }
+
+  .product-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 3px;
+  }
+
+  .product-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .confidence-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  .conf-high { background: var(--state-green-dim); color: var(--state-green); }
+  .conf-mid { background: var(--state-amber-dim); color: var(--state-amber); }
+  .conf-low { background: var(--state-red-dim); color: var(--state-red); }
+
+  .product-price {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-left: auto;
+  }
+
+  .product-qty {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+  }
+
+  .verification-icon {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px;
+    flex-shrink: 0;
+  }
+
+  .vi-green { background: var(--state-green-dim); color: var(--state-green); }
+  .vi-amber { background: var(--state-amber-dim); color: var(--state-amber); }
+  .vi-blue { background: var(--accent-blue-dim); color: var(--accent-blue); }
+
+  /* CENTER PANEL */
+  .checkout-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .camera-zone {
+    flex: 1;
+    position: relative;
+    background: #080a0d;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .camera-feed-sim {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Simulated camera grid lines */
+  .camera-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(59,110,248,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(59,110,248,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .camera-corner {
+    position: absolute;
+    width: 20px; height: 20px;
+    border-color: rgba(59,110,248,0.5);
+    border-style: solid;
+  }
+
+  .camera-corner.tl { top: 24px; left: 24px; border-width: 2px 0 0 2px; }
+  .camera-corner.tr { top: 24px; right: 24px; border-width: 2px 2px 0 0; }
+  .camera-corner.bl { bottom: 24px; left: 24px; border-width: 0 0 2px 2px; }
+  .camera-corner.br { bottom: 24px; right: 24px; border-width: 0 2px 2px 0; }
+
+  .ai-detection-box {
+    position: absolute;
+    border: 1.5px solid var(--state-green);
+    border-radius: 4px;
+    animation: detection-pulse 1.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes detection-pulse {
+    0%, 100% { border-color: rgba(45,212,160,0.8); box-shadow: 0 0 0 0 rgba(45,212,160,0.2); }
+    50% { border-color: var(--state-green); box-shadow: 0 0 12px rgba(45,212,160,0.15); }
+  }
+
+  .detection-label {
+    position: absolute;
+    top: -22px; left: 0;
+    background: var(--state-green);
+    color: #000;
+    font-size: 9px;
+    font-family: var(--font-mono);
+    padding: 2px 6px;
+    border-radius: 3px;
+    white-space: nowrap;
+    font-weight: 500;
+  }
+
+  .product-emoji-sim {
+    font-size: 64px;
+    animation: float-product 3s ease-in-out infinite;
+    position: relative;
+    z-index: 2;
+    user-select: none;
+  }
+
+  @keyframes float-product {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  .scan-line {
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(45,212,160,0.6), transparent);
+    animation: scan 2.5s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes scan {
+    from { top: 20%; }
+    to { top: 80%; }
+  }
+
+  .camera-state-label {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(14,15,17,0.85);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .camera-state-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--state-green);
+    animation: pulse-dot 1.5s infinite;
+  }
+
+  .checkout-bottom-bar {
+    height: 48px;
+    border-top: 1px solid var(--border);
+    background: var(--bg-surface);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+  }
+
+  .action-btn {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 14px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .action-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+  .action-btn.primary-action {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: white;
+    font-weight: 500;
+  }
+
+  .action-btn.primary-action:hover { opacity: 0.88; }
+
+  .action-btn.danger-action {
+    border-color: rgba(240,80,80,0.3);
+    color: var(--state-red);
+  }
+
+  .action-btn.danger-action:hover { background: var(--state-red-dim); }
+
+  .kb-hint {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    background: var(--bg-base);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 6px;
+  }
+
+  /* RIGHT PANEL */
+  .checkout-right {
+    width: 260px;
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+
+  .billing-section {
+    border-bottom: 1px solid var(--border);
+    padding: 14px 16px;
+  }
+
+  .total-display {
+    padding: 16px;
+    text-align: center;
+  }
+
+  .total-label {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .total-amount {
+    font-family: var(--font-display);
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .total-amount .currency {
+    font-size: 20px;
+    color: var(--text-secondary);
+    vertical-align: top;
+    margin-top: 6px;
+    display: inline-block;
+  }
+
+  .total-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    margin-top: 6px;
+  }
+
+  .billing-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 12px;
+  }
+
+  .billing-row .b-label { color: var(--text-muted); }
+  .billing-row .b-value { color: var(--text-secondary); font-family: var(--font-mono); }
+  .billing-row .b-value.highlight { color: var(--text-primary); font-weight: 500; }
+
+  .billing-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 6px 0;
+  }
+
+  .pos-sync-status {
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sync-label {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .sync-value {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--state-green);
+    margin-left: auto;
+  }
+
+  .checkout-actions {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: auto;
+  }
+
+  .checkout-complete-btn {
+    background: var(--state-green);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    letter-spacing: 0.02em;
+  }
+
+  .checkout-complete-btn:hover { opacity: 0.88; }
+
+  .checkout-secondary-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .checkout-secondary-btn:hover { color: var(--text-secondary); border-color: var(--border-light); }
+
+  .payment-methods {
+    display: flex;
+    gap: 6px;
+    padding: 0 12px 12px;
+  }
+
+  .payment-chip {
+    flex: 1;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 6px;
+    text-align: center;
+    font-size: 10px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: var(--font-mono);
+  }
+
+  .payment-chip:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+  .payment-chip .pay-icon { font-size: 16px; display: block; margin-bottom: 3px; }
+
+  /* ══════════════════════════════════════════════════
+     VERIFICATION MODAL
+  ══════════════════════════════════════════════════ */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(4px);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .verification-modal {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    width: 740px;
+    max-width: 90vw;
+    overflow: hidden;
+    animation: modal-in 0.2s ease;
+  }
+
+  @keyframes modal-in {
+    from { opacity: 0; transform: scale(0.97) translateY(8px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .modal-alert-icon {
+    width: 32px; height: 32px;
+    background: var(--state-amber-dim);
+    border: 1px solid rgba(245,166,35,0.3);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--state-amber);
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .modal-title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .modal-subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    margin-top: 2px;
+  }
+
+  .modal-body {
+    padding: 20px 24px;
+    display: flex;
+    gap: 16px;
+  }
+
+  .modal-frames {
+    width: 140px;
+    flex-shrink: 0;
+  }
+
+  .modal-frame-label {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+
+  .frame-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .frame-thumb {
+    aspect-ratio: 1;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+
+  .frame-thumb.active { border-color: var(--accent-blue); }
+  .frame-thumb:hover { border-color: var(--border-light); }
+
+  .sku-suggestions {
+    flex: 1;
+  }
+
+  .sku-suggestions-label {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+
+  .sku-option {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .sku-option:hover { border-color: var(--border-light); }
+  .sku-option.top-match { border-color: var(--accent-blue); background: var(--accent-blue-dim); }
+
+  .sku-rank {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .rank-1 { background: var(--accent-blue-dim); color: var(--accent-blue); }
+  .rank-2 { background: var(--bg-hover); color: var(--text-muted); }
+  .rank-3 { background: var(--bg-hover); color: var(--text-muted); }
+
+  .sku-thumb { font-size: 28px; }
+
+  .sku-info { flex: 1; }
+
+  .sku-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 3px;
+  }
+
+  .sku-detail {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+  }
+
+  .sku-conf-bar {
+    width: 80px;
+  }
+
+  .conf-bar-label {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-align: right;
+    margin-bottom: 4px;
+  }
+
+  .conf-bar-track {
+    height: 4px;
+    background: var(--bg-hover);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .conf-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--accent-blue);
+    transition: width 0.3s;
+  }
+
+  .conf-bar-fill.high { background: var(--state-green); }
+  .conf-bar-fill.mid { background: var(--state-amber); }
+  .conf-bar-fill.low { background: var(--state-red); }
+
+  .modal-footer {
+    padding: 14px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .btn-verify {
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .btn-verify:hover { opacity: 0.88; }
+
+  .btn-manual {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .btn-manual:hover { border-color: var(--border-light); color: var(--text-primary); }
+
+  .modal-tip {
+    margin-left: auto;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+  }
+
+  /* ══════════════════════════════════════════════════
+     VIEW: OPERATIONS DASHBOARD
+  ══════════════════════════════════════════════════ */
+  #view-dashboard {
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 20px;
+    gap: 16px;
+  }
+
+  #view-dashboard::-webkit-scrollbar { width: 4px; }
+  #view-dashboard::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .dash-row {
+    display: flex;
+    gap: 14px;
+  }
+
+  .metric-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    flex: 1;
+  }
+
+  .metric-label {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .metric-value {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .metric-value.green { color: var(--state-green); }
+  .metric-value.amber { color: var(--state-amber); }
+  .metric-value.blue { color: var(--accent-blue); }
+  .metric-value.white { color: var(--text-primary); }
+
+  .metric-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .metric-trend {
+    font-size: 10px;
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  .trend-up { background: var(--state-green-dim); color: var(--state-green); }
+  .trend-down { background: var(--state-red-dim); color: var(--state-red); }
+
+  .chart-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    flex: 1;
+  }
+
+  .chart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .chart-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-family: var(--font-display);
+  }
+
+  .chart-legend {
+    display: flex;
+    gap: 12px;
+    font-size: 10px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+  }
+
+  .legend-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 4px;
+  }
+
+  /* Bar chart simulation */
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 100px;
+  }
+
+  .bar-group {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+  }
+
+  .bar {
+    flex: 1;
+    border-radius: 3px 3px 0 0;
+    transition: opacity 0.2s;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .bar:hover { opacity: 0.8; }
+  .bar:hover::after {
+    content: attr(data-val);
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 9px;
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+    background: var(--bg-raised);
+    padding: 2px 4px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  .bar-blue { background: var(--accent-blue); }
+  .bar-green { background: var(--state-green); }
+  .bar-amber { background: var(--state-amber); }
+
+  .bar-labels {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+  }
+
+  .bar-label {
+    flex: 1;
+    text-align: center;
+    font-size: 9px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+  }
+
+  .lane-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .lane-card {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .lane-card:hover { border-color: var(--border-light); }
+  .lane-card.lane-active { border-color: var(--state-green); }
+  .lane-card.lane-busy { border-color: var(--state-amber); }
+  .lane-card.lane-idle { opacity: 0.5; }
+
+  .lane-number {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .lane-status-text {
+    font-size: 9px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .lane-card.lane-active .lane-status-text { color: var(--state-green); }
+  .lane-card.lane-busy .lane-status-text { color: var(--state-amber); }
+
+  .alert-list { display: flex; flex-direction: column; gap: 8px; }
+
+  .alert-item {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .alert-item.alert-critical { border-left: 2px solid var(--state-red); }
+  .alert-item.alert-warning { border-left: 2px solid var(--state-amber); }
+  .alert-item.alert-info { border-left: 2px solid var(--accent-blue); }
+
+  .alert-icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  .ai-critical { background: var(--state-red-dim); }
+  .ai-warning { background: var(--state-amber-dim); }
+  .ai-info { background: var(--accent-blue-dim); }
+
+  .alert-content { flex: 1; }
+  .alert-title { font-size: 12px; font-weight: 500; margin-bottom: 2px; }
+  .alert-desc { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); }
+  .alert-time { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); }
+
+  /* ══════════════════════════════════════════════════
+     VIEW: SKU INTELLIGENCE
+  ══════════════════════════════════════════════════ */
+  #view-sku {
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .sku-toolbar {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .search-input-wrap {
+    position: relative;
+    flex: 1;
+    max-width: 320px;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 10px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px 8px 32px;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-input:focus { border-color: var(--accent-blue); }
+  .search-input::placeholder { color: var(--text-muted); }
+
+  .filter-chips {
+    display: flex;
+    gap: 6px;
+  }
+
+  .filter-chip {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .filter-chip:hover { border-color: var(--border-light); color: var(--text-secondary); }
+  .filter-chip.active { border-color: var(--accent-blue); background: var(--accent-blue-dim); color: var(--accent-blue); }
+
+  .sku-main {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+  }
+
+  .sku-table-wrap {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px;
+  }
+
+  .sku-table-wrap::-webkit-scrollbar { width: 3px; }
+  .sku-table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .sku-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .sku-table th {
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--bg-base);
+  }
+
+  .sku-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(42,46,54,0.5);
+    vertical-align: middle;
+  }
+
+  .sku-table tr:hover td { background: var(--bg-raised); }
+  .sku-table tr { cursor: pointer; }
+
+  .sku-product-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sku-thumb-sm {
+    width: 32px; height: 32px;
+    border-radius: 6px;
+    background: var(--bg-raised);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+  }
+
+  .sku-name-cell { font-size: 12px; font-weight: 500; }
+  .sku-code-cell { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); margin-top: 2px; }
+
+  .conf-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .conf-mini-bar {
+    width: 60px;
+    height: 4px;
+    background: var(--bg-hover);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .conf-mini-fill {
+    height: 100%;
+    border-radius: 2px;
+  }
+
+  .sku-status-badge {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    padding: 2px 8px;
+    border-radius: 20px;
+    display: inline-block;
+  }
+
+  .badge-active { background: var(--state-green-dim); color: var(--state-green); }
+  .badge-review { background: var(--state-amber-dim); color: var(--state-amber); }
+  .badge-new { background: var(--accent-blue-dim); color: var(--accent-blue); }
+
+  .sku-detail-panel {
+    width: 280px;
+    border-left: 1px solid var(--border);
+    padding: 20px;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .sku-detail-panel::-webkit-scrollbar { width: 3px; }
+  .sku-detail-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .detail-product-hero {
+    text-align: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  .detail-emoji { font-size: 48px; display: block; margin-bottom: 10px; }
+
+  .detail-name {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .detail-code {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .detail-section {
+    margin-bottom: 16px;
+  }
+
+  .detail-section-title {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    padding: 4px 0;
+  }
+
+  .detail-row .dr-label { color: var(--text-muted); }
+  .detail-row .dr-value { color: var(--text-secondary); font-family: var(--font-mono); }
+
+  .conf-ring-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+  }
+
+  .conf-ring {
+    position: relative;
+    width: 64px; height: 64px;
+  }
+
+  .conf-ring svg { transform: rotate(-90deg); }
+
+  .conf-ring-value {
+    position: absolute;
+    inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+
+  /* ══════════════════════════════════════════════════
+     TOAST
+  ══════════════════════════════════════════════════ */
+  .toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .toast {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    animation: toast-in 0.25s ease;
+    min-width: 260px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+
+  @keyframes toast-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .toast-icon { font-size: 16px; }
+  .toast-text { flex: 1; }
+  .toast-title { font-weight: 500; margin-bottom: 1px; }
+  .toast-sub { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); }
+
+  /* Scrollbar global */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* ─── Responsive notice ─── */
+  .small-screen-notice {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--bg-base);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  @media (max-width: 800px) {
+    .small-screen-notice { display: flex; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Small screen notice -->
+<div class="small-screen-notice">
+  <div style="font-size:40px;">🖥</div>
+  <div style="font-family:var(--font-display);font-size:20px;font-weight:700;">Best viewed on desktop</div>
+  <div style="color:var(--text-muted);font-size:13px;line-height:1.6;">This prototype is optimized for 1280px+ screens to accurately represent the checkout intelligence interface.</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 1 — LOGIN
+═══════════════════════════════════════════════ -->
+<div class="screen active" id="screen-login">
+  <div class="login-left">
+    <div class="login-brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="3" width="6" height="6" rx="1.5" fill="white"/>
+          <rect x="11" y="3" width="6" height="6" rx="1.5" fill="white" opacity="0.5"/>
+          <rect x="3" y="11" width="6" height="6" rx="1.5" fill="white" opacity="0.5"/>
+          <rect x="11" y="11" width="6" height="6" rx="1.5" fill="white"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">AI Checkout</div>
+        <div class="brand-sub">Intelligence Platform</div>
+      </div>
+    </div>
+
+    <div class="login-hero">
+      <h1>Smarter<br>Checkout.<br><span>Zero Friction.</span></h1>
+      <p>AI-assisted product recognition, real-time billing intelligence, and operational analytics — embedded into your existing retail infrastructure.</p>
+    </div>
+
+    <div class="login-stats">
+      <div class="login-stat-item">
+        <div class="login-stat-value">97.4%</div>
+        <div class="login-stat-label">Recognition Accuracy</div>
+      </div>
+      <div class="login-stat-item">
+        <div class="login-stat-value">2.1s</div>
+        <div class="login-stat-label">Avg Scan Time</div>
+      </div>
+      <div class="login-stat-item">
+        <div class="login-stat-value">12K+</div>
+        <div class="login-stat-label">SKUs Trained</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-right">
+    <div class="login-form-wrap">
+      <h2>Operator Sign In</h2>
+      <p>Select your role and enter credentials to begin shift.</p>
+
+      <div style="margin-bottom:16px;">
+        <div class="form-label">Select Role</div>
+        <div class="role-grid">
+          <button class="role-btn selected" onclick="selectRole(this)">
+            <span class="role-icon">🧾</span>
+            <span class="role-label">Cashier</span>
+          </button>
+          <button class="role-btn" onclick="selectRole(this)">
+            <span class="role-icon">📊</span>
+            <span class="role-label">Floor Manager</span>
+          </button>
+          <button class="role-btn" onclick="selectRole(this)">
+            <span class="role-icon">⚙️</span>
+            <span class="role-label">Store Admin</span>
+          </button>
+          <button class="role-btn" onclick="selectRole(this)">
+            <span class="role-icon">🏢</span>
+            <span class="role-label">Enterprise</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Operator ID</label>
+        <input class="form-input" type="text" placeholder="Enter operator ID" value="CSH-0041">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">PIN / Password</label>
+        <input class="form-input" type="password" placeholder="••••••" value="123456">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Store Location</label>
+        <select class="form-select">
+          <option>Reliance Smart — Ahmedabad Central</option>
+          <option>DMart — SG Highway</option>
+          <option>BigBazaar — Satellite</option>
+        </select>
+      </div>
+
+      <button class="btn-primary" onclick="goToApp()">Initialize Shift →</button>
+
+      <div class="system-status">
+        <div class="status-dot"></div>
+        <span class="status-text">All systems operational · POS connected · AI engine ready</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SCREEN 2 — APP SHELL
+═══════════════════════════════════════════════ -->
+<div class="screen" id="screen-app">
+  <!-- NAV RAIL -->
+  <nav class="nav-rail">
+    <div class="nav-logo" onclick="goToLogin()">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <rect x="3" y="3" width="6" height="6" rx="1.5" fill="white"/>
+        <rect x="11" y="3" width="6" height="6" rx="1.5" fill="white" opacity="0.5"/>
+        <rect x="3" y="11" width="6" height="6" rx="1.5" fill="white" opacity="0.5"/>
+        <rect x="11" y="11" width="6" height="6" rx="1.5" fill="white"/>
+      </svg>
+    </div>
+
+    <div class="nav-item active" onclick="switchView('checkout', this)" title="">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 10h8M8 14h5"/><circle cx="17" cy="14" r="1" fill="currentColor" stroke="none"/></svg>
+      <span class="nav-tooltip">Live Checkout</span>
+    </div>
+
+    <div class="nav-item" onclick="switchView('dashboard', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+      <span class="nav-tooltip">Operations Dashboard</span>
+    </div>
+
+    <div class="nav-item" onclick="switchView('sku', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      <span class="nav-tooltip">SKU Intelligence</span>
+    </div>
+
+    <div class="nav-divider"></div>
+
+    <div class="nav-item" onclick="switchView('fraud', this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span class="nav-tooltip">Fraud & Risk</span>
+    </div>
+
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 1 0 4.93 19.07"/><path d="M20.36 20.36A10 10 0 0 0 12 2"/></svg>
+      <span class="nav-tooltip">POS Integrations</span>
+    </div>
+
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+      <span class="nav-tooltip">Devices</span>
+    </div>
+
+    <div class="nav-spacer"></div>
+
+    <div class="nav-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span class="nav-tooltip">CSH-0041</span>
+    </div>
+
+    <div class="nav-item" onclick="goToLogin()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      <span class="nav-tooltip">Sign Out</span>
+    </div>
+  </nav>
+
+  <!-- MAIN AREA -->
+  <div class="main-area">
+    <!-- TOP BAR -->
+    <div class="top-bar">
+      <div class="top-bar-title" id="view-title">Live Checkout · Lane 04</div>
+      <div class="top-bar-meta">
+        <div class="top-indicator">
+          <div class="dot dot-green"></div>
+          AI Engine Active
+        </div>
+        <div class="top-indicator">
+          <div class="dot dot-blue"></div>
+          POS Synced
+        </div>
+        <div class="top-pill">
+          Reliance Smart · Ahmedabad Central
+        </div>
+        <div class="time-display" id="clock">--:--:--</div>
+      </div>
+    </div>
+
+    <!-- ── LIVE CHECKOUT VIEW ── -->
+    <div class="view active" id="view-checkout">
+
+      <!-- LEFT: Product Feed -->
+      <div class="checkout-left">
+        <div class="panel-header">
+          <span class="panel-title">Detected Products</span>
+          <span class="panel-badge" id="item-count-badge">0 items</span>
+        </div>
+        <div class="product-feed" id="product-feed">
+          <!-- products injected by JS -->
+        </div>
+      </div>
+
+      <!-- CENTER: Camera Zone -->
+      <div class="checkout-center">
+        <div class="camera-zone">
+          <div class="camera-feed-sim">
+            <div class="camera-grid"></div>
+            <div class="camera-corner tl"></div>
+            <div class="camera-corner tr"></div>
+            <div class="camera-corner bl"></div>
+            <div class="camera-corner br"></div>
+            <div class="scan-line"></div>
+            <div class="ai-detection-box" style="width:120px;height:120px;" id="detection-box">
+              <span class="detection-label" id="detection-label">Detecting...</span>
+            </div>
+            <div class="product-emoji-sim" id="product-emoji">🛒</div>
+            <div class="camera-state-label">
+              <div class="camera-state-dot"></div>
+              <span id="camera-state-text">Detecting product...</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="checkout-bottom-bar">
+          <button class="action-btn" onclick="simulateProduct()">
+            ⚡ Simulate Scan
+          </button>
+          <span class="kb-hint">Space</span>
+          <button class="action-btn" onclick="openVerification()">
+            ⚠️ Test Ambiguity
+          </button>
+          <button class="action-btn danger-action" onclick="clearCheckout()">
+            ✕ Clear
+          </button>
+          <div style="flex:1"></div>
+          <button class="action-btn" onclick="showToast('info','Manual Override','Opening barcode fallback...')">
+            Manual Override
+          </button>
+        </div>
+      </div>
+
+      <!-- RIGHT: Billing -->
+      <div class="checkout-right">
+        <div class="total-display">
+          <div class="total-label">Running Total</div>
+          <div class="total-amount"><span class="currency">₹</span><span id="total-amount">0</span></div>
+          <div class="total-sub" id="total-sub">0 items · ₹0 tax</div>
+        </div>
+
+        <div class="billing-section">
+          <div class="billing-row">
+            <span class="b-label">Subtotal</span>
+            <span class="b-value" id="b-subtotal">₹0.00</span>
+          </div>
+          <div class="billing-row">
+            <span class="b-label">GST (18%)</span>
+            <span class="b-value" id="b-tax">₹0.00</span>
+          </div>
+          <div class="billing-row">
+            <span class="b-label">Discount</span>
+            <span class="b-value" style="color:var(--state-green)">— ₹0.00</span>
+          </div>
+          <div class="billing-divider"></div>
+          <div class="billing-row">
+            <span class="b-label" style="color:var(--text-primary);font-weight:500;">Total</span>
+            <span class="b-value highlight" id="b-total">₹0.00</span>
+          </div>
+        </div>
+
+        <div class="pos-sync-status">
+          <div class="dot dot-green" style="width:6px;height:6px;border-radius:50%;background:var(--state-green);animation:pulse-dot 2s infinite;"></div>
+          <span class="sync-label">POS Transmission</span>
+          <span class="sync-value">LIVE</span>
+        </div>
+
+        <div class="payment-methods">
+          <div class="payment-chip">
+            <span class="pay-icon">💵</span>Cash
+          </div>
+          <div class="payment-chip">
+            <span class="pay-icon">💳</span>Card
+          </div>
+          <div class="payment-chip">
+            <span class="pay-icon">📱</span>UPI
+          </div>
+        </div>
+
+        <div class="checkout-actions">
+          <button class="checkout-complete-btn" onclick="completeCheckout()">Complete Checkout →</button>
+          <button class="checkout-secondary-btn" onclick="clearCheckout()">Cancel Transaction</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── OPERATIONS DASHBOARD VIEW ── -->
+    <div class="view" id="view-dashboard" style="flex-direction:column;overflow-y:auto;padding:20px;gap:14px;">
+
+      <!-- Row 1: KPI metrics -->
+      <div class="dash-row">
+        <div class="metric-card">
+          <div class="metric-label">
+            <div class="dot dot-green" style="width:6px;height:6px;border-radius:50%;background:var(--state-green);animation:pulse-dot 2s infinite;"></div>
+            Active Lanes
+          </div>
+          <div class="metric-value green">6</div>
+          <div class="metric-sub">of 8 lanes active <span class="metric-trend trend-up">↑ 2</span></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Checkout Throughput</div>
+          <div class="metric-value white">214</div>
+          <div class="metric-sub">transactions today <span class="metric-trend trend-up">↑ 12%</span></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">AI Accuracy</div>
+          <div class="metric-value blue">97.4%</div>
+          <div class="metric-sub">recognition rate <span class="metric-trend trend-up">↑ 0.3%</span></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Avg Checkout Time</div>
+          <div class="metric-value white">2.1s</div>
+          <div class="metric-sub">per item <span class="metric-trend trend-down">↓ 0.2s vs yesterday</span></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Ambiguity Rate</div>
+          <div class="metric-value amber">2.6%</div>
+          <div class="metric-sub">items requiring verify <span class="metric-trend trend-down">↑ 0.1%</span></div>
+        </div>
+      </div>
+
+      <!-- Row 2: Charts + Lanes -->
+      <div class="dash-row">
+        <div class="chart-card" style="flex:2;">
+          <div class="chart-header">
+            <div class="chart-title">Checkout Throughput — Today</div>
+            <div class="chart-legend">
+              <span><span class="legend-dot" style="background:var(--accent-blue)"></span>Transactions</span>
+              <span><span class="legend-dot" style="background:var(--state-green)"></span>Verified</span>
+            </div>
+          </div>
+          <div class="bar-chart">
+            <div class="bar-group"><div class="bar bar-blue" style="height:40%" data-val="18"></div><div class="bar bar-green" style="height:36%" data-val="17"></div></div>
+            <div class="bar-group"><div class="bar bar-blue" style="height:55%" data-val="24"></div><div class="bar bar-green" style="height:50%" data-val="23"></div></div>
+            <div class="bar-group"><div class="bar bar-blue" style="height:70%" data-val="31"></div><div class="bar bar-green" style="height:65%" data-val="30"></div></div>
+            <div class="bar-group"><div class="bar bar-blue" style="height:90%" data-val="40"></div><div class="bar bar-green" style="height:85%" data-val="38"></div></div>
+            <div class="bar-group"><div class="bar bar-blue" style="height:100%" data-val="44"></div><div class="bar bar-green" style="height:95%" data-val="43"></div></div>
+            <div class="bar-group"><div class="bar bar-blue" style="height:75%" data-val="33"></div><div class="bar bar-green" style="height:72%" data-val="32"></div></div>
+            <div class="bar-group"><div class="bar bar-blue" style="height:60%" data-val="26"></div><div class="bar bar-green" style="height:58%" data-val="25"></div></div>
+            <div class="bar-group"><div class="bar bar-blue" style="height:45%" data-val="20"></div><div class="bar bar-green" style="height:42%" data-val="19"></div></div>
+          </div>
+          <div class="bar-labels">
+            <div class="bar-label">9AM</div>
+            <div class="bar-label">10AM</div>
+            <div class="bar-label">11AM</div>
+            <div class="bar-label">12PM</div>
+            <div class="bar-label">1PM</div>
+            <div class="bar-label">2PM</div>
+            <div class="bar-label">3PM</div>
+            <div class="bar-label">4PM</div>
+          </div>
+        </div>
+
+        <div class="chart-card" style="flex:1;">
+          <div class="chart-header">
+            <div class="chart-title">Lane Status</div>
+          </div>
+          <div class="lane-grid">
+            <div class="lane-card lane-active" onclick="showToast('info','Lane 01','6 items · ₹842 · Cashier: Priya S.')">
+              <div class="lane-number" style="color:var(--state-green)">01</div>
+              <div class="lane-status-text">Active</div>
+            </div>
+            <div class="lane-card lane-active" onclick="showToast('info','Lane 02','3 items · ₹391 · Cashier: Rahul M.')">
+              <div class="lane-number" style="color:var(--state-green)">02</div>
+              <div class="lane-status-text">Active</div>
+            </div>
+            <div class="lane-card lane-busy" onclick="showToast('warning','Lane 03','Queue congestion detected. 9 customers waiting.')">
+              <div class="lane-number" style="color:var(--state-amber)">03</div>
+              <div class="lane-status-text">Congested</div>
+            </div>
+            <div class="lane-card lane-active" onclick="showToast('info','Lane 04 (You)','Current lane · AI active')">
+              <div class="lane-number" style="color:var(--accent-blue)">04</div>
+              <div class="lane-status-text">You</div>
+            </div>
+            <div class="lane-card lane-active" onclick="showToast('info','Lane 05','11 items · Cashier: Anjali T.')">
+              <div class="lane-number" style="color:var(--state-green)">05</div>
+              <div class="lane-status-text">Active</div>
+            </div>
+            <div class="lane-card lane-idle">
+              <div class="lane-number" style="color:var(--text-muted)">06</div>
+              <div class="lane-status-text">Idle</div>
+            </div>
+            <div class="lane-card lane-idle">
+              <div class="lane-number" style="color:var(--text-muted)">07</div>
+              <div class="lane-status-text">Idle</div>
+            </div>
+            <div class="lane-card lane-active" onclick="showToast('info','Lane 08','Express lane · 5 items max')">
+              <div class="lane-number" style="color:var(--state-green)">08</div>
+              <div class="lane-status-text">Express</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 3: Alerts -->
+      <div class="dash-row">
+        <div class="chart-card" style="flex:1;">
+          <div class="chart-header">
+            <div class="chart-title">Active Alerts</div>
+            <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);">3 unresolved</span>
+          </div>
+          <div class="alert-list">
+            <div class="alert-item alert-warning">
+              <div class="alert-icon ai-warning">⚠️</div>
+              <div class="alert-content">
+                <div class="alert-title">Lane 03 — Queue Congestion</div>
+                <div class="alert-desc">9 customers waiting · Avg wait 4.2 min</div>
+              </div>
+              <div class="alert-time">2m ago</div>
+            </div>
+            <div class="alert-item alert-critical">
+              <div class="alert-icon ai-critical">🔴</div>
+              <div class="alert-content">
+                <div class="alert-title">SKU Confidence Drop — Maggi 70g</div>
+                <div class="alert-desc">Packaging change detected · Retraining required</div>
+              </div>
+              <div class="alert-time">18m ago</div>
+            </div>
+            <div class="alert-item alert-info">
+              <div class="alert-icon ai-info">ℹ️</div>
+              <div class="alert-content">
+                <div class="alert-title">POS Sync Latency — Lane 05</div>
+                <div class="alert-desc">+240ms above baseline · Monitoring</div>
+              </div>
+              <div class="alert-time">34m ago</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card" style="flex:1;">
+          <div class="chart-header">
+            <div class="chart-title">AI Recognition Accuracy — by Category</div>
+          </div>
+          <div class="bar-chart">
+            <div class="bar-group"><div class="bar bar-green" style="height:98%" data-val="98.2%"></div></div>
+            <div class="bar-group"><div class="bar bar-green" style="height:96%" data-val="96.8%"></div></div>
+            <div class="bar-group"><div class="bar bar-green" style="height:94%" data-val="94.1%"></div></div>
+            <div class="bar-group"><div class="bar bar-amber" style="height:88%" data-val="88.5%"></div></div>
+            <div class="bar-group"><div class="bar bar-amber" style="height:82%" data-val="82.3%"></div></div>
+            <div class="bar-group"><div class="bar bar-green" style="height:97%" data-val="97.0%"></div></div>
+          </div>
+          <div class="bar-labels">
+            <div class="bar-label">Beverages</div>
+            <div class="bar-label">Dairy</div>
+            <div class="bar-label">Snacks</div>
+            <div class="bar-label">Noodles</div>
+            <div class="bar-label">Spices</div>
+            <div class="bar-label">Personal</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SKU INTELLIGENCE VIEW ── -->
+    <div class="view" id="view-sku" style="flex-direction:column;overflow:hidden;">
+      <div class="sku-toolbar">
+        <div class="search-input-wrap">
+          <span class="search-icon">🔍</span>
+          <input class="search-input" type="text" placeholder="Search SKU, product name, barcode...">
+        </div>
+        <div class="filter-chips">
+          <div class="filter-chip active">All</div>
+          <div class="filter-chip" onclick="toggleChip(this)">Active</div>
+          <div class="filter-chip" onclick="toggleChip(this)">Under Review</div>
+          <div class="filter-chip" onclick="toggleChip(this)">New</div>
+          <div class="filter-chip" onclick="toggleChip(this)">Packaging Changed</div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:8px;">
+          <button class="action-btn primary-action" onclick="showToast('info','Register SKU','Opening SKU registration workflow...')">+ Register SKU</button>
+        </div>
+      </div>
+
+      <div class="sku-main">
+        <div class="sku-table-wrap">
+          <table class="sku-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Confidence</th>
+                <th>Scans (30d)</th>
+                <th>Status</th>
+                <th>Last Updated</th>
+              </tr>
+            </thead>
+            <tbody id="sku-tbody">
+              <!-- injected by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="sku-detail-panel" id="sku-detail-panel">
+          <div style="text-align:center;padding:40px 20px;color:var(--text-muted);">
+            <div style="font-size:32px;margin-bottom:12px;">📦</div>
+            <div style="font-size:12px;font-family:var(--font-mono);">Select a product<br>to view details</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FRAUD & RISK VIEW (placeholder) ── -->
+    <div class="view" id="view-fraud" style="flex-direction:column;align-items:center;justify-content:center;gap:16px;">
+      <div style="font-size:48px;">🛡</div>
+      <div style="font-family:var(--font-display);font-size:20px;font-weight:700;">Fraud & Risk Dashboard</div>
+      <div style="color:var(--text-muted);font-size:13px;font-family:var(--font-mono);text-align:center;line-height:1.8;">
+        Suspicious billing patterns · Item skip detection<br>
+        Override abuse monitoring · Cashier anomalies
+      </div>
+      <button class="action-btn primary-action" onclick="showToast('info','Coming Soon','Fraud & Risk module in next prototype iteration.')">Coming in next iteration</button>
+    </div>
+
+  </div><!-- end main-area -->
+</div><!-- end screen-app -->
+
+<!-- ══════════════════════════════════════════════════
+     VERIFICATION MODAL (Screen 3)
+══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="verification-modal">
+  <div class="verification-modal">
+    <div class="modal-header">
+      <div class="modal-alert-icon">⚠</div>
+      <div>
+        <div class="modal-title">AI Verification Required</div>
+        <div class="modal-subtitle">Confidence below threshold · 3 possible matches found</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-frames">
+        <div class="modal-frame-label">Captured Frames</div>
+        <div class="frame-grid">
+          <div class="frame-thumb active">🍜</div>
+          <div class="frame-thumb" onclick="activateFrame(this)">🍜</div>
+          <div class="frame-thumb" onclick="activateFrame(this)">📦</div>
+          <div class="frame-thumb" onclick="activateFrame(this)">🍜</div>
+        </div>
+      </div>
+
+      <div class="sku-suggestions">
+        <div class="sku-suggestions-label">Top Matches — Select Correct Product</div>
+
+        <div class="sku-option top-match" onclick="selectSKU(this, 'Maggi Masala Noodles 70g', '89.2%')">
+          <div class="sku-rank rank-1">1</div>
+          <div class="sku-thumb">🍜</div>
+          <div class="sku-info">
+            <div class="sku-name">Maggi Masala Noodles 70g</div>
+            <div class="sku-detail">SKU: NGS-MG-70M · ₹14.00 · Nestle</div>
+          </div>
+          <div class="sku-conf-bar">
+            <div class="conf-bar-label">89.2%</div>
+            <div class="conf-bar-track"><div class="conf-bar-fill high" style="width:89%"></div></div>
+          </div>
+        </div>
+
+        <div class="sku-option" onclick="selectSKU(this, 'Maggi Chicken Noodles 70g', '54.1%')">
+          <div class="sku-rank rank-2">2</div>
+          <div class="sku-thumb">🍜</div>
+          <div class="sku-info">
+            <div class="sku-name">Maggi Chicken Noodles 70g</div>
+            <div class="sku-detail">SKU: NGS-MC-70C · ₹14.00 · Nestle</div>
+          </div>
+          <div class="sku-conf-bar">
+            <div class="conf-bar-label">54.1%</div>
+            <div class="conf-bar-track"><div class="conf-bar-fill mid" style="width:54%"></div></div>
+          </div>
+        </div>
+
+        <div class="sku-option" onclick="selectSKU(this, 'Yippee Magic Masala 70g', '31.7%')">
+          <div class="sku-rank rank-3">3</div>
+          <div class="sku-thumb">🍝</div>
+          <div class="sku-info">
+            <div class="sku-name">Yippee Magic Masala 70g</div>
+            <div class="sku-detail">SKU: YIP-MM-70 · ₹12.00 · ITC</div>
+          </div>
+          <div class="sku-conf-bar">
+            <div class="conf-bar-label">31.7%</div>
+            <div class="conf-bar-track"><div class="conf-bar-fill low" style="width:32%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-verify" id="verify-btn" onclick="confirmVerification()">Confirm Selection →</button>
+      <button class="btn-manual" onclick="showToast('info','Manual Entry','Opening barcode / manual SKU entry...');closeVerification()">Manual Entry</button>
+      <div class="modal-tip">Tap correct product · Press Enter to confirm</div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- ══════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════ -->
+<script>
+  // ─── CLOCK ──────────────────────────────────────
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('clock').textContent =
+      now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // ─── SCREEN NAV ────────────────────────────────
+  function goToApp() {
+    document.getElementById('screen-login').classList.remove('active');
+    document.getElementById('screen-app').classList.add('active');
+    showToast('success', 'Shift Started', 'Lane 04 active · AI engine initialized');
+  }
+
+  function goToLogin() {
+    document.getElementById('screen-app').classList.remove('active');
+    document.getElementById('screen-login').classList.add('active');
+    clearCheckout();
+  }
+
+  function selectRole(btn) {
+    document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  }
+
+  // ─── VIEW SWITCHING ────────────────────────────
+  const viewTitles = {
+    checkout: 'Live Checkout · Lane 04',
+    dashboard: 'Operations Dashboard',
+    sku: 'SKU Intelligence Manager',
+    fraud: 'Fraud & Risk Monitor'
+  };
+
+  function switchView(viewId, navEl) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('view-' + viewId).classList.add('active');
+    navEl.classList.add('active');
+    document.getElementById('view-title').textContent = viewTitles[viewId];
+
+    if (viewId === 'sku') renderSKUTable();
+  }
+
+  // ─── CHECKOUT STATE ────────────────────────────
+  const products = [
+    { name: 'Amul Taaza Milk 500ml', emoji: '🥛', price: 26, conf: 98, status: 'verified', source: 'Multi-angle' },
+    { name: 'Maggi Masala Noodles 70g', emoji: '🍜', price: 14, conf: 89, status: 'verified', source: 'Top-view' },
+    { name: 'Parle-G Biscuits 100g', emoji: '🍪', price: 10, conf: 97, status: 'verified', source: 'Side-view' },
+    { name: 'Tata Salt 1kg', emoji: '🧂', price: 22, conf: 95, status: 'verified', source: 'Top-view' },
+    { name: 'Haldiram Aloo Bhujia 200g', emoji: '🥜', price: 60, conf: 72, status: 'ambiguous', source: 'Side-view' },
+    { name: 'Surf Excel Matic 1kg', emoji: '🧺', price: 220, conf: 91, status: 'verified', source: 'Multi-angle' },
+    { name: 'Colgate MaxFresh 150g', emoji: '🦷', price: 82, conf: 88, status: 'verified', source: 'Top-view' },
+    { name: 'Sunfeast Bournvita 500g', emoji: '☕', price: 199, conf: 64, status: 'checking', source: 'Processing' },
+  ];
+
+  const productEmojis = ['🥛','🍜','🍪','🧂','🥜','🧺','🦷','☕','🍫','🧃','🥤','🫙','🧴','🫧','🫒'];
+  const productNames = [
+    'Amul Taaza Milk 500ml', 'Maggi Masala Noodles 70g', 'Parle-G Biscuits 100g',
+    'Haldiram Aloo Bhujia 200g', 'Kurkure Masala Munch 90g', 'Lay\'s Classic Salted 73g',
+    'Tata Salt 1kg', 'Colgate MaxFresh 150g', 'Surf Excel Matic 1kg',
+    'Sunfeast Marie Light 200g', 'Nestle KitKat 4 Finger', 'Real Guava Juice 1L',
+    'Coca-Cola 750ml', 'Good Day Butter Cookies 150g', 'Fortune Sunflower Oil 1L'
+  ];
+  const prices = [26, 14, 10, 60, 30, 20, 22, 82, 220, 40, 35, 90, 45, 55, 130];
+
+  let checkoutItems = [];
+  let runningTotal = 0;
+
+  function simulateProduct() {
+    const idx = Math.floor(Math.random() * productNames.length);
+    const conf = 70 + Math.floor(Math.random() * 30);
+    const status = conf >= 85 ? 'verified' : conf >= 70 ? 'ambiguous' : 'checking';
+    const item = {
+      name: productNames[idx],
+      emoji: productEmojis[idx % productEmojis.length],
+      price: prices[idx],
+      conf,
+      status,
+      source: ['Top-view','Side-view','Multi-angle'][Math.floor(Math.random()*3)]
+    };
+
+    checkoutItems.unshift(item);
+    runningTotal += item.price;
+    updateBilling();
+    renderFeed();
+
+    // Update camera
+    document.getElementById('product-emoji').textContent = item.emoji;
+    document.getElementById('camera-state-text').textContent =
+      status === 'verified' ? 'Product verified · Billing transmitted' :
+      status === 'ambiguous' ? 'Low confidence · Verification suggested' : 'Analyzing...';
+
+    const label = document.getElementById('detection-label');
+    label.textContent = conf + '% · ' + item.name.split(' ').slice(0,2).join(' ');
+    label.style.background = status === 'verified' ? 'var(--state-green)' :
+      status === 'ambiguous' ? 'var(--state-amber)' : 'var(--accent-blue)';
+
+    const box = document.getElementById('detection-box');
+    box.style.borderColor = status === 'verified' ? 'var(--state-green)' :
+      status === 'ambiguous' ? 'var(--state-amber)' : 'var(--accent-blue)';
+
+    if (status === 'verified') {
+      showToast('success', 'Product Scanned', item.name + ' · ₹' + item.price);
+    } else if (status === 'ambiguous') {
+      showToast('warning', 'Low Confidence', 'Verification recommended · ' + conf + '%');
+    }
+  }
+
+  function renderFeed() {
+    const feed = document.getElementById('product-feed');
+    const badge = document.getElementById('item-count-badge');
+    badge.textContent = checkoutItems.length + ' item' + (checkoutItems.length !== 1 ? 's' : '');
+
+    feed.innerHTML = checkoutItems.map(item => {
+      const confClass = item.conf >= 85 ? 'conf-high' : item.conf >= 70 ? 'conf-mid' : 'conf-low';
+      const viClass = item.status === 'verified' ? 'vi-green' : item.status === 'ambiguous' ? 'vi-amber' : 'vi-blue';
+      const viIcon = item.status === 'verified' ? '✓' : item.status === 'ambiguous' ? '!' : '↻';
+      return `
+        <div class="product-card ${item.status}">
+          <div class="product-thumb">${item.emoji}</div>
+          <div class="product-info">
+            <div class="product-name">${item.name}</div>
+            <div class="product-meta">
+              <span class="confidence-badge ${confClass}">${item.conf}%</span>
+              <span class="product-qty">${item.source}</span>
+            </div>
+          </div>
+          <div class="product-price">₹${item.price}</div>
+          <div class="verification-icon ${viClass}">${viIcon}</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function updateBilling() {
+    const subtotal = runningTotal;
+    const tax = +(subtotal * 0.18).toFixed(2);
+    const total = subtotal + tax;
+
+    document.getElementById('total-amount').textContent = total.toFixed(0);
+    document.getElementById('total-sub').textContent = checkoutItems.length + ' items · ₹' + tax.toFixed(0) + ' tax';
+    document.getElementById('b-subtotal').textContent = '₹' + subtotal.toFixed(2);
+    document.getElementById('b-tax').textContent = '₹' + tax.toFixed(2);
+    document.getElementById('b-total').textContent = '₹' + total.toFixed(2);
+  }
+
+  function clearCheckout() {
+    checkoutItems = [];
+    runningTotal = 0;
+    updateBilling();
+    renderFeed();
+    document.getElementById('product-emoji').textContent = '🛒';
+    document.getElementById('camera-state-text').textContent = 'Detecting product...';
+    document.getElementById('detection-label').textContent = 'Detecting...';
+    document.getElementById('detection-label').style.background = '';
+    document.getElementById('detection-box').style.borderColor = 'var(--state-green)';
+  }
+
+  function completeCheckout() {
+    if (checkoutItems.length === 0) {
+      showToast('warning', 'No Items', 'Scan products before completing checkout.');
+      return;
+    }
+    const subtotal = runningTotal;
+    const total = +(subtotal * 1.18).toFixed(2);
+    showToast('success', 'Checkout Complete', '₹' + total + ' · ' + checkoutItems.length + ' items · POS synced');
+    setTimeout(() => { clearCheckout(); }, 1200);
+  }
+
+  // Keyboard shortcut
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space' && document.getElementById('screen-app').classList.contains('active')) {
+      const checkout = document.getElementById('view-checkout');
+      if (checkout.classList.contains('active')) {
+        e.preventDefault();
+        simulateProduct();
+      }
+    }
+    if (e.code === 'Escape') closeVerification();
+    if (e.code === 'Enter') {
+      if (document.getElementById('verification-modal').classList.contains('open')) {
+        confirmVerification();
+      }
+    }
+  });
+
+  // ─── VERIFICATION MODAL ────────────────────────
+  let selectedSKU = null;
+
+  function openVerification() {
+    document.getElementById('verification-modal').classList.add('open');
+    selectedSKU = null;
+    document.querySelectorAll('.sku-option').forEach(o => o.classList.remove('top-match'));
+    document.querySelectorAll('.sku-option')[0].classList.add('top-match');
+    selectedSKU = { name: 'Maggi Masala Noodles 70g', conf: '89.2%', price: 14 };
+  }
+
+  function closeVerification() {
+    document.getElementById('verification-modal').classList.remove('open');
+  }
+
+  function selectSKU(el, name, conf) {
+    document.querySelectorAll('.sku-option').forEach(o => o.classList.remove('top-match'));
+    el.classList.add('top-match');
+    selectedSKU = { name, conf, price: 14 };
+  }
+
+  function activateFrame(el) {
+    document.querySelectorAll('.frame-thumb').forEach(f => f.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function confirmVerification() {
+    if (!selectedSKU) return;
+    closeVerification();
+    const item = {
+      name: selectedSKU.name,
+      emoji: '🍜',
+      price: 14,
+      conf: 89,
+      status: 'verified',
+      source: 'Verified'
+    };
+    checkoutItems.unshift(item);
+    runningTotal += item.price;
+    updateBilling();
+    renderFeed();
+    showToast('success', 'Product Verified', selectedSKU.name + ' confirmed by operator');
+  }
+
+  // ─── SKU TABLE ─────────────────────────────────
+  const skuData = [
+    { emoji:'🥛', name:'Amul Taaza Milk 500ml', code:'AMT-TZ-500', cat:'Dairy', conf:98, scans:1842, status:'active', updated:'Today' },
+    { emoji:'🍜', name:'Maggi Masala Noodles 70g', code:'NGS-MG-70M', cat:'Noodles', conf:89, scans:1204, status:'review', updated:'2h ago' },
+    { emoji:'🍪', name:'Parle-G Biscuits 100g', code:'PRL-G-100', cat:'Biscuits', conf:97, scans:2341, status:'active', updated:'Yesterday' },
+    { emoji:'🧂', name:'Tata Salt 1kg', code:'TTA-SLT-1K', cat:'Staples', conf:95, scans:876, status:'active', updated:'2 days ago' },
+    { emoji:'🥜', name:'Haldiram Aloo Bhujia 200g', code:'HLD-AB-200', cat:'Snacks', conf:72, scans:643, status:'review', updated:'Today' },
+    { emoji:'🧺', name:'Surf Excel Matic 1kg', code:'SRF-EM-1K', cat:'Detergent', conf:91, scans:512, status:'active', updated:'3 days ago' },
+    { emoji:'🦷', name:'Colgate MaxFresh 150g', code:'CLG-MF-150', cat:'Personal', conf:88, scans:967, status:'active', updated:'Yesterday' },
+    { emoji:'☕', name:'Bru Instant Coffee 100g', code:'BRU-IC-100', cat:'Beverages', conf:66, scans:234, status:'new', updated:'Today' },
+    { emoji:'🍫', name:'Dairy Milk Silk 60g', code:'CDM-SLK-60', cat:'Chocolate', conf:94, scans:1122, status:'active', updated:'Yesterday' },
+    { emoji:'🧃', name:'Real Guava Juice 1L', code:'REL-GV-1L', cat:'Beverages', conf:93, scans:445, status:'active', updated:'4 days ago' },
+  ];
+
+  function renderSKUTable() {
+    const tbody = document.getElementById('sku-tbody');
+    tbody.innerHTML = skuData.map((s, i) => {
+      const confColor = s.conf >= 85 ? 'var(--state-green)' : s.conf >= 70 ? 'var(--state-amber)' : 'var(--state-red)';
+      const badgeClass = s.status === 'active' ? 'badge-active' : s.status === 'review' ? 'badge-review' : 'badge-new';
+      const badgeText = s.status === 'active' ? 'Active' : s.status === 'review' ? 'Under Review' : 'New';
+      return `
+        <tr onclick="showSKUDetail(${i})">
+          <td>
+            <div class="sku-product-cell">
+              <div class="sku-thumb-sm">${s.emoji}</div>
+              <div>
+                <div class="sku-name-cell">${s.name}</div>
+                <div class="sku-code-cell">${s.code}</div>
+              </div>
+            </div>
+          </td>
+          <td style="color:var(--text-muted);font-size:12px;">${s.cat}</td>
+          <td>
+            <div class="conf-indicator">
+              <div class="conf-mini-bar"><div class="conf-mini-fill" style="width:${s.conf}%;background:${confColor}"></div></div>
+              <span style="font-size:11px;font-family:var(--font-mono);color:${confColor}">${s.conf}%</span>
+            </div>
+          </td>
+          <td style="font-family:var(--font-mono);font-size:12px;color:var(--text-secondary);">${s.scans.toLocaleString()}</td>
+          <td><span class="sku-status-badge ${badgeClass}">${badgeText}</span></td>
+          <td style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">${s.updated}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function showSKUDetail(idx) {
+    const s = skuData[idx];
+    const confColor = s.conf >= 85 ? 'var(--state-green)' : s.conf >= 70 ? 'var(--state-amber)' : 'var(--state-red)';
+    const r = 28;
+    const circ = 2 * Math.PI * r;
+    const offset = circ * (1 - s.conf / 100);
+
+    document.getElementById('sku-detail-panel').innerHTML = `
+      <div class="detail-product-hero">
+        <span class="detail-emoji">${s.emoji}</span>
+        <div class="detail-name">${s.name}</div>
+        <div class="detail-code">${s.code}</div>
+      </div>
+
+      <div class="detail-section">
+        <div class="detail-section-title">Confidence Score</div>
+        <div class="conf-ring-wrap">
+          <div class="conf-ring">
+            <svg width="64" height="64" viewBox="0 0 64 64">
+              <circle cx="32" cy="32" r="${r}" fill="none" stroke="var(--bg-hover)" stroke-width="5"/>
+              <circle cx="32" cy="32" r="${r}" fill="none" stroke="${confColor}" stroke-width="5"
+                stroke-dasharray="${circ}" stroke-dashoffset="${offset}" stroke-linecap="round"/>
+            </svg>
+            <div class="conf-ring-value" style="color:${confColor}">${s.conf}%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <div class="detail-section-title">Product Info</div>
+        <div class="detail-row"><span class="dr-label">Category</span><span class="dr-value">${s.cat}</span></div>
+        <div class="detail-row"><span class="dr-label">30d Scans</span><span class="dr-value">${s.scans.toLocaleString()}</span></div>
+        <div class="detail-row"><span class="dr-label">Last Updated</span><span class="dr-value">${s.updated}</span></div>
+        <div class="detail-row"><span class="dr-label">Status</span><span class="dr-value">${s.status}</span></div>
+      </div>
+
+      <div class="detail-section">
+        <div class="detail-section-title">Recognition Sources</div>
+        <div class="detail-row"><span class="dr-label">Top-view</span><span class="dr-value">Active</span></div>
+        <div class="detail-row"><span class="dr-label">Side-view</span><span class="dr-value">Active</span></div>
+        <div class="detail-row"><span class="dr-label">Multi-angle</span><span class="dr-value">Active</span></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px;">
+        <button class="action-btn primary-action" style="width:100%;justify-content:center;" onclick="showToast('info','Retrain Model','Initiating retraining for ${s.name}...')">Retrain Model</button>
+        <button class="action-btn" style="width:100%;justify-content:center;" onclick="showToast('info','Packaging Variants','Opening packaging evolution tracker...')">View Packaging Variants</button>
+      </div>
+    `;
+  }
+
+  function toggleChip(el) {
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  // ─── TOAST ─────────────────────────────────────
+  function showToast(type, title, message) {
+    const container = document.getElementById('toast-container');
+    const icon = type === 'success' ? '✓' : type === 'warning' ? '⚠' : type === 'error' ? '✕' : 'ℹ';
+    const iconBg = type === 'success' ? 'var(--state-green-dim)' : type === 'warning' ? 'var(--state-amber-dim)' : type === 'error' ? 'var(--state-red-dim)' : 'var(--accent-blue-dim)';
+    const iconColor = type === 'success' ? 'var(--state-green)' : type === 'warning' ? 'var(--state-amber)' : type === 'error' ? 'var(--state-red)' : 'var(--accent-blue)';
+    const borderColor = type === 'success' ? 'rgba(45,212,160,0.2)' : type === 'warning' ? 'rgba(245,166,35,0.2)' : type === 'error' ? 'rgba(240,80,80,0.2)' : 'rgba(59,110,248,0.2)';
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.style.borderColor = borderColor;
+    toast.innerHTML = `
+      <div class="toast-icon" style="background:${iconBg};color:${iconColor};width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;">${icon}</div>
+      <div class="toast-text">
+        <div class="toast-title">${title}</div>
+        <div class="toast-sub">${message}</div>
+      </div>
+    `;
+
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.style.transition = 'opacity 0.3s, transform 0.3s';
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateY(6px)';
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  }
+
+  // Init
+  renderFeed();
+</script>
+</body>
+</html>
