@@ -3,2659 +3,2223 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Checkout Intelligence Platform</title>
+<title>AI Checkout Intelligence · V2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Outfit:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg-base: #0e0f11;
-    --bg-surface: #14161a;
-    --bg-raised: #1c1f24;
-    --bg-hover: #22262d;
-    --border: #2a2e36;
-    --border-light: #343940;
-    --text-primary: #e8eaf0;
-    --text-secondary: #8b9099;
-    --text-muted: #555c66;
-    --navy: #1a2744;
-    --navy-mid: #1e3060;
-    --accent-blue: #3b6ef8;
-    --accent-blue-dim: rgba(59,110,248,0.12);
-    --state-green: #2dd4a0;
-    --state-green-dim: rgba(45,212,160,0.1);
-    --state-amber: #f5a623;
-    --state-amber-dim: rgba(245,166,35,0.1);
-    --state-red: #f05050;
-    --state-red-dim: rgba(240,80,80,0.1);
-    --state-blue: #3b6ef8;
-    --nav-width: 64px;
-    --topbar-height: 48px;
-    --font-display: 'Syne', sans-serif;
-    --font-body: 'IBM Plex Sans', sans-serif;
-    --font-mono: 'DM Mono', monospace;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: var(--font-body);
-    background: var(--bg-base);
-    color: var(--text-primary);
-    height: 100vh;
-    overflow: hidden;
-    font-size: 13px;
-  }
-
-  /* ─── SCREENS ─────────────────────────────────── */
-  .screen { display: none; width: 100vw; height: 100vh; }
-  .screen.active { display: flex; }
-
-  /* ══════════════════════════════════════════════════
-     SCREEN 1 — LOGIN
-  ══════════════════════════════════════════════════ */
-  #screen-login {
-    background: var(--bg-base);
-    flex-direction: row;
-  }
-
-  .login-left {
-    width: 52%;
-    background: var(--navy);
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 48px;
-  }
-
-  .login-left::before {
-    content: '';
-    position: absolute;
-    top: -120px; left: -120px;
-    width: 480px; height: 480px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(59,110,248,0.18) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .login-left::after {
-    content: '';
-    position: absolute;
-    bottom: -80px; right: -80px;
-    width: 320px; height: 320px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(45,212,160,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .login-brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .brand-icon {
-    width: 36px; height: 36px;
-    background: var(--accent-blue);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-  }
-
-  .brand-icon svg { width: 20px; height: 20px; }
-
-  .brand-name {
-    font-family: var(--font-display);
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    color: var(--text-primary);
-  }
-
-  .brand-sub {
-    font-size: 10px;
-    color: var(--text-muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-family: var(--font-mono);
-  }
-
-  .login-hero {
-    position: relative;
-    z-index: 1;
-  }
-
-  .login-hero h1 {
-    font-family: var(--font-display);
-    font-size: 42px;
-    font-weight: 800;
-    line-height: 1.1;
-    color: var(--text-primary);
-    margin-bottom: 20px;
-  }
-
-  .login-hero h1 span { color: var(--accent-blue); }
-
-  .login-hero p {
-    font-size: 14px;
-    color: var(--text-secondary);
-    line-height: 1.7;
-    max-width: 340px;
-  }
-
-  .login-stats {
-    display: flex;
-    gap: 32px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .login-stat-item { }
-  .login-stat-value {
-    font-family: var(--font-display);
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--text-primary);
-  }
-  .login-stat-label {
-    font-size: 11px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-family: var(--font-mono);
-    margin-top: 2px;
-  }
-
-  .login-right {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 48px;
-  }
-
-  .login-form-wrap {
-    width: 100%;
-    max-width: 360px;
-  }
-
-  .login-form-wrap h2 {
-    font-family: var(--font-display);
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-
-  .login-form-wrap p {
-    color: var(--text-secondary);
-    font-size: 13px;
-    margin-bottom: 32px;
-  }
-
-  .form-group { margin-bottom: 18px; }
-
-  .form-label {
-    display: block;
-    font-size: 11px;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 8px;
-  }
-
-  .form-input, .form-select {
-    width: 100%;
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 14px;
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    font-size: 13px;
-    outline: none;
-    transition: border-color 0.2s;
-    appearance: none;
-  }
-
-  .form-input:focus, .form-select:focus { border-color: var(--accent-blue); }
-  .form-select { cursor: pointer; }
-
-  .role-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 18px;
-  }
-
-  .role-btn {
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 12px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    font-family: var(--font-body);
-    font-size: 12px;
-    text-align: left;
-    transition: all 0.15s;
-  }
-
-  .role-btn:hover { border-color: var(--border-light); color: var(--text-primary); }
-  .role-btn.selected { border-color: var(--accent-blue); background: var(--accent-blue-dim); color: var(--text-primary); }
-  .role-btn .role-icon { font-size: 16px; display: block; margin-bottom: 4px; }
-  .role-btn .role-label { font-weight: 500; font-size: 11px; }
-
-  .btn-primary {
-    width: 100%;
-    background: var(--accent-blue);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 13px;
-    font-family: var(--font-display);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.15s;
-    letter-spacing: 0.02em;
-  }
-
-  .btn-primary:hover { opacity: 0.88; }
-
-  .system-status {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 20px;
-    padding: 10px 14px;
-    background: var(--state-green-dim);
-    border: 1px solid rgba(45,212,160,0.2);
-    border-radius: 8px;
-  }
-
-  .status-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--state-green);
-    animation: pulse-dot 2s infinite;
-  }
-
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  .status-text {
-    font-size: 11px;
-    color: var(--state-green);
-    font-family: var(--font-mono);
-  }
-
-  /* ══════════════════════════════════════════════════
-     APP SHELL
-  ══════════════════════════════════════════════════ */
-  #screen-app {
-    flex-direction: row;
-  }
-
-  /* ─── NAV RAIL ─── */
-  .nav-rail {
-    width: var(--nav-width);
-    background: var(--bg-surface);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 16px 0;
-    gap: 4px;
-    z-index: 100;
-    flex-shrink: 0;
-  }
-
-  .nav-logo {
-    width: 36px; height: 36px;
-    background: var(--accent-blue);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 16px;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-
-  .nav-item {
-    width: 40px; height: 40px;
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    color: var(--text-muted);
-    transition: all 0.15s;
-    position: relative;
-    flex-shrink: 0;
-  }
-
-  .nav-item:hover { background: var(--bg-hover); color: var(--text-secondary); }
-  .nav-item.active { background: var(--accent-blue-dim); color: var(--accent-blue); }
-
-  .nav-item svg { width: 18px; height: 18px; }
-
-  .nav-tooltip {
-    position: absolute;
-    left: 52px;
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 5px 10px;
-    font-size: 11px;
-    font-family: var(--font-mono);
-    color: var(--text-primary);
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.15s;
-    z-index: 999;
-  }
-
-  .nav-item:hover .nav-tooltip { opacity: 1; }
-
-  .nav-divider {
-    width: 24px;
-    height: 1px;
-    background: var(--border);
-    margin: 8px 0;
-    flex-shrink: 0;
-  }
-
-  .nav-spacer { flex: 1; }
-
-  /* ─── MAIN AREA ─── */
-  .main-area {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  /* ─── TOP BAR ─── */
-  .top-bar {
-    height: var(--topbar-height);
-    background: var(--bg-surface);
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    gap: 16px;
-    flex-shrink: 0;
-  }
-
-  .top-bar-title {
-    font-family: var(--font-display);
-    font-size: 14px;
-    font-weight: 600;
-    flex: 1;
-  }
-
-  .top-bar-meta {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .top-indicator {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-  }
-
-  .top-indicator .dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-  }
-
-  .dot-green { background: var(--state-green); animation: pulse-dot 2s infinite; }
-  .dot-amber { background: var(--state-amber); }
-  .dot-blue { background: var(--accent-blue); }
-
-  .top-pill {
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 4px 12px;
-    font-size: 11px;
-    font-family: var(--font-mono);
-    color: var(--text-secondary);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .time-display {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--text-secondary);
-  }
-
-  /* ─── VIEWS ─── */
-  .view { display: none; flex: 1; overflow: hidden; }
-  .view.active { display: flex; }
-
-  /* ══════════════════════════════════════════════════
-     VIEW: LIVE CHECKOUT
-  ══════════════════════════════════════════════════ */
-  #view-checkout {
-    flex-direction: row;
-    gap: 0;
-  }
-
-  /* LEFT PANEL */
-  .checkout-left {
-    width: 280px;
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-  }
-
-  .panel-header {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
-  }
-
-  .panel-title {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-  }
-
-  .panel-badge {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 20px;
-    background: var(--accent-blue-dim);
-    color: var(--accent-blue);
-  }
-
-  .product-feed {
-    flex: 1;
-    overflow-y: auto;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .product-feed::-webkit-scrollbar { width: 3px; }
-  .product-feed::-webkit-scrollbar-track { background: transparent; }
-  .product-feed::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-  .product-card {
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    animation: slide-in 0.25s ease;
-    transition: border-color 0.2s;
-  }
-
-  @keyframes slide-in {
-    from { opacity: 0; transform: translateY(-8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .product-card.verified { border-left: 2px solid var(--state-green); }
-  .product-card.ambiguous { border-left: 2px solid var(--state-amber); }
-  .product-card.checking { border-left: 2px solid var(--accent-blue); }
-
-  .product-thumb {
-    width: 40px; height: 40px;
-    border-radius: 6px;
-    background: var(--bg-hover);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-  }
-
-  .product-info { flex: 1; min-width: 0; }
-
-  .product-name {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 3px;
-  }
-
-  .product-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .confidence-badge {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    padding: 1px 6px;
-    border-radius: 4px;
-  }
-
-  .conf-high { background: var(--state-green-dim); color: var(--state-green); }
-  .conf-mid { background: var(--state-amber-dim); color: var(--state-amber); }
-  .conf-low { background: var(--state-red-dim); color: var(--state-red); }
-
-  .product-price {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-secondary);
-    margin-left: auto;
-  }
-
-  .product-qty {
-    font-size: 10px;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-  }
-
-  .verification-icon {
-    width: 18px; height: 18px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 9px;
-    flex-shrink: 0;
-  }
-
-  .vi-green { background: var(--state-green-dim); color: var(--state-green); }
-  .vi-amber { background: var(--state-amber-dim); color: var(--state-amber); }
-  .vi-blue { background: var(--accent-blue-dim); color: var(--accent-blue); }
-
-  /* CENTER PANEL */
-  .checkout-center {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .camera-zone {
-    flex: 1;
-    position: relative;
-    background: #080a0d;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .camera-feed-sim {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Simulated camera grid lines */
-  .camera-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(59,110,248,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(59,110,248,0.04) 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-
-  .camera-corner {
-    position: absolute;
-    width: 20px; height: 20px;
-    border-color: rgba(59,110,248,0.5);
-    border-style: solid;
-  }
-
-  .camera-corner.tl { top: 24px; left: 24px; border-width: 2px 0 0 2px; }
-  .camera-corner.tr { top: 24px; right: 24px; border-width: 2px 2px 0 0; }
-  .camera-corner.bl { bottom: 24px; left: 24px; border-width: 0 0 2px 2px; }
-  .camera-corner.br { bottom: 24px; right: 24px; border-width: 0 2px 2px 0; }
-
-  .ai-detection-box {
-    position: absolute;
-    border: 1.5px solid var(--state-green);
-    border-radius: 4px;
-    animation: detection-pulse 1.5s ease-in-out infinite;
-    pointer-events: none;
-  }
-
-  @keyframes detection-pulse {
-    0%, 100% { border-color: rgba(45,212,160,0.8); box-shadow: 0 0 0 0 rgba(45,212,160,0.2); }
-    50% { border-color: var(--state-green); box-shadow: 0 0 12px rgba(45,212,160,0.15); }
-  }
-
-  .detection-label {
-    position: absolute;
-    top: -22px; left: 0;
-    background: var(--state-green);
-    color: #000;
-    font-size: 9px;
-    font-family: var(--font-mono);
-    padding: 2px 6px;
-    border-radius: 3px;
-    white-space: nowrap;
-    font-weight: 500;
-  }
-
-  .product-emoji-sim {
-    font-size: 64px;
-    animation: float-product 3s ease-in-out infinite;
-    position: relative;
-    z-index: 2;
-    user-select: none;
-  }
-
-  @keyframes float-product {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-  }
-
-  .scan-line {
-    position: absolute;
-    left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(45,212,160,0.6), transparent);
-    animation: scan 2.5s linear infinite;
-    pointer-events: none;
-  }
-
-  @keyframes scan {
-    from { top: 20%; }
-    to { top: 80%; }
-  }
-
-  .camera-state-label {
-    position: absolute;
-    bottom: 16px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(14,15,17,0.85);
-    border: 1px solid var(--border);
-    backdrop-filter: blur(8px);
-    border-radius: 20px;
-    padding: 6px 16px;
-    font-size: 11px;
-    font-family: var(--font-mono);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .camera-state-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--state-green);
-    animation: pulse-dot 1.5s infinite;
-  }
-
-  .checkout-bottom-bar {
-    height: 48px;
-    border-top: 1px solid var(--border);
-    background: var(--bg-surface);
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    gap: 12px;
-  }
-
-  .action-btn {
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 6px 14px;
-    color: var(--text-secondary);
-    font-size: 12px;
-    font-family: var(--font-body);
-    cursor: pointer;
-    transition: all 0.15s;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .action-btn:hover { background: var(--bg-hover); color: var(--text-primary); }
-
-  .action-btn.primary-action {
-    background: var(--accent-blue);
-    border-color: var(--accent-blue);
-    color: white;
-    font-weight: 500;
-  }
-
-  .action-btn.primary-action:hover { opacity: 0.88; }
-
-  .action-btn.danger-action {
-    border-color: rgba(240,80,80,0.3);
-    color: var(--state-red);
-  }
-
-  .action-btn.danger-action:hover { background: var(--state-red-dim); }
-
-  .kb-hint {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-    background: var(--bg-base);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 2px 6px;
-  }
-
-  /* RIGHT PANEL */
-  .checkout-right {
-    width: 260px;
-    border-left: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-  }
-
-  .billing-section {
-    border-bottom: 1px solid var(--border);
-    padding: 14px 16px;
-  }
-
-  .total-display {
-    padding: 16px;
-    text-align: center;
-  }
-
-  .total-label {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 8px;
-  }
-
-  .total-amount {
-    font-family: var(--font-display);
-    font-size: 40px;
-    font-weight: 800;
-    color: var(--text-primary);
-    line-height: 1;
-    letter-spacing: -0.02em;
-  }
-
-  .total-amount .currency {
-    font-size: 20px;
-    color: var(--text-secondary);
-    vertical-align: top;
-    margin-top: 6px;
-    display: inline-block;
-  }
-
-  .total-sub {
-    font-size: 11px;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-    margin-top: 6px;
-  }
-
-  .billing-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 0;
-    font-size: 12px;
-  }
-
-  .billing-row .b-label { color: var(--text-muted); }
-  .billing-row .b-value { color: var(--text-secondary); font-family: var(--font-mono); }
-  .billing-row .b-value.highlight { color: var(--text-primary); font-weight: 500; }
-
-  .billing-divider {
-    height: 1px;
-    background: var(--border);
-    margin: 6px 0;
-  }
-
-  .pos-sync-status {
-    padding: 10px 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .sync-label {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  .sync-value {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--state-green);
-    margin-left: auto;
-  }
-
-  .checkout-actions {
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: auto;
-  }
-
-  .checkout-complete-btn {
-    background: var(--state-green);
-    color: #000;
-    border: none;
-    border-radius: 8px;
-    padding: 14px;
-    font-family: var(--font-display);
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: opacity 0.15s;
-    letter-spacing: 0.02em;
-  }
-
-  .checkout-complete-btn:hover { opacity: 0.88; }
-
-  .checkout-secondary-btn {
-    background: transparent;
-    color: var(--text-muted);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px;
-    font-family: var(--font-body);
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .checkout-secondary-btn:hover { color: var(--text-secondary); border-color: var(--border-light); }
-
-  .payment-methods {
-    display: flex;
-    gap: 6px;
-    padding: 0 12px 12px;
-  }
-
-  .payment-chip {
-    flex: 1;
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 8px 6px;
-    text-align: center;
-    font-size: 10px;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all 0.15s;
-    font-family: var(--font-mono);
-  }
-
-  .payment-chip:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
-  .payment-chip .pay-icon { font-size: 16px; display: block; margin-bottom: 3px; }
-
-  /* ══════════════════════════════════════════════════
-     VERIFICATION MODAL
-  ══════════════════════════════════════════════════ */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.75);
-    backdrop-filter: blur(4px);
-    z-index: 500;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .modal-overlay.open { display: flex; }
-
-  .verification-modal {
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    width: 740px;
-    max-width: 90vw;
-    overflow: hidden;
-    animation: modal-in 0.2s ease;
-  }
-
-  @keyframes modal-in {
-    from { opacity: 0; transform: scale(0.97) translateY(8px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
-  }
-
-  .modal-header {
-    padding: 18px 24px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .modal-alert-icon {
-    width: 32px; height: 32px;
-    background: var(--state-amber-dim);
-    border: 1px solid rgba(245,166,35,0.3);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--state-amber);
-    font-size: 14px;
-    flex-shrink: 0;
-  }
-
-  .modal-title {
-    font-family: var(--font-display);
-    font-size: 15px;
-    font-weight: 700;
-  }
-
-  .modal-subtitle {
-    font-size: 12px;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-    margin-top: 2px;
-  }
-
-  .modal-body {
-    padding: 20px 24px;
-    display: flex;
-    gap: 16px;
-  }
-
-  .modal-frames {
-    width: 140px;
-    flex-shrink: 0;
-  }
-
-  .modal-frame-label {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 8px;
-  }
-
-  .frame-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-  }
-
-  .frame-thumb {
-    aspect-ratio: 1;
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 24px;
-    cursor: pointer;
-    transition: border-color 0.15s;
-  }
-
-  .frame-thumb.active { border-color: var(--accent-blue); }
-  .frame-thumb:hover { border-color: var(--border-light); }
-
-  .sku-suggestions {
-    flex: 1;
-  }
-
-  .sku-suggestions-label {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 10px;
-  }
-
-  .sku-option {
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 14px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .sku-option:hover { border-color: var(--border-light); }
-  .sku-option.top-match { border-color: var(--accent-blue); background: var(--accent-blue-dim); }
-
-  .sku-rank {
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px;
-    font-family: var(--font-mono);
-    font-weight: 500;
-    flex-shrink: 0;
-  }
-
-  .rank-1 { background: var(--accent-blue-dim); color: var(--accent-blue); }
-  .rank-2 { background: var(--bg-hover); color: var(--text-muted); }
-  .rank-3 { background: var(--bg-hover); color: var(--text-muted); }
-
-  .sku-thumb { font-size: 28px; }
-
-  .sku-info { flex: 1; }
-
-  .sku-name {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-primary);
-    margin-bottom: 3px;
-  }
-
-  .sku-detail {
-    font-size: 11px;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-  }
-
-  .sku-conf-bar {
-    width: 80px;
-  }
-
-  .conf-bar-label {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-    text-align: right;
-    margin-bottom: 4px;
-  }
-
-  .conf-bar-track {
-    height: 4px;
-    background: var(--bg-hover);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .conf-bar-fill {
-    height: 100%;
-    border-radius: 2px;
-    background: var(--accent-blue);
-    transition: width 0.3s;
-  }
-
-  .conf-bar-fill.high { background: var(--state-green); }
-  .conf-bar-fill.mid { background: var(--state-amber); }
-  .conf-bar-fill.low { background: var(--state-red); }
-
-  .modal-footer {
-    padding: 14px 24px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-
-  .btn-verify {
-    background: var(--accent-blue);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-family: var(--font-display);
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.15s;
-  }
-
-  .btn-verify:hover { opacity: 0.88; }
-
-  .btn-manual {
-    background: transparent;
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 16px;
-    font-family: var(--font-body);
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .btn-manual:hover { border-color: var(--border-light); color: var(--text-primary); }
-
-  .modal-tip {
-    margin-left: auto;
-    font-size: 11px;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-  }
-
-  /* ══════════════════════════════════════════════════
-     VIEW: OPERATIONS DASHBOARD
-  ══════════════════════════════════════════════════ */
-  #view-dashboard {
-    flex-direction: column;
-    overflow-y: auto;
-    padding: 20px;
-    gap: 16px;
-  }
-
-  #view-dashboard::-webkit-scrollbar { width: 4px; }
-  #view-dashboard::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-  .dash-row {
-    display: flex;
-    gap: 14px;
-  }
-
-  .metric-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 18px;
-    flex: 1;
-  }
-
-  .metric-label {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .metric-value {
-    font-family: var(--font-display);
-    font-size: 32px;
-    font-weight: 800;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .metric-value.green { color: var(--state-green); }
-  .metric-value.amber { color: var(--state-amber); }
-  .metric-value.blue { color: var(--accent-blue); }
-  .metric-value.white { color: var(--text-primary); }
-
-  .metric-sub {
-    font-size: 11px;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .metric-trend {
-    font-size: 10px;
-    padding: 1px 5px;
-    border-radius: 3px;
-  }
-
-  .trend-up { background: var(--state-green-dim); color: var(--state-green); }
-  .trend-down { background: var(--state-red-dim); color: var(--state-red); }
-
-  .chart-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 18px;
-    flex: 1;
-  }
-
-  .chart-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-  }
-
-  .chart-title {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-primary);
-    font-family: var(--font-display);
-  }
-
-  .chart-legend {
-    display: flex;
-    gap: 12px;
-    font-size: 10px;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-  }
-
-  .legend-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 4px;
-  }
-
-  /* Bar chart simulation */
-  .bar-chart {
-    display: flex;
-    align-items: flex-end;
-    gap: 8px;
-    height: 100px;
-  }
-
-  .bar-group {
-    flex: 1;
-    display: flex;
-    align-items: flex-end;
-    gap: 3px;
-  }
-
-  .bar {
-    flex: 1;
-    border-radius: 3px 3px 0 0;
-    transition: opacity 0.2s;
-    cursor: pointer;
-    position: relative;
-  }
-
-  .bar:hover { opacity: 0.8; }
-  .bar:hover::after {
-    content: attr(data-val);
-    position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 9px;
-    font-family: var(--font-mono);
-    color: var(--text-primary);
-    background: var(--bg-raised);
-    padding: 2px 4px;
-    border-radius: 3px;
-    white-space: nowrap;
-  }
-
-  .bar-blue { background: var(--accent-blue); }
-  .bar-green { background: var(--state-green); }
-  .bar-amber { background: var(--state-amber); }
-
-  .bar-labels {
-    display: flex;
-    gap: 8px;
-    margin-top: 6px;
-  }
-
-  .bar-label {
-    flex: 1;
-    text-align: center;
-    font-size: 9px;
-    color: var(--text-muted);
-    font-family: var(--font-mono);
-  }
-
-  .lane-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
-    margin-top: 4px;
-  }
-
-  .lane-card {
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .lane-card:hover { border-color: var(--border-light); }
-  .lane-card.lane-active { border-color: var(--state-green); }
-  .lane-card.lane-busy { border-color: var(--state-amber); }
-  .lane-card.lane-idle { opacity: 0.5; }
-
-  .lane-number {
-    font-family: var(--font-display);
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-
-  .lane-status-text {
-    font-size: 9px;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  .lane-card.lane-active .lane-status-text { color: var(--state-green); }
-  .lane-card.lane-busy .lane-status-text { color: var(--state-amber); }
-
-  .alert-list { display: flex; flex-direction: column; gap: 8px; }
-
-  .alert-item {
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .alert-item.alert-critical { border-left: 2px solid var(--state-red); }
-  .alert-item.alert-warning { border-left: 2px solid var(--state-amber); }
-  .alert-item.alert-info { border-left: 2px solid var(--accent-blue); }
-
-  .alert-icon {
-    width: 28px; height: 28px;
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px;
-    flex-shrink: 0;
-  }
-
-  .ai-critical { background: var(--state-red-dim); }
-  .ai-warning { background: var(--state-amber-dim); }
-  .ai-info { background: var(--accent-blue-dim); }
-
-  .alert-content { flex: 1; }
-  .alert-title { font-size: 12px; font-weight: 500; margin-bottom: 2px; }
-  .alert-desc { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); }
-  .alert-time { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); }
-
-  /* ══════════════════════════════════════════════════
-     VIEW: SKU INTELLIGENCE
-  ══════════════════════════════════════════════════ */
-  #view-sku {
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .sku-toolbar {
-    padding: 12px 20px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-shrink: 0;
-  }
-
-  .search-input-wrap {
-    position: relative;
-    flex: 1;
-    max-width: 320px;
-  }
-
-  .search-icon {
-    position: absolute;
-    left: 10px; top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-muted);
-    font-size: 14px;
-    pointer-events: none;
-  }
-
-  .search-input {
-    width: 100%;
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px 12px 8px 32px;
-    color: var(--text-primary);
-    font-family: var(--font-body);
-    font-size: 12px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .search-input:focus { border-color: var(--accent-blue); }
-  .search-input::placeholder { color: var(--text-muted); }
-
-  .filter-chips {
-    display: flex;
-    gap: 6px;
-  }
-
-  .filter-chip {
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 5px 12px;
-    font-size: 11px;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .filter-chip:hover { border-color: var(--border-light); color: var(--text-secondary); }
-  .filter-chip.active { border-color: var(--accent-blue); background: var(--accent-blue-dim); color: var(--accent-blue); }
-
-  .sku-main {
-    flex: 1;
-    display: flex;
-    overflow: hidden;
-  }
-
-  .sku-table-wrap {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px 20px;
-  }
-
-  .sku-table-wrap::-webkit-scrollbar { width: 3px; }
-  .sku-table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-  .sku-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .sku-table th {
-    text-align: left;
-    padding: 8px 12px;
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    background: var(--bg-base);
-  }
-
-  .sku-table td {
-    padding: 10px 12px;
-    border-bottom: 1px solid rgba(42,46,54,0.5);
-    vertical-align: middle;
-  }
-
-  .sku-table tr:hover td { background: var(--bg-raised); }
-  .sku-table tr { cursor: pointer; }
-
-  .sku-product-cell {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .sku-thumb-sm {
-    width: 32px; height: 32px;
-    border-radius: 6px;
-    background: var(--bg-raised);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-    flex-shrink: 0;
-    border: 1px solid var(--border);
-  }
-
-  .sku-name-cell { font-size: 12px; font-weight: 500; }
-  .sku-code-cell { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); margin-top: 2px; }
-
-  .conf-indicator {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .conf-mini-bar {
-    width: 60px;
-    height: 4px;
-    background: var(--bg-hover);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .conf-mini-fill {
-    height: 100%;
-    border-radius: 2px;
-  }
-
-  .sku-status-badge {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    padding: 2px 8px;
-    border-radius: 20px;
-    display: inline-block;
-  }
-
-  .badge-active { background: var(--state-green-dim); color: var(--state-green); }
-  .badge-review { background: var(--state-amber-dim); color: var(--state-amber); }
-  .badge-new { background: var(--accent-blue-dim); color: var(--accent-blue); }
-
-  .sku-detail-panel {
-    width: 280px;
-    border-left: 1px solid var(--border);
-    padding: 20px;
-    overflow-y: auto;
-    flex-shrink: 0;
-  }
-
-  .sku-detail-panel::-webkit-scrollbar { width: 3px; }
-  .sku-detail-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-  .detail-product-hero {
-    text-align: center;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 16px;
-  }
-
-  .detail-emoji { font-size: 48px; display: block; margin-bottom: 10px; }
-
-  .detail-name {
-    font-family: var(--font-display);
-    font-size: 15px;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-
-  .detail-code {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-
-  .detail-section {
-    margin-bottom: 16px;
-  }
-
-  .detail-section-title {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 10px;
-  }
-
-  .detail-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    padding: 4px 0;
-  }
-
-  .detail-row .dr-label { color: var(--text-muted); }
-  .detail-row .dr-value { color: var(--text-secondary); font-family: var(--font-mono); }
-
-  .conf-ring-wrap {
-    display: flex;
-    justify-content: center;
-    padding: 8px 0;
-  }
-
-  .conf-ring {
-    position: relative;
-    width: 64px; height: 64px;
-  }
-
-  .conf-ring svg { transform: rotate(-90deg); }
-
-  .conf-ring-value {
-    position: absolute;
-    inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-mono);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-primary);
-  }
-
-  /* ══════════════════════════════════════════════════
-     TOAST
-  ══════════════════════════════════════════════════ */
-  .toast-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 999;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .toast {
-    background: var(--bg-raised);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 12px;
-    animation: toast-in 0.25s ease;
-    min-width: 260px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-  }
-
-  @keyframes toast-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .toast-icon { font-size: 16px; }
-  .toast-text { flex: 1; }
-  .toast-title { font-weight: 500; margin-bottom: 1px; }
-  .toast-sub { font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); }
-
-  /* Scrollbar global */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-
-  /* ─── Responsive notice ─── */
-  .small-screen-notice {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: var(--bg-base);
-    z-index: 9999;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 40px;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  @media (max-width: 800px) {
-    .small-screen-notice { display: flex; }
-  }
+/* ════════════════════════════════════════════════════
+   DESIGN TOKENS
+════════════════════════════════════════════════════ */
+:root {
+  /* Base palette — slightly warmer than V1, more breathable */
+  --bg:          #0c0d10;
+  --bg-1:        #111318;
+  --bg-2:        #181b21;
+  --bg-3:        #1f2229;
+  --bg-hover:    #252930;
+  --border-0:    rgba(255,255,255,0.04);
+  --border-1:    rgba(255,255,255,0.07);
+  --border-2:    rgba(255,255,255,0.12);
+
+  /* Text */
+  --t-primary:   #eceef2;
+  --t-secondary: #8a9099;
+  --t-muted:     #4e555f;
+  --t-faint:     #2e333a;
+
+  /* Semantic accent */
+  --blue:        #4271f5;
+  --blue-dim:    rgba(66,113,245,0.10);
+  --blue-glow:   rgba(66,113,245,0.20);
+  --green:       #30c98a;
+  --green-dim:   rgba(48,201,138,0.08);
+  --amber:       #f0a033;
+  --amber-dim:   rgba(240,160,51,0.08);
+  --red:         #e85c5c;
+  --red-dim:     rgba(232,92,92,0.08);
+  --violet:      #9b72f5;
+  --violet-dim:  rgba(155,114,245,0.10);
+
+  /* Layout */
+  --rail:        60px;
+  --topbar:      52px;
+
+  /* Type */
+  --font-ui:     'Outfit', sans-serif;
+  --font-mono:   'DM Mono', monospace;
+  --font-serif:  'Lora', serif;
+
+  /* Spacing scale */
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px;
+  --s5: 20px; --s6: 24px; --s7: 32px; --s8: 40px;
+
+  /* Radius */
+  --r1: 6px; --r2: 10px; --r3: 14px; --r4: 20px;
+}
+
+/* ════════════════════════════════════════════════════
+   RESET & BASE
+════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: var(--font-ui);
+  background: var(--bg);
+  color: var(--t-primary);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font-family: inherit; cursor: pointer; }
+input, select, textarea { font-family: inherit; }
+
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 2px; }
+
+/* ════════════════════════════════════════════════════
+   APP SHELL
+════════════════════════════════════════════════════ */
+.app { display: flex; height: 100vh; }
+
+/* ── NAV RAIL ── */
+.rail {
+  width: var(--rail);
+  background: var(--bg-1);
+  border-right: 1px solid var(--border-0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--s4) 0;
+  gap: var(--s1);
+  flex-shrink: 0;
+  z-index: 200;
+}
+
+.rail-logo {
+  width: 34px; height: 34px;
+  background: var(--blue);
+  border-radius: var(--r2);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: var(--s4);
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.rail-logo:hover { opacity: .85; }
+.rail-logo svg { width: 18px; height: 18px; }
+
+.rail-btn {
+  width: 38px; height: 38px;
+  border-radius: var(--r2);
+  display: flex; align-items: center; justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--t-muted);
+  cursor: pointer;
+  transition: all .15s;
+  position: relative;
+}
+.rail-btn:hover { background: var(--bg-3); color: var(--t-secondary); }
+.rail-btn.on { background: var(--blue-dim); color: var(--blue); }
+.rail-btn svg { width: 17px; height: 17px; stroke-width: 1.7; }
+
+.rail-tip {
+  position: absolute;
+  left: 48px;
+  background: var(--bg-2);
+  border: 1px solid var(--border-1);
+  border-radius: var(--r1);
+  padding: 5px 10px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--t-primary);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .15s;
+  z-index: 999;
+}
+.rail-btn:hover .rail-tip { opacity: 1; }
+
+.rail-sep {
+  width: 20px; height: 1px;
+  background: var(--border-0);
+  margin: var(--s2) 0;
+  flex-shrink: 0;
+}
+.rail-spacer { flex: 1; }
+
+/* ── MAIN ── */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  height: var(--topbar);
+  background: var(--bg-1);
+  border-bottom: 1px solid var(--border-0);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--s6);
+  gap: var(--s4);
+  flex-shrink: 0;
+}
+
+.topbar-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--t-primary);
+  flex: 1;
+  letter-spacing: .01em;
+}
+
+.topbar-meta { display: flex; align-items: center; gap: var(--s4); }
+
+.status-pill {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--t-muted);
+}
+.dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+}
+.dot-g { background: var(--green); animation: blink 2.4s infinite; }
+.dot-b { background: var(--blue); }
+.dot-a { background: var(--amber); }
+
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50% { opacity: .35; }
+}
+
+.tag {
+  background: var(--bg-2);
+  border: 1px solid var(--border-1);
+  border-radius: var(--r4);
+  padding: 3px 12px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--t-secondary);
+}
+
+.clock {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--t-muted);
+}
+
+/* ── VIEWS ── */
+.view { display: none; flex: 1; overflow: hidden; }
+.view.on { display: flex; }
+
+/* ════════════════════════════════════════════════════
+   SHARED COMPONENTS
+════════════════════════════════════════════════════ */
+
+/* Section header inside panels */
+.sect-label {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--t-muted);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+
+/* Card */
+.card {
+  background: var(--bg-1);
+  border: 1px solid var(--border-0);
+  border-radius: var(--r3);
+}
+
+/* Divider */
+.div-h { height: 1px; background: var(--border-0); }
+.div-v { width: 1px; background: var(--border-0); flex-shrink: 0; }
+
+/* Badge */
+.badge {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  padding: 2px 8px;
+  border-radius: var(--r4);
+  display: inline-flex; align-items: center;
+}
+.badge-g { background: var(--green-dim); color: var(--green); }
+.badge-a { background: var(--amber-dim); color: var(--amber); }
+.badge-r { background: var(--red-dim);   color: var(--red); }
+.badge-b { background: var(--blue-dim);  color: var(--blue); }
+.badge-v { background: var(--violet-dim); color: var(--violet); }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: var(--s2);
+  border-radius: var(--r2);
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+  transition: all .15s;
+  cursor: pointer;
+}
+.btn-primary { background: var(--blue); color: #fff; }
+.btn-primary:hover { opacity: .88; }
+.btn-ghost { background: transparent; border: 1px solid var(--border-1); color: var(--t-secondary); }
+.btn-ghost:hover { background: var(--bg-3); color: var(--t-primary); border-color: var(--border-2); }
+.btn-danger { background: var(--red-dim); border: 1px solid rgba(232,92,92,.2); color: var(--red); }
+.btn-danger:hover { background: rgba(232,92,92,.15); }
+.btn-success { background: var(--green-dim); border: 1px solid rgba(48,201,138,.2); color: var(--green); }
+.btn-success:hover { background: rgba(48,201,138,.15); }
+.btn-sm { padding: 5px 12px; font-size: 11px; }
+.btn-lg { padding: 13px 24px; font-size: 14px; font-weight: 600; }
+
+/* Form controls */
+.field-label {
+  display: block;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--t-muted);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: 7px;
+}
+.field-input, .field-select, .field-textarea {
+  width: 100%;
+  background: var(--bg-2);
+  border: 1px solid var(--border-1);
+  border-radius: var(--r2);
+  padding: 10px 13px;
+  color: var(--t-primary);
+  font-size: 13px;
+  outline: none;
+  transition: border-color .2s;
+  appearance: none;
+}
+.field-input:focus, .field-select:focus, .field-textarea:focus {
+  border-color: var(--blue);
+}
+.field-input::placeholder, .field-textarea::placeholder { color: var(--t-muted); }
+.field-textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+
+/* Progress bar */
+.prog-track {
+  height: 4px;
+  background: var(--bg-3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.prog-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width .5s ease;
+}
+
+/* Toggle switch */
+.toggle-wrap { display: flex; align-items: center; gap: 10px; }
+.toggle {
+  position: relative;
+  width: 34px; height: 18px;
+  cursor: pointer;
+}
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-3);
+  border: 1px solid var(--border-2);
+  border-radius: 20px;
+  transition: all .2s;
+}
+.toggle-slider::after {
+  content: '';
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 12px; height: 12px;
+  background: var(--t-muted);
+  border-radius: 50%;
+  transition: all .2s;
+}
+.toggle input:checked + .toggle-slider { background: var(--blue-dim); border-color: var(--blue); }
+.toggle input:checked + .toggle-slider::after { transform: translateX(16px); background: var(--blue); }
+
+/* Metric number */
+.metric-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+
+/* Step indicator */
+.step-row { display: flex; gap: var(--s2); margin-bottom: var(--s6); }
+.step-item {
+  flex: 1;
+  height: 3px;
+  background: var(--bg-3);
+  border-radius: 2px;
+  transition: background .3s;
+}
+.step-item.done { background: var(--green); }
+.step-item.active { background: var(--blue); }
+
+/* ════════════════════════════════════════════════════
+   VIEW A — LIVE CHECKOUT (carried from V1, polished)
+════════════════════════════════════════════════════ */
+#view-checkout { flex-direction: row; }
+
+/* Left */
+.co-left {
+  width: 272px;
+  border-right: 1px solid var(--border-0);
+  display: flex; flex-direction: column;
+  flex-shrink: 0;
+}
+.panel-hd {
+  padding: var(--s4) var(--s5);
+  border-bottom: 1px solid var(--border-0);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.feed {
+  flex: 1; overflow-y: auto;
+  padding: var(--s3);
+  display: flex; flex-direction: column; gap: var(--s2);
+}
+.pcard {
+  background: var(--bg-2);
+  border: 1px solid var(--border-0);
+  border-left: 2px solid transparent;
+  border-radius: var(--r2);
+  padding: 10px;
+  display: flex; align-items: center; gap: 10px;
+  animation: fadeUp .22s ease;
+}
+.pcard.verified  { border-left-color: var(--green); }
+.pcard.ambiguous { border-left-color: var(--amber); }
+.pcard.checking  { border-left-color: var(--blue);  }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.pcard-icon {
+  width: 36px; height: 36px;
+  background: var(--bg-3);
+  border-radius: var(--r1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.pcard-name {
+  font-size: 12px; font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-bottom: 3px;
+}
+.pcard-meta { display: flex; align-items: center; gap: 6px; }
+.pcard-price { font-family: var(--font-mono); font-size: 11px; color: var(--t-secondary); margin-left: auto; }
+.conf-tag {
+  font-family: var(--font-mono); font-size: 9px;
+  padding: 1px 5px; border-radius: 3px;
+}
+.ct-g { background: var(--green-dim); color: var(--green); }
+.ct-a { background: var(--amber-dim); color: var(--amber); }
+.ct-r { background: var(--red-dim);   color: var(--red); }
+
+/* Center */
+.co-center { flex: 1; display: flex; flex-direction: column; }
+.cam-zone {
+  flex: 1; position: relative;
+  background: #07080a;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.cam-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(66,113,245,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(66,113,245,.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.cam-corner {
+  position: absolute;
+  width: 18px; height: 18px;
+  border-color: rgba(66,113,245,.4);
+  border-style: solid;
+}
+.cam-corner.tl { top: 28px; left: 28px; border-width: 2px 0 0 2px; }
+.cam-corner.tr { top: 28px; right: 28px; border-width: 2px 2px 0 0; }
+.cam-corner.bl { bottom: 28px; left: 28px; border-width: 0 0 2px 2px; }
+.cam-corner.br { bottom: 28px; right: 28px; border-width: 0 2px 2px 0; }
+
+.scan-beam {
+  position: absolute; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(48,201,138,.5), transparent);
+  animation: scanBeam 2.8s linear infinite;
+  pointer-events: none;
+}
+@keyframes scanBeam { from { top: 15%; } to { top: 85%; } }
+
+.det-box {
+  position: absolute;
+  width: 128px; height: 128px;
+  border: 1.5px solid var(--green);
+  border-radius: 4px;
+  animation: detPulse 1.8s ease-in-out infinite;
+}
+@keyframes detPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(48,201,138,.15); }
+  50%      { box-shadow: 0 0 16px rgba(48,201,138,.12); }
+}
+.det-label {
+  position: absolute; top: -22px; left: 0;
+  background: var(--green); color: #000;
+  font-size: 9px; font-family: var(--font-mono); font-weight: 500;
+  padding: 2px 7px; border-radius: 3px;
+  white-space: nowrap;
+}
+
+.cam-emoji {
+  font-size: 68px;
+  animation: float 3.2s ease-in-out infinite;
+  position: relative; z-index: 2;
+  user-select: none;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-7px); }
+}
+
+.cam-status {
+  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: rgba(12,13,16,.88);
+  border: 1px solid var(--border-1);
+  backdrop-filter: blur(10px);
+  border-radius: var(--r4);
+  padding: 6px 18px;
+  font-size: 11px; font-family: var(--font-mono);
+  display: flex; align-items: center; gap: 8px;
+}
+
+.co-bar {
+  height: 52px;
+  border-top: 1px solid var(--border-0);
+  background: var(--bg-1);
+  display: flex; align-items: center;
+  padding: 0 var(--s4); gap: var(--s3);
+}
+
+/* Right */
+.co-right {
+  width: 248px;
+  border-left: 1px solid var(--border-0);
+  display: flex; flex-direction: column;
+  flex-shrink: 0;
+}
+.total-block {
+  padding: var(--s6) var(--s5);
+  text-align: center;
+  border-bottom: 1px solid var(--border-0);
+}
+.total-lbl { font-size: 10px; font-family: var(--font-mono); color: var(--t-muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 10px; }
+.total-num {
+  font-family: 'Outfit', sans-serif;
+  font-size: 44px; font-weight: 800;
+  line-height: 1; letter-spacing: -.03em;
+}
+.total-num .cur { font-size: 22px; color: var(--t-secondary); vertical-align: top; margin-top: 8px; display: inline-block; }
+.total-detail { font-size: 11px; font-family: var(--font-mono); color: var(--t-muted); margin-top: 8px; }
+
+.bill-rows { padding: var(--s4) var(--s5); border-bottom: 1px solid var(--border-0); }
+.bill-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 12px; }
+.bill-row .l { color: var(--t-muted); }
+.bill-row .r { font-family: var(--font-mono); color: var(--t-secondary); }
+.bill-row.total-row .l { color: var(--t-primary); font-weight: 600; }
+.bill-row.total-row .r { color: var(--t-primary); font-weight: 600; }
+
+.pay-chips { display: flex; gap: var(--s2); padding: var(--s3) var(--s4); }
+.pay-chip {
+  flex: 1; background: var(--bg-2); border: 1px solid var(--border-1);
+  border-radius: var(--r2); padding: 8px 6px; text-align: center;
+  font-size: 10px; color: var(--t-muted); cursor: pointer;
+  transition: all .15s; font-family: var(--font-mono);
+}
+.pay-chip:hover { border-color: var(--blue); color: var(--blue); }
+.pay-chip.sel { border-color: var(--blue); background: var(--blue-dim); color: var(--blue); }
+.pay-icon { font-size: 16px; display: block; margin-bottom: 3px; }
+
+.co-actions { padding: var(--s3) var(--s4); display: flex; flex-direction: column; gap: var(--s2); margin-top: auto; }
+.btn-checkout {
+  width: 100%; background: var(--green); color: #000;
+  border: none; border-radius: var(--r2);
+  padding: 14px; font-family: var(--font-ui);
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: opacity .15s; letter-spacing: .01em;
+}
+.btn-checkout:hover { opacity: .88; }
+
+.pos-sync {
+  display: flex; align-items: center; gap: 8px;
+  padding: var(--s3) var(--s5);
+  border-top: 1px solid var(--border-0);
+}
+.pos-sync .l { font-size: 10px; font-family: var(--font-mono); color: var(--t-muted); }
+.pos-sync .r { font-size: 10px; font-family: var(--font-mono); color: var(--green); margin-left: auto; }
+
+/* ════════════════════════════════════════════════════
+   VIEW B — POS INTEGRATION & DEVICE MANAGEMENT
+════════════════════════════════════════════════════ */
+#view-pos { flex-direction: column; overflow: hidden; }
+
+.pos-layout { flex: 1; display: flex; overflow: hidden; }
+
+/* sidebar list */
+.pos-sidebar {
+  width: 280px;
+  border-right: 1px solid var(--border-0);
+  display: flex; flex-direction: column;
+  flex-shrink: 0;
+}
+.pos-sidebar-hd {
+  padding: var(--s5) var(--s5) var(--s4);
+  border-bottom: 1px solid var(--border-0);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.device-list { flex: 1; overflow-y: auto; padding: var(--s3); display: flex; flex-direction: column; gap: var(--s2); }
+
+.device-item {
+  background: var(--bg-2);
+  border: 1px solid var(--border-0);
+  border-radius: var(--r2);
+  padding: 12px 13px;
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer; transition: all .15s;
+}
+.device-item:hover { border-color: var(--border-2); }
+.device-item.sel { border-color: var(--blue); background: var(--blue-dim); }
+
+.device-icon {
+  width: 36px; height: 36px;
+  border-radius: var(--r1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; flex-shrink: 0;
+}
+.device-name { font-size: 12px; font-weight: 500; margin-bottom: 2px; }
+.device-sub { font-size: 10px; color: var(--t-muted); font-family: var(--font-mono); }
+
+/* main detail panel */
+.pos-detail { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+.pos-detail-hd {
+  padding: var(--s5) var(--s6);
+  border-bottom: 1px solid var(--border-0);
+  display: flex; align-items: center; gap: var(--s4);
+}
+.pos-detail-icon {
+  width: 48px; height: 48px;
+  background: var(--bg-2);
+  border: 1px solid var(--border-1);
+  border-radius: var(--r2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; flex-shrink: 0;
+}
+.pos-detail-meta { flex: 1; }
+.pos-detail-name { font-size: 16px; font-weight: 700; margin-bottom: 3px; }
+.pos-detail-sub { font-size: 11px; font-family: var(--font-mono); color: var(--t-muted); }
+.pos-detail-body { flex: 1; overflow-y: auto; padding: var(--s6); display: flex; flex-direction: column; gap: var(--s6); }
+
+.pos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
+.pos-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--s4); }
+
+.info-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border-0);
+  border-radius: var(--r2);
+  padding: var(--s4) var(--s5);
+}
+.info-card-label { font-size: 10px; font-family: var(--font-mono); color: var(--t-muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: var(--s2); }
+.info-card-value { font-size: 13px; font-weight: 500; }
+.info-card-value.mono { font-family: var(--font-mono); font-size: 12px; }
+.info-card-value.big { font-size: 24px; font-weight: 700; font-family: 'Outfit'; }
+
+/* Health bars */
+.health-item { display: flex; align-items: center; gap: var(--s3); margin-bottom: var(--s3); }
+.health-lbl { width: 110px; font-size: 11px; color: var(--t-secondary); flex-shrink: 0; }
+.health-bar { flex: 1; }
+.health-val { width: 38px; font-size: 11px; font-family: var(--font-mono); text-align: right; }
+
+/* Log stream */
+.log-stream {
+  background: var(--bg);
+  border: 1px solid var(--border-0);
+  border-radius: var(--r2);
+  padding: var(--s4);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  height: 160px;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.log-line { display: flex; gap: 12px; }
+.log-time { color: var(--t-muted); flex-shrink: 0; }
+.log-msg.ok  { color: var(--green); }
+.log-msg.err { color: var(--red); }
+.log-msg.inf { color: var(--t-secondary); }
+.log-msg.wrn { color: var(--amber); }
+
+/* Config section */
+.config-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--s4) 0;
+  border-bottom: 1px solid var(--border-0);
+}
+.config-row:last-child { border-bottom: none; }
+.config-lbl { font-size: 12px; font-weight: 500; }
+.config-sub { font-size: 11px; color: var(--t-muted); margin-top: 2px; }
+
+/* ════════════════════════════════════════════════════
+   VIEW C — CASHIER SHIFT SUMMARY / EOD REPORT
+════════════════════════════════════════════════════ */
+#view-shift { flex-direction: column; overflow-y: auto; }
+
+.shift-layout { display: flex; flex-direction: column; gap: var(--s6); padding: var(--s7) var(--s8); max-width: 1100px; width: 100%; margin: 0 auto; }
+
+/* Shift hero */
+.shift-hero {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding-bottom: var(--s6); border-bottom: 1px solid var(--border-0);
+}
+.shift-hero-left h1 {
+  font-size: 28px; font-weight: 800; letter-spacing: -.02em;
+  margin-bottom: 6px;
+}
+.shift-hero-left p { font-size: 13px; color: var(--t-muted); font-family: var(--font-mono); }
+.shift-hero-right { display: flex; gap: var(--s3); align-items: center; }
+
+/* KPI strip */
+.kpi-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--s4); }
+.kpi-card {
+  background: var(--bg-1);
+  border: 1px solid var(--border-0);
+  border-radius: var(--r3);
+  padding: var(--s5) var(--s5);
+}
+.kpi-lbl { font-size: 10px; font-family: var(--font-mono); color: var(--t-muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: var(--s3); }
+.kpi-val { font-size: 30px; font-weight: 800; letter-spacing: -.02em; font-family: 'Outfit'; line-height: 1; margin-bottom: 6px; }
+.kpi-trend { font-size: 11px; color: var(--t-muted); font-family: var(--font-mono); display: flex; align-items: center; gap: 5px; }
+.trend-up { color: var(--green); }
+.trend-dn { color: var(--red); }
+
+/* Timeline chart */
+.timeline-card {
+  background: var(--bg-1);
+  border: 1px solid var(--border-0);
+  border-radius: var(--r3);
+  padding: var(--s6);
+}
+.timeline-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--s5); }
+.timeline-title { font-size: 14px; font-weight: 600; }
+.timeline-legend { display: flex; gap: var(--s4); font-size: 11px; font-family: var(--font-mono); color: var(--t-muted); }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+
+/* SVG chart area */
+.chart-svg-wrap { width: 100%; overflow: visible; }
+
+/* Transaction table */
+.tx-table-card {
+  background: var(--bg-1);
+  border: 1px solid var(--border-0);
+  border-radius: var(--r3);
+  overflow: hidden;
+}
+.tx-table-hd {
+  padding: var(--s5) var(--s6);
+  border-bottom: 1px solid var(--border-0);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.tx-table { width: 100%; border-collapse: collapse; }
+.tx-table th {
+  text-align: left; padding: 10px var(--s6);
+  font-size: 10px; font-family: var(--font-mono);
+  color: var(--t-muted); text-transform: uppercase; letter-spacing: .07em;
+  border-bottom: 1px solid var(--border-0);
+}
+.tx-table td {
+  padding: 11px var(--s6);
+  border-bottom: 1px solid var(--border-0);
+  font-size: 12px;
+}
+.tx-table tr:last-child td { border-bottom: none; }
+.tx-table tr:hover td { background: var(--bg-2); cursor: pointer; }
+
+/* AI summary card */
+.ai-summary {
+  background: var(--bg-1);
+  border: 1px solid var(--border-0);
+  border-radius: var(--r3);
+  padding: var(--s6);
+  display: flex; gap: var(--s6);
+}
+.ai-summary-icon {
+  width: 48px; height: 48px;
+  background: var(--blue-dim);
+  border-radius: var(--r2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.ai-summary-content h3 { font-size: 14px; font-weight: 600; margin-bottom: var(--s2); }
+.ai-summary-content p { font-size: 12px; color: var(--t-secondary); line-height: 1.7; }
+
+/* Accuracy breakdown */
+.acc-row { display: flex; align-items: center; gap: var(--s4); margin-bottom: var(--s3); }
+.acc-name { font-size: 12px; width: 140px; flex-shrink: 0; color: var(--t-secondary); }
+.acc-bar { flex: 1; }
+.acc-val { font-size: 11px; font-family: var(--font-mono); width: 40px; text-align: right; }
+
+/* Shift split layout */
+.shift-cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
+
+/* ════════════════════════════════════════════════════
+   VIEW D — SKU REGISTRATION & PACKAGING VARIANT
+════════════════════════════════════════════════════ */
+#view-sku-reg { flex-direction: column; overflow: hidden; }
+
+.reg-layout { flex: 1; display: flex; overflow: hidden; }
+
+/* Step sidebar */
+.reg-sidebar {
+  width: 240px;
+  border-right: 1px solid var(--border-0);
+  display: flex; flex-direction: column;
+  padding: var(--s6) var(--s5);
+  gap: var(--s2);
+  flex-shrink: 0;
+}
+.reg-sidebar-title { font-size: 13px; font-weight: 600; margin-bottom: var(--s5); }
+
+.reg-step {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: var(--s3) var(--s3);
+  border-radius: var(--r2);
+  cursor: pointer; transition: background .15s;
+  position: relative;
+}
+.reg-step:hover { background: var(--bg-2); }
+.reg-step.active { background: var(--blue-dim); }
+
+.reg-step-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-family: var(--font-mono);
+  color: var(--t-muted); flex-shrink: 0; margin-top: 1px;
+  transition: all .2s;
+}
+.reg-step.done .reg-step-num { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+.reg-step.active .reg-step-num { background: var(--blue-dim); border-color: var(--blue); color: var(--blue); }
+
+.reg-step-text .step-name { font-size: 12px; font-weight: 500; }
+.reg-step-text .step-desc { font-size: 11px; color: var(--t-muted); margin-top: 2px; }
+.reg-step.active .reg-step-text .step-name { color: var(--blue); }
+
+/* connector line */
+.reg-step-connector {
+  width: 1px; height: 16px;
+  background: var(--border-0);
+  margin-left: calc(var(--s3) + 11px);
+}
+
+/* Main content area */
+.reg-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.reg-content { flex: 1; overflow-y: auto; padding: var(--s7) var(--s8); }
+.reg-footer {
+  height: 64px;
+  border-top: 1px solid var(--border-0);
+  background: var(--bg-1);
+  display: flex; align-items: center;
+  padding: 0 var(--s8);
+  gap: var(--s3);
+}
+
+/* Step panels */
+.step-panel { display: none; }
+.step-panel.on { display: block; }
+
+.step-panel h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+.step-panel p.sub { font-size: 13px; color: var(--t-muted); margin-bottom: var(--s6); line-height: 1.6; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
+.form-grid .full { grid-column: 1 / -1; }
+.form-group { display: flex; flex-direction: column; gap: 0; margin-bottom: var(--s4); }
+
+/* Image upload zone */
+.upload-zone {
+  border: 1.5px dashed var(--border-2);
+  border-radius: var(--r3);
+  padding: var(--s8) var(--s6);
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+  background: var(--bg-2);
+  display: flex; flex-direction: column; align-items: center; gap: var(--s3);
+}
+.upload-zone:hover { border-color: var(--blue); background: var(--blue-dim); }
+.upload-icon { font-size: 32px; }
+.upload-text { font-size: 13px; font-weight: 500; }
+.upload-sub { font-size: 11px; color: var(--t-muted); font-family: var(--font-mono); }
+
+/* Variant grid */
+.variant-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s4); margin-top: var(--s4); }
+
+.variant-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border-0);
+  border-radius: var(--r2);
+  padding: var(--s4);
+  cursor: pointer; transition: all .15s;
+  position: relative;
+}
+.variant-card:hover { border-color: var(--border-2); }
+.variant-card.sel { border-color: var(--blue); background: var(--blue-dim); }
+
+.variant-thumb {
+  width: 100%; aspect-ratio: 1;
+  background: var(--bg-3);
+  border-radius: var(--r1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px; margin-bottom: var(--s3);
+}
+.variant-name { font-size: 12px; font-weight: 500; margin-bottom: 3px; }
+.variant-sub { font-size: 10px; color: var(--t-muted); font-family: var(--font-mono); }
+
+.variant-add {
+  background: var(--bg-2);
+  border: 1.5px dashed var(--border-1);
+  border-radius: var(--r2);
+  padding: var(--s4);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: var(--s2); cursor: pointer; transition: all .15s;
+  aspect-ratio: auto;
+  min-height: 120px;
+}
+.variant-add:hover { border-color: var(--blue); color: var(--blue); }
+
+/* AI training status */
+.training-block {
+  background: var(--bg-2);
+  border: 1px solid var(--border-0);
+  border-radius: var(--r3);
+  padding: var(--s6);
+  margin-top: var(--s4);
+}
+.training-header { display: flex; align-items: center; gap: var(--s3); margin-bottom: var(--s5); }
+.training-icon { font-size: 24px; }
+.training-title { font-size: 14px; font-weight: 600; }
+.training-sub { font-size: 11px; color: var(--t-muted); margin-top: 2px; }
+
+.training-metric { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--s3); font-size: 12px; }
+.training-metric .tm-l { color: var(--t-secondary); }
+.training-metric .tm-r { font-family: var(--font-mono); }
+
+/* ════════════════════════════════════════════════════
+   MODAL — VERIFICATION
+════════════════════════════════════════════════════ */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.72);
+  backdrop-filter: blur(6px);
+  z-index: 800;
+  align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: var(--bg-1);
+  border: 1px solid var(--border-1);
+  border-radius: var(--r3);
+  width: 720px; max-width: 92vw;
+  overflow: hidden;
+  animation: modalIn .18s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(.97) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-hd {
+  padding: var(--s5) var(--s6);
+  border-bottom: 1px solid var(--border-0);
+  display: flex; align-items: center; gap: var(--s4);
+}
+.modal-alert-icon {
+  width: 34px; height: 34px;
+  background: var(--amber-dim);
+  border: 1px solid rgba(240,160,51,.25);
+  border-radius: var(--r2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+}
+.modal-title { font-size: 14px; font-weight: 700; }
+.modal-subtitle { font-size: 11px; color: var(--t-muted); font-family: var(--font-mono); margin-top: 2px; }
+.modal-body { padding: var(--s5) var(--s6); display: flex; gap: var(--s5); }
+.modal-frames { width: 130px; flex-shrink: 0; }
+.frame-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); margin-top: var(--s3); }
+.frame-thumb {
+  aspect-ratio: 1;
+  background: var(--bg-2);
+  border: 1px solid var(--border-1);
+  border-radius: var(--r1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; cursor: pointer; transition: border-color .15s;
+}
+.frame-thumb.active { border-color: var(--blue); }
+.sku-opts { flex: 1; }
+.sku-opt {
+  background: var(--bg-2);
+  border: 1px solid var(--border-0);
+  border-radius: var(--r2);
+  padding: 11px 13px;
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: var(--s2); cursor: pointer; transition: all .15s;
+}
+.sku-opt:hover { border-color: var(--border-2); }
+.sku-opt.top { border-color: var(--blue); background: var(--blue-dim); }
+.sku-rank {
+  width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-family: var(--font-mono); flex-shrink: 0;
+}
+.sr-1 { background: var(--blue-dim); color: var(--blue); }
+.sr-2, .sr-3 { background: var(--bg-3); color: var(--t-muted); }
+.sku-opt-em { font-size: 26px; }
+.sku-opt-name { font-size: 12px; font-weight: 500; margin-bottom: 2px; }
+.sku-opt-code { font-size: 10px; color: var(--t-muted); font-family: var(--font-mono); }
+.conf-mini { width: 72px; flex-shrink: 0; }
+.conf-mini-val { font-size: 10px; font-family: var(--font-mono); text-align: right; margin-bottom: 4px; }
+.modal-ft {
+  padding: var(--s4) var(--s6);
+  border-top: 1px solid var(--border-0);
+  display: flex; gap: var(--s3); align-items: center;
+}
+.modal-tip { margin-left: auto; font-size: 11px; font-family: var(--font-mono); color: var(--t-muted); }
+
+/* ════════════════════════════════════════════════════
+   TOAST
+════════════════════════════════════════════════════ */
+.toast-wrap {
+  position: fixed; bottom: var(--s5); right: var(--s5);
+  z-index: 999; display: flex; flex-direction: column; gap: var(--s2);
+}
+.toast {
+  background: var(--bg-2);
+  border: 1px solid var(--border-1);
+  border-radius: var(--r2);
+  padding: 11px 15px;
+  display: flex; align-items: center; gap: 10px;
+  min-width: 260px; max-width: 340px;
+  animation: toastIn .22s ease;
+  box-shadow: 0 8px 28px rgba(0,0,0,.4);
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.toast-ico {
+  width: 26px; height: 26px;
+  border-radius: var(--r1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; flex-shrink: 0;
+}
+.toast-body .tt { font-size: 12px; font-weight: 500; }
+.toast-body .ts { font-size: 10px; color: var(--t-muted); font-family: var(--font-mono); margin-top: 1px; }
+
+/* ════════════════════════════════════════════════════
+   SMALL SCREEN
+════════════════════════════════════════════════════ */
+.no-mobile {
+  display: none; position: fixed; inset: 0;
+  background: var(--bg); z-index: 9999;
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: var(--s4); text-align: center; padding: var(--s7);
+}
+@media (max-width: 860px) { .no-mobile { display: flex; } }
+
 </style>
 </head>
 <body>
 
-<!-- Small screen notice -->
-<div class="small-screen-notice">
-  <div style="font-size:40px;">🖥</div>
-  <div style="font-family:var(--font-display);font-size:20px;font-weight:700;">Best viewed on desktop</div>
-  <div style="color:var(--text-muted);font-size:13px;line-height:1.6;">This prototype is optimized for 1280px+ screens to accurately represent the checkout intelligence interface.</div>
+<div class="no-mobile">
+  <div style="font-size:36px">🖥</div>
+  <div style="font-size:18px;font-weight:700;font-family:var(--font-ui)">Optimised for desktop</div>
+  <div style="font-size:13px;color:var(--t-muted);max-width:320px;line-height:1.7">This prototype requires a minimum 860px viewport to render the checkout intelligence interface correctly.</div>
 </div>
 
-<!-- ═══════════════════════════════════════════════
-     SCREEN 1 — LOGIN
-═══════════════════════════════════════════════ -->
-<div class="screen active" id="screen-login">
-  <div class="login-left">
-    <div class="login-brand">
-      <div class="brand-icon">
-        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="3" y="3" width="6" height="6" rx="1.5" fill="white"/>
-          <rect x="11" y="3" width="6" height="6" rx="1.5" fill="white" opacity="0.5"/>
-          <rect x="3" y="11" width="6" height="6" rx="1.5" fill="white" opacity="0.5"/>
-          <rect x="11" y="11" width="6" height="6" rx="1.5" fill="white"/>
-        </svg>
-      </div>
-      <div>
-        <div class="brand-name">AI Checkout</div>
-        <div class="brand-sub">Intelligence Platform</div>
-      </div>
-    </div>
+<!-- ══════════════════════════════════════════════════
+     APP SHELL
+══════════════════════════════════════════════════ -->
+<div class="app">
 
-    <div class="login-hero">
-      <h1>Smarter<br>Checkout.<br><span>Zero Friction.</span></h1>
-      <p>AI-assisted product recognition, real-time billing intelligence, and operational analytics — embedded into your existing retail infrastructure.</p>
-    </div>
-
-    <div class="login-stats">
-      <div class="login-stat-item">
-        <div class="login-stat-value">97.4%</div>
-        <div class="login-stat-label">Recognition Accuracy</div>
-      </div>
-      <div class="login-stat-item">
-        <div class="login-stat-value">2.1s</div>
-        <div class="login-stat-label">Avg Scan Time</div>
-      </div>
-      <div class="login-stat-item">
-        <div class="login-stat-value">12K+</div>
-        <div class="login-stat-label">SKUs Trained</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="login-right">
-    <div class="login-form-wrap">
-      <h2>Operator Sign In</h2>
-      <p>Select your role and enter credentials to begin shift.</p>
-
-      <div style="margin-bottom:16px;">
-        <div class="form-label">Select Role</div>
-        <div class="role-grid">
-          <button class="role-btn selected" onclick="selectRole(this)">
-            <span class="role-icon">🧾</span>
-            <span class="role-label">Cashier</span>
-          </button>
-          <button class="role-btn" onclick="selectRole(this)">
-            <span class="role-icon">📊</span>
-            <span class="role-label">Floor Manager</span>
-          </button>
-          <button class="role-btn" onclick="selectRole(this)">
-            <span class="role-icon">⚙️</span>
-            <span class="role-label">Store Admin</span>
-          </button>
-          <button class="role-btn" onclick="selectRole(this)">
-            <span class="role-icon">🏢</span>
-            <span class="role-label">Enterprise</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Operator ID</label>
-        <input class="form-input" type="text" placeholder="Enter operator ID" value="CSH-0041">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">PIN / Password</label>
-        <input class="form-input" type="password" placeholder="••••••" value="123456">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Store Location</label>
-        <select class="form-select">
-          <option>Reliance Smart — Ahmedabad Central</option>
-          <option>DMart — SG Highway</option>
-          <option>BigBazaar — Satellite</option>
-        </select>
-      </div>
-
-      <button class="btn-primary" onclick="goToApp()">Initialize Shift →</button>
-
-      <div class="system-status">
-        <div class="status-dot"></div>
-        <span class="status-text">All systems operational · POS connected · AI engine ready</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════
-     SCREEN 2 — APP SHELL
-═══════════════════════════════════════════════ -->
-<div class="screen" id="screen-app">
-  <!-- NAV RAIL -->
-  <nav class="nav-rail">
-    <div class="nav-logo" onclick="goToLogin()">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-        <rect x="3" y="3" width="6" height="6" rx="1.5" fill="white"/>
-        <rect x="11" y="3" width="6" height="6" rx="1.5" fill="white" opacity="0.5"/>
-        <rect x="3" y="11" width="6" height="6" rx="1.5" fill="white" opacity="0.5"/>
-        <rect x="11" y="11" width="6" height="6" rx="1.5" fill="white"/>
+  <!-- RAIL -->
+  <nav class="rail">
+    <div class="rail-logo" onclick="toast('info','AI Checkout','Intelligence Platform V2')">
+      <svg viewBox="0 0 18 18" fill="none">
+        <rect x="2" y="2" width="6" height="6" rx="1.5" fill="white"/>
+        <rect x="10" y="2" width="6" height="6" rx="1.5" fill="white" opacity=".45"/>
+        <rect x="2" y="10" width="6" height="6" rx="1.5" fill="white" opacity=".45"/>
+        <rect x="10" y="10" width="6" height="6" rx="1.5" fill="white"/>
       </svg>
     </div>
 
-    <div class="nav-item active" onclick="switchView('checkout', this)" title="">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 10h8M8 14h5"/><circle cx="17" cy="14" r="1" fill="currentColor" stroke="none"/></svg>
-      <span class="nav-tooltip">Live Checkout</span>
-    </div>
+    <button class="rail-btn on" onclick="nav('checkout',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 10h8M8 14h5"/><circle cx="17" cy="14" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="rail-tip">Live Checkout</span>
+    </button>
 
-    <div class="nav-item" onclick="switchView('dashboard', this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
-      <span class="nav-tooltip">Operations Dashboard</span>
-    </div>
+    <button class="rail-btn" onclick="nav('dashboard-stub',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/>
+        <rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>
+      </svg>
+      <span class="rail-tip">Operations Dashboard</span>
+    </button>
 
-    <div class="nav-item" onclick="switchView('sku', this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
-      <span class="nav-tooltip">SKU Intelligence</span>
-    </div>
+    <button class="rail-btn" onclick="nav('pos',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2M12 12v4M10 14h4"/>
+      </svg>
+      <span class="rail-tip">POS & Device Management</span>
+    </button>
 
-    <div class="nav-divider"></div>
+    <button class="rail-btn" onclick="nav('sku-reg',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>
+      </svg>
+      <span class="rail-tip">SKU Registration</span>
+    </button>
 
-    <div class="nav-item" onclick="switchView('fraud', this)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      <span class="nav-tooltip">Fraud & Risk</span>
-    </div>
+    <div class="rail-sep"></div>
 
-    <div class="nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 1 0 4.93 19.07"/><path d="M20.36 20.36A10 10 0 0 0 12 2"/></svg>
-      <span class="nav-tooltip">POS Integrations</span>
-    </div>
+    <button class="rail-btn" onclick="nav('shift',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+        <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>
+      </svg>
+      <span class="rail-tip">Shift Summary & EOD</span>
+    </button>
 
-    <div class="nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
-      <span class="nav-tooltip">Devices</span>
-    </div>
+    <button class="rail-btn" onclick="toast('info','Fraud & Risk','Module available in V3')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      <span class="rail-tip">Fraud & Risk (V3)</span>
+    </button>
 
-    <div class="nav-spacer"></div>
+    <div class="rail-spacer"></div>
 
-    <div class="nav-item">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      <span class="nav-tooltip">CSH-0041</span>
-    </div>
+    <button class="rail-btn" onclick="toast('info','Operator','CSH-0041 · Priya S. · Lane 04')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+      </svg>
+      <span class="rail-tip">CSH-0041 · Priya S.</span>
+    </button>
 
-    <div class="nav-item" onclick="goToLogin()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      <span class="nav-tooltip">Sign Out</span>
-    </div>
+    <button class="rail-btn" onclick="toast('info','Signed out','Shift ended · Report generated')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      <span class="rail-tip">End Shift</span>
+    </button>
   </nav>
 
-  <!-- MAIN AREA -->
-  <div class="main-area">
-    <!-- TOP BAR -->
-    <div class="top-bar">
-      <div class="top-bar-title" id="view-title">Live Checkout · Lane 04</div>
-      <div class="top-bar-meta">
-        <div class="top-indicator">
-          <div class="dot dot-green"></div>
-          AI Engine Active
-        </div>
-        <div class="top-indicator">
-          <div class="dot dot-blue"></div>
-          POS Synced
-        </div>
-        <div class="top-pill">
-          Reliance Smart · Ahmedabad Central
-        </div>
-        <div class="time-display" id="clock">--:--:--</div>
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-title" id="tb-title">Live Checkout · Lane 04</div>
+      <div class="topbar-meta">
+        <div class="status-pill"><div class="dot dot-g"></div>AI Engine</div>
+        <div class="status-pill"><div class="dot dot-b"></div>POS Synced</div>
+        <div class="tag">Reliance Smart · Ahmedabad Central</div>
+        <div class="clock" id="clock">--:--:--</div>
       </div>
-    </div>
+    </header>
 
-    <!-- ── LIVE CHECKOUT VIEW ── -->
-    <div class="view active" id="view-checkout">
+    <!-- ══════════════ VIEW: LIVE CHECKOUT ══════════════ -->
+    <div class="view on" id="view-checkout">
 
-      <!-- LEFT: Product Feed -->
-      <div class="checkout-left">
-        <div class="panel-header">
-          <span class="panel-title">Detected Products</span>
-          <span class="panel-badge" id="item-count-badge">0 items</span>
+      <!-- LEFT: feed -->
+      <div class="co-left">
+        <div class="panel-hd">
+          <span class="sect-label">Detected Products</span>
+          <span class="badge badge-b" id="feed-count">0 items</span>
         </div>
-        <div class="product-feed" id="product-feed">
-          <!-- products injected by JS -->
-        </div>
+        <div class="feed" id="product-feed"></div>
       </div>
 
-      <!-- CENTER: Camera Zone -->
-      <div class="checkout-center">
-        <div class="camera-zone">
-          <div class="camera-feed-sim">
-            <div class="camera-grid"></div>
-            <div class="camera-corner tl"></div>
-            <div class="camera-corner tr"></div>
-            <div class="camera-corner bl"></div>
-            <div class="camera-corner br"></div>
-            <div class="scan-line"></div>
-            <div class="ai-detection-box" style="width:120px;height:120px;" id="detection-box">
-              <span class="detection-label" id="detection-label">Detecting...</span>
-            </div>
-            <div class="product-emoji-sim" id="product-emoji">🛒</div>
-            <div class="camera-state-label">
-              <div class="camera-state-dot"></div>
-              <span id="camera-state-text">Detecting product...</span>
-            </div>
+      <!-- CENTER -->
+      <div class="co-center">
+        <div class="cam-zone">
+          <div class="cam-grid"></div>
+          <div class="cam-corner tl"></div><div class="cam-corner tr"></div>
+          <div class="cam-corner bl"></div><div class="cam-corner br"></div>
+          <div class="scan-beam"></div>
+          <div class="det-box" id="det-box">
+            <span class="det-label" id="det-label">Detecting...</span>
+          </div>
+          <div class="cam-emoji" id="cam-emoji">🛒</div>
+          <div class="cam-status">
+            <div class="dot dot-g"></div>
+            <span id="cam-txt">Ready · Place product in view</span>
           </div>
         </div>
-
-        <div class="checkout-bottom-bar">
-          <button class="action-btn" onclick="simulateProduct()">
-            ⚡ Simulate Scan
-          </button>
-          <span class="kb-hint">Space</span>
-          <button class="action-btn" onclick="openVerification()">
-            ⚠️ Test Ambiguity
-          </button>
-          <button class="action-btn danger-action" onclick="clearCheckout()">
-            ✕ Clear
-          </button>
+        <div class="co-bar">
+          <button class="btn btn-ghost btn-sm" onclick="simulateScan()">⚡ Simulate Scan <span style="font-family:var(--font-mono);font-size:10px;opacity:.5;margin-left:4px;">Space</span></button>
+          <button class="btn btn-ghost btn-sm" onclick="openVerify()">⚠ Test Ambiguity</button>
+          <button class="btn btn-danger btn-sm" onclick="clearCart()">✕ Clear</button>
           <div style="flex:1"></div>
-          <button class="action-btn" onclick="showToast('info','Manual Override','Opening barcode fallback...')">
-            Manual Override
-          </button>
+          <button class="btn btn-ghost btn-sm" onclick="toast('info','Manual Override','Barcode fallback activated')">Manual Override</button>
         </div>
       </div>
 
-      <!-- RIGHT: Billing -->
-      <div class="checkout-right">
-        <div class="total-display">
-          <div class="total-label">Running Total</div>
-          <div class="total-amount"><span class="currency">₹</span><span id="total-amount">0</span></div>
-          <div class="total-sub" id="total-sub">0 items · ₹0 tax</div>
+      <!-- RIGHT: billing -->
+      <div class="co-right">
+        <div class="total-block">
+          <div class="total-lbl">Running Total</div>
+          <div class="total-num"><span class="cur">₹</span><span id="total-num">0</span></div>
+          <div class="total-detail" id="total-detail">0 items · ₹0 GST</div>
         </div>
 
-        <div class="billing-section">
-          <div class="billing-row">
-            <span class="b-label">Subtotal</span>
-            <span class="b-value" id="b-subtotal">₹0.00</span>
-          </div>
-          <div class="billing-row">
-            <span class="b-label">GST (18%)</span>
-            <span class="b-value" id="b-tax">₹0.00</span>
-          </div>
-          <div class="billing-row">
-            <span class="b-label">Discount</span>
-            <span class="b-value" style="color:var(--state-green)">— ₹0.00</span>
-          </div>
-          <div class="billing-divider"></div>
-          <div class="billing-row">
-            <span class="b-label" style="color:var(--text-primary);font-weight:500;">Total</span>
-            <span class="b-value highlight" id="b-total">₹0.00</span>
-          </div>
+        <div class="bill-rows">
+          <div class="bill-row"><span class="l">Subtotal</span><span class="r" id="b-sub">₹0.00</span></div>
+          <div class="bill-row"><span class="l">GST (18%)</span><span class="r" id="b-tax">₹0.00</span></div>
+          <div class="bill-row"><span class="l">Discount</span><span class="r" style="color:var(--green)">— ₹0.00</span></div>
+          <div class="div-h" style="margin:6px 0"></div>
+          <div class="bill-row total-row"><span class="l">Total</span><span class="r" id="b-total">₹0.00</span></div>
         </div>
 
-        <div class="pos-sync-status">
-          <div class="dot dot-green" style="width:6px;height:6px;border-radius:50%;background:var(--state-green);animation:pulse-dot 2s infinite;"></div>
-          <span class="sync-label">POS Transmission</span>
-          <span class="sync-value">LIVE</span>
+        <div class="pos-sync">
+          <div class="dot dot-g"></div>
+          <span class="l">POS Transmission</span>
+          <span class="r">LIVE</span>
         </div>
 
-        <div class="payment-methods">
-          <div class="payment-chip">
-            <span class="pay-icon">💵</span>Cash
-          </div>
-          <div class="payment-chip">
-            <span class="pay-icon">💳</span>Card
-          </div>
-          <div class="payment-chip">
-            <span class="pay-icon">📱</span>UPI
-          </div>
+        <div class="pay-chips" id="pay-chips">
+          <div class="pay-chip" onclick="selectPay(this)"><span class="pay-icon">💵</span>Cash</div>
+          <div class="pay-chip" onclick="selectPay(this)"><span class="pay-icon">💳</span>Card</div>
+          <div class="pay-chip" onclick="selectPay(this)"><span class="pay-icon">📱</span>UPI</div>
         </div>
 
-        <div class="checkout-actions">
-          <button class="checkout-complete-btn" onclick="completeCheckout()">Complete Checkout →</button>
-          <button class="checkout-secondary-btn" onclick="clearCheckout()">Cancel Transaction</button>
+        <div class="co-actions">
+          <button class="btn-checkout" onclick="completeCheckout()">Complete Checkout →</button>
+          <button class="btn btn-ghost" style="width:100%;justify-content:center;" onclick="clearCart()">Cancel Transaction</button>
         </div>
       </div>
     </div>
 
-    <!-- ── OPERATIONS DASHBOARD VIEW ── -->
-    <div class="view" id="view-dashboard" style="flex-direction:column;overflow-y:auto;padding:20px;gap:14px;">
+    <!-- ══════════════ VIEW: OPERATIONS DASHBOARD STUB ══════════════ -->
+    <div class="view" id="view-dashboard-stub" style="align-items:center;justify-content:center;flex-direction:column;gap:16px;">
+      <div style="font-size:44px;">📊</div>
+      <div style="font-size:18px;font-weight:700;">Operations Dashboard</div>
+      <div style="font-size:13px;color:var(--t-muted);font-family:var(--font-mono);text-align:center;line-height:1.9">Full dashboard available in V1 build.<br>This V2 prototype focuses on: POS Integration · Shift Summary · SKU Registration.</div>
+      <button class="btn btn-primary" onclick="nav('pos', document.querySelectorAll('.rail-btn')[2])">Go to POS Management →</button>
+    </div>
 
-      <!-- Row 1: KPI metrics -->
-      <div class="dash-row">
-        <div class="metric-card">
-          <div class="metric-label">
-            <div class="dot dot-green" style="width:6px;height:6px;border-radius:50%;background:var(--state-green);animation:pulse-dot 2s infinite;"></div>
-            Active Lanes
-          </div>
-          <div class="metric-value green">6</div>
-          <div class="metric-sub">of 8 lanes active <span class="metric-trend trend-up">↑ 2</span></div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Checkout Throughput</div>
-          <div class="metric-value white">214</div>
-          <div class="metric-sub">transactions today <span class="metric-trend trend-up">↑ 12%</span></div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">AI Accuracy</div>
-          <div class="metric-value blue">97.4%</div>
-          <div class="metric-sub">recognition rate <span class="metric-trend trend-up">↑ 0.3%</span></div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Avg Checkout Time</div>
-          <div class="metric-value white">2.1s</div>
-          <div class="metric-sub">per item <span class="metric-trend trend-down">↓ 0.2s vs yesterday</span></div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Ambiguity Rate</div>
-          <div class="metric-value amber">2.6%</div>
-          <div class="metric-sub">items requiring verify <span class="metric-trend trend-down">↑ 0.1%</span></div>
-        </div>
-      </div>
+    <!-- ══════════════ VIEW: POS INTEGRATION & DEVICE MANAGEMENT ══════════════ -->
+    <div class="view" id="view-pos">
+      <div class="pos-layout">
 
-      <!-- Row 2: Charts + Lanes -->
-      <div class="dash-row">
-        <div class="chart-card" style="flex:2;">
-          <div class="chart-header">
-            <div class="chart-title">Checkout Throughput — Today</div>
-            <div class="chart-legend">
-              <span><span class="legend-dot" style="background:var(--accent-blue)"></span>Transactions</span>
-              <span><span class="legend-dot" style="background:var(--state-green)"></span>Verified</span>
-            </div>
+        <!-- Sidebar: device list -->
+        <div class="pos-sidebar">
+          <div class="pos-sidebar-hd">
+            <span class="sect-label">Devices & Integrations</span>
+            <button class="btn btn-primary btn-sm" onclick="toast('info','Add Device','Opening device registration wizard...')">+ Add</button>
           </div>
-          <div class="bar-chart">
-            <div class="bar-group"><div class="bar bar-blue" style="height:40%" data-val="18"></div><div class="bar bar-green" style="height:36%" data-val="17"></div></div>
-            <div class="bar-group"><div class="bar bar-blue" style="height:55%" data-val="24"></div><div class="bar bar-green" style="height:50%" data-val="23"></div></div>
-            <div class="bar-group"><div class="bar bar-blue" style="height:70%" data-val="31"></div><div class="bar bar-green" style="height:65%" data-val="30"></div></div>
-            <div class="bar-group"><div class="bar bar-blue" style="height:90%" data-val="40"></div><div class="bar bar-green" style="height:85%" data-val="38"></div></div>
-            <div class="bar-group"><div class="bar bar-blue" style="height:100%" data-val="44"></div><div class="bar bar-green" style="height:95%" data-val="43"></div></div>
-            <div class="bar-group"><div class="bar bar-blue" style="height:75%" data-val="33"></div><div class="bar bar-green" style="height:72%" data-val="32"></div></div>
-            <div class="bar-group"><div class="bar bar-blue" style="height:60%" data-val="26"></div><div class="bar bar-green" style="height:58%" data-val="25"></div></div>
-            <div class="bar-group"><div class="bar bar-blue" style="height:45%" data-val="20"></div><div class="bar bar-green" style="height:42%" data-val="19"></div></div>
-          </div>
-          <div class="bar-labels">
-            <div class="bar-label">9AM</div>
-            <div class="bar-label">10AM</div>
-            <div class="bar-label">11AM</div>
-            <div class="bar-label">12PM</div>
-            <div class="bar-label">1PM</div>
-            <div class="bar-label">2PM</div>
-            <div class="bar-label">3PM</div>
-            <div class="bar-label">4PM</div>
-          </div>
-        </div>
-
-        <div class="chart-card" style="flex:1;">
-          <div class="chart-header">
-            <div class="chart-title">Lane Status</div>
-          </div>
-          <div class="lane-grid">
-            <div class="lane-card lane-active" onclick="showToast('info','Lane 01','6 items · ₹842 · Cashier: Priya S.')">
-              <div class="lane-number" style="color:var(--state-green)">01</div>
-              <div class="lane-status-text">Active</div>
-            </div>
-            <div class="lane-card lane-active" onclick="showToast('info','Lane 02','3 items · ₹391 · Cashier: Rahul M.')">
-              <div class="lane-number" style="color:var(--state-green)">02</div>
-              <div class="lane-status-text">Active</div>
-            </div>
-            <div class="lane-card lane-busy" onclick="showToast('warning','Lane 03','Queue congestion detected. 9 customers waiting.')">
-              <div class="lane-number" style="color:var(--state-amber)">03</div>
-              <div class="lane-status-text">Congested</div>
-            </div>
-            <div class="lane-card lane-active" onclick="showToast('info','Lane 04 (You)','Current lane · AI active')">
-              <div class="lane-number" style="color:var(--accent-blue)">04</div>
-              <div class="lane-status-text">You</div>
-            </div>
-            <div class="lane-card lane-active" onclick="showToast('info','Lane 05','11 items · Cashier: Anjali T.')">
-              <div class="lane-number" style="color:var(--state-green)">05</div>
-              <div class="lane-status-text">Active</div>
-            </div>
-            <div class="lane-card lane-idle">
-              <div class="lane-number" style="color:var(--text-muted)">06</div>
-              <div class="lane-status-text">Idle</div>
-            </div>
-            <div class="lane-card lane-idle">
-              <div class="lane-number" style="color:var(--text-muted)">07</div>
-              <div class="lane-status-text">Idle</div>
-            </div>
-            <div class="lane-card lane-active" onclick="showToast('info','Lane 08','Express lane · 5 items max')">
-              <div class="lane-number" style="color:var(--state-green)">08</div>
-              <div class="lane-status-text">Express</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Row 3: Alerts -->
-      <div class="dash-row">
-        <div class="chart-card" style="flex:1;">
-          <div class="chart-header">
-            <div class="chart-title">Active Alerts</div>
-            <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);">3 unresolved</span>
-          </div>
-          <div class="alert-list">
-            <div class="alert-item alert-warning">
-              <div class="alert-icon ai-warning">⚠️</div>
-              <div class="alert-content">
-                <div class="alert-title">Lane 03 — Queue Congestion</div>
-                <div class="alert-desc">9 customers waiting · Avg wait 4.2 min</div>
+          <div class="device-list">
+            <div class="device-item sel" onclick="selectDevice(this,0)">
+              <div class="device-icon" style="background:var(--blue-dim);">🖥</div>
+              <div>
+                <div class="device-name">POS Terminal · L04</div>
+                <div class="device-sub">Tally POS 3.2 · Active</div>
               </div>
-              <div class="alert-time">2m ago</div>
+              <div class="dot dot-g" style="margin-left:auto;flex-shrink:0"></div>
             </div>
-            <div class="alert-item alert-critical">
-              <div class="alert-icon ai-critical">🔴</div>
-              <div class="alert-content">
-                <div class="alert-title">SKU Confidence Drop — Maggi 70g</div>
-                <div class="alert-desc">Packaging change detected · Retraining required</div>
+            <div class="device-item" onclick="selectDevice(this,1)">
+              <div class="device-icon" style="background:var(--green-dim);">📷</div>
+              <div>
+                <div class="device-name">AI Dock Camera · L04</div>
+                <div class="device-sub">4MP · 3-angle array · Active</div>
               </div>
-              <div class="alert-time">18m ago</div>
+              <div class="dot dot-g" style="margin-left:auto;flex-shrink:0"></div>
             </div>
-            <div class="alert-item alert-info">
-              <div class="alert-icon ai-info">ℹ️</div>
-              <div class="alert-content">
-                <div class="alert-title">POS Sync Latency — Lane 05</div>
-                <div class="alert-desc">+240ms above baseline · Monitoring</div>
+            <div class="device-item" onclick="selectDevice(this,2)">
+              <div class="device-icon" style="background:var(--amber-dim);">🖨</div>
+              <div>
+                <div class="device-name">Receipt Printer · L04</div>
+                <div class="device-sub">Epson TM-T82 · Warning</div>
               </div>
-              <div class="alert-time">34m ago</div>
+              <div class="dot dot-a" style="margin-left:auto;flex-shrink:0"></div>
+            </div>
+            <div class="device-item" onclick="selectDevice(this,3)">
+              <div class="device-icon" style="background:var(--violet-dim);">🔗</div>
+              <div>
+                <div class="device-name">ERP Connector</div>
+                <div class="device-sub">SAP B1 · Sync active</div>
+              </div>
+              <div class="dot dot-b" style="margin-left:auto;flex-shrink:0"></div>
+            </div>
+            <div class="device-item" onclick="selectDevice(this,4)">
+              <div class="device-icon" style="background:var(--red-dim);">🌐</div>
+              <div>
+                <div class="device-name">Network Gateway</div>
+                <div class="device-sub">4G LTE Failover · Idle</div>
+              </div>
+              <div class="dot" style="background:var(--t-muted);flex-shrink:0;margin-left:auto"></div>
+            </div>
+            <div class="device-item" onclick="selectDevice(this,5)">
+              <div class="device-icon" style="background:var(--bg-3);">⚖</div>
+              <div>
+                <div class="device-name">Weigh Scale · L04</div>
+                <div class="device-sub">Essae DS-252 · Active</div>
+              </div>
+              <div class="dot dot-g" style="margin-left:auto;flex-shrink:0"></div>
             </div>
           </div>
         </div>
 
-        <div class="chart-card" style="flex:1;">
-          <div class="chart-header">
-            <div class="chart-title">AI Recognition Accuracy — by Category</div>
-          </div>
-          <div class="bar-chart">
-            <div class="bar-group"><div class="bar bar-green" style="height:98%" data-val="98.2%"></div></div>
-            <div class="bar-group"><div class="bar bar-green" style="height:96%" data-val="96.8%"></div></div>
-            <div class="bar-group"><div class="bar bar-green" style="height:94%" data-val="94.1%"></div></div>
-            <div class="bar-group"><div class="bar bar-amber" style="height:88%" data-val="88.5%"></div></div>
-            <div class="bar-group"><div class="bar bar-amber" style="height:82%" data-val="82.3%"></div></div>
-            <div class="bar-group"><div class="bar bar-green" style="height:97%" data-val="97.0%"></div></div>
-          </div>
-          <div class="bar-labels">
-            <div class="bar-label">Beverages</div>
-            <div class="bar-label">Dairy</div>
-            <div class="bar-label">Snacks</div>
-            <div class="bar-label">Noodles</div>
-            <div class="bar-label">Spices</div>
-            <div class="bar-label">Personal</div>
-          </div>
+        <!-- Detail panel -->
+        <div class="pos-detail" id="pos-detail-panel">
+          <!-- filled by JS -->
         </div>
+
       </div>
     </div>
 
-    <!-- ── SKU INTELLIGENCE VIEW ── -->
-    <div class="view" id="view-sku" style="flex-direction:column;overflow:hidden;">
-      <div class="sku-toolbar">
-        <div class="search-input-wrap">
-          <span class="search-icon">🔍</span>
-          <input class="search-input" type="text" placeholder="Search SKU, product name, barcode...">
-        </div>
-        <div class="filter-chips">
-          <div class="filter-chip active">All</div>
-          <div class="filter-chip" onclick="toggleChip(this)">Active</div>
-          <div class="filter-chip" onclick="toggleChip(this)">Under Review</div>
-          <div class="filter-chip" onclick="toggleChip(this)">New</div>
-          <div class="filter-chip" onclick="toggleChip(this)">Packaging Changed</div>
-        </div>
-        <div style="margin-left:auto;display:flex;gap:8px;">
-          <button class="action-btn primary-action" onclick="showToast('info','Register SKU','Opening SKU registration workflow...')">+ Register SKU</button>
-        </div>
-      </div>
+    <!-- ══════════════ VIEW: SHIFT SUMMARY & EOD ══════════════ -->
+    <div class="view" id="view-shift">
+      <div class="shift-layout">
 
-      <div class="sku-main">
-        <div class="sku-table-wrap">
-          <table class="sku-table">
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th>Category</th>
-                <th>Confidence</th>
-                <th>Scans (30d)</th>
-                <th>Status</th>
-                <th>Last Updated</th>
-              </tr>
-            </thead>
-            <tbody id="sku-tbody">
-              <!-- injected by JS -->
-            </tbody>
-          </table>
-        </div>
-
-        <div class="sku-detail-panel" id="sku-detail-panel">
-          <div style="text-align:center;padding:40px 20px;color:var(--text-muted);">
-            <div style="font-size:32px;margin-bottom:12px;">📦</div>
-            <div style="font-size:12px;font-family:var(--font-mono);">Select a product<br>to view details</div>
+        <!-- Hero -->
+        <div class="shift-hero">
+          <div class="shift-hero-left">
+            <h1>Shift Summary</h1>
+            <p>CSH-0041 · Priya S. · Lane 04 · Thu 14 May 2026 · 09:00–17:30</p>
+          </div>
+          <div class="shift-hero-right">
+            <button class="btn btn-ghost" onclick="toast('info','Export','Generating PDF report...')">⬇ Export PDF</button>
+            <button class="btn btn-ghost" onclick="toast('info','Share','Sending report to floor manager...')">↗ Share</button>
+            <button class="btn btn-primary" onclick="toast('success','Shift Closed','EOD report submitted · Lane released')">Close Shift</button>
           </div>
         </div>
+
+        <!-- KPI strip -->
+        <div class="kpi-strip">
+          <div class="kpi-card">
+            <div class="kpi-lbl">Transactions</div>
+            <div class="kpi-val" style="color:var(--t-primary)">214</div>
+            <div class="kpi-trend"><span class="trend-up">↑ 12%</span> vs yesterday</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-lbl">Total Revenue</div>
+            <div class="kpi-val" style="color:var(--green)">₹1.84L</div>
+            <div class="kpi-trend"><span class="trend-up">↑ 8.3%</span> vs yesterday</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-lbl">AI Accuracy</div>
+            <div class="kpi-val" style="color:var(--blue)">97.4%</div>
+            <div class="kpi-trend"><span class="trend-up">↑ 0.3%</span> vs last shift</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-lbl">Avg Items/Txn</div>
+            <div class="kpi-val" style="color:var(--t-primary)">8.2</div>
+            <div class="kpi-trend"><span class="trend-dn">↓ 0.4</span> vs yesterday</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-lbl">Manual Overrides</div>
+            <div class="kpi-val" style="color:var(--amber)">6</div>
+            <div class="kpi-trend"><span class="trend-dn">↑ 2</span> needs review</div>
+          </div>
+        </div>
+
+        <!-- Chart + AI summary -->
+        <div style="display:grid;grid-template-columns:1fr 360px;gap:var(--s4)">
+
+          <div class="timeline-card">
+            <div class="timeline-hd">
+              <div class="timeline-title">Throughput Over Shift</div>
+              <div class="timeline-legend">
+                <span><span class="legend-dot" style="background:var(--blue)"></span>Transactions</span>
+                <span><span class="legend-dot" style="background:var(--green)"></span>Revenue ÷ 1000</span>
+              </div>
+            </div>
+            <svg viewBox="0 0 660 120" class="chart-svg-wrap" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="var(--blue)" stop-opacity=".2"/>
+                  <stop offset="100%" stop-color="var(--blue)" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="var(--green)" stop-opacity=".15"/>
+                  <stop offset="100%" stop-color="var(--green)" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <!-- Grid lines -->
+              <line x1="0" y1="0"   x2="660" y2="0"   stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <line x1="0" y1="30"  x2="660" y2="30"  stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <line x1="0" y1="60"  x2="660" y2="60"  stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <line x1="0" y1="90"  x2="660" y2="90"  stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <line x1="0" y1="110" x2="660" y2="110" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+              <!-- Area fills -->
+              <path d="M0,100 C60,85 100,60 160,50 S260,20 330,18 S430,40 500,35 S580,60 660,80 L660,120 L0,120 Z" fill="url(#blueGrad)"/>
+              <path d="M0,108 C60,98 100,78 160,65 S260,35 330,30 S430,55 500,48 S580,70 660,88 L660,120 L0,120 Z" fill="url(#greenGrad)"/>
+              <!-- Lines -->
+              <path d="M0,100 C60,85 100,60 160,50 S260,20 330,18 S430,40 500,35 S580,60 660,80" fill="none" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M0,108 C60,98 100,78 160,65 S260,35 330,30 S430,55 500,48 S580,70 660,88" fill="none" stroke="var(--green)" stroke-width="1.8" stroke-linecap="round"/>
+              <!-- Hour labels -->
+              <text x="0"   y="118" font-size="8" fill="rgba(255,255,255,.25)" font-family="DM Mono">9AM</text>
+              <text x="82"  y="118" font-size="8" fill="rgba(255,255,255,.25)" font-family="DM Mono">10AM</text>
+              <text x="164" y="118" font-size="8" fill="rgba(255,255,255,.25)" font-family="DM Mono">11AM</text>
+              <text x="246" y="118" font-size="8" fill="rgba(255,255,255,.25)" font-family="DM Mono">12PM</text>
+              <text x="328" y="118" font-size="8" fill="rgba(255,255,255,.25)" font-family="DM Mono">1PM</text>
+              <text x="410" y="118" font-size="8" fill="rgba(255,255,255,.25)" font-family="DM Mono">2PM</text>
+              <text x="492" y="118" font-size="8" fill="rgba(255,255,255,.25)" font-family="DM Mono">3PM</text>
+              <text x="574" y="118" font-size="8" fill="rgba(255,255,255,.25)" font-family="DM Mono">4PM</text>
+            </svg>
+          </div>
+
+          <div class="ai-summary">
+            <div>
+              <div class="ai-summary-icon">🤖</div>
+            </div>
+            <div class="ai-summary-content">
+              <h3>AI Shift Insights</h3>
+              <p>
+                Peak throughput between <strong>12–1 PM</strong> with 44 transactions. 
+                6 manual overrides recorded — 4 were Maggi Noodles variant confusion (retraining queued). 
+                Overall accuracy <strong>97.4%</strong>, above store average.
+                Recommended: Review low-confidence SKUs before next shift.
+              </p>
+              <div style="margin-top:var(--s4);display:flex;gap:var(--s2);flex-wrap:wrap;">
+                <span class="badge badge-g">✓ Target met</span>
+                <span class="badge badge-a">⚠ 2 SKUs flagged</span>
+                <span class="badge badge-b">→ 1 retrain queued</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom cols -->
+        <div class="shift-cols">
+
+          <!-- Transactions -->
+          <div class="tx-table-card">
+            <div class="tx-table-hd">
+              <div style="font-size:13px;font-weight:600">Recent Transactions</div>
+              <button class="btn btn-ghost btn-sm" onclick="toast('info','Export','Exporting full transaction log...')">Export CSV</button>
+            </div>
+            <table class="tx-table">
+              <thead>
+                <tr>
+                  <th>Time</th><th>Items</th><th>Amount</th><th>Payment</th><th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr onclick="toast('info','TXN-2041','₹842 · 6 items · Verified · UPI')"><td style="font-family:var(--font-mono);color:var(--t-muted)">17:12</td><td>6</td><td style="font-family:var(--font-mono)">₹842.00</td><td>UPI</td><td><span class="badge badge-g">Verified</span></td></tr>
+                <tr onclick="toast('info','TXN-2040','₹391 · 3 items · Verified · Card')"><td style="font-family:var(--font-mono);color:var(--t-muted)">17:04</td><td>3</td><td style="font-family:var(--font-mono)">₹391.00</td><td>Card</td><td><span class="badge badge-g">Verified</span></td></tr>
+                <tr onclick="toast('info','TXN-2039','₹1240 · 11 items · Override used')"><td style="font-family:var(--font-mono);color:var(--t-muted)">16:51</td><td>11</td><td style="font-family:var(--font-mono)">₹1,240.00</td><td>Cash</td><td><span class="badge badge-a">Override</span></td></tr>
+                <tr onclick="toast('info','TXN-2038','₹562 · 7 items · Verified · UPI')"><td style="font-family:var(--font-mono);color:var(--t-muted)">16:38</td><td>7</td><td style="font-family:var(--font-mono)">₹562.00</td><td>UPI</td><td><span class="badge badge-g">Verified</span></td></tr>
+                <tr onclick="toast('info','TXN-2037','₹88 · 2 items · Verified · Cash')"><td style="font-family:var(--font-mono);color:var(--t-muted)">16:22</td><td>2</td><td style="font-family:var(--font-mono)">₹88.00</td><td>Cash</td><td><span class="badge badge-g">Verified</span></td></tr>
+                <tr onclick="toast('info','TXN-2036','₹3,410 · 24 items · Override · Flagged')"><td style="font-family:var(--font-mono);color:var(--t-muted)">16:05</td><td>24</td><td style="font-family:var(--font-mono)">₹3,410.00</td><td>Card</td><td><span class="badge badge-r">Flagged</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Accuracy breakdown -->
+          <div class="card" style="padding:var(--s5)">
+            <div style="font-size:13px;font-weight:600;margin-bottom:var(--s5)">AI Accuracy · By Category</div>
+            <div class="acc-row"><div class="acc-name">Beverages</div><div class="acc-bar"><div class="prog-track"><div class="prog-fill" style="width:98%;background:var(--green)"></div></div></div><div class="acc-val" style="color:var(--green)">98%</div></div>
+            <div class="acc-row"><div class="acc-name">Dairy</div><div class="acc-bar"><div class="prog-track"><div class="prog-fill" style="width:97%;background:var(--green)"></div></div></div><div class="acc-val" style="color:var(--green)">97%</div></div>
+            <div class="acc-row"><div class="acc-name">Biscuits & Snacks</div><div class="acc-bar"><div class="prog-track"><div class="prog-fill" style="width:95%;background:var(--green)"></div></div></div><div class="acc-val" style="color:var(--green)">95%</div></div>
+            <div class="acc-row"><div class="acc-name">Noodles</div><div class="acc-bar"><div class="prog-track"><div class="prog-fill" style="width:82%;background:var(--amber)"></div></div></div><div class="acc-val" style="color:var(--amber)">82%</div></div>
+            <div class="acc-row"><div class="acc-name">Spices & Staples</div><div class="acc-bar"><div class="prog-track"><div class="prog-fill" style="width:91%;background:var(--green)"></div></div></div><div class="acc-val" style="color:var(--green)">91%</div></div>
+            <div class="acc-row"><div class="acc-name">Personal Care</div><div class="acc-bar"><div class="prog-track"><div class="prog-fill" style="width:88%;background:var(--green)"></div></div></div><div class="acc-val" style="color:var(--green)">88%</div></div>
+            <div class="acc-row"><div class="acc-name">Detergents</div><div class="acc-bar"><div class="prog-track"><div class="prog-fill" style="width:94%;background:var(--green)"></div></div></div><div class="acc-val" style="color:var(--green)">94%</div></div>
+
+            <div class="div-h" style="margin:var(--s4) 0"></div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:var(--s4)">Payment Split</div>
+            <div style="display:flex;gap:var(--s4)">
+              <div style="text-align:center;flex:1">
+                <div style="font-size:22px;font-weight:800;color:var(--blue)">48%</div>
+                <div style="font-size:11px;font-family:var(--font-mono);color:var(--t-muted);margin-top:3px">UPI</div>
+              </div>
+              <div style="text-align:center;flex:1">
+                <div style="font-size:22px;font-weight:800;color:var(--green)">33%</div>
+                <div style="font-size:11px;font-family:var(--font-mono);color:var(--t-muted);margin-top:3px">Card</div>
+              </div>
+              <div style="text-align:center;flex:1">
+                <div style="font-size:22px;font-weight:800;color:var(--amber)">19%</div>
+                <div style="font-size:11px;font-family:var(--font-mono);color:var(--t-muted);margin-top:3px">Cash</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </div>
 
-    <!-- ── FRAUD & RISK VIEW (placeholder) ── -->
-    <div class="view" id="view-fraud" style="flex-direction:column;align-items:center;justify-content:center;gap:16px;">
-      <div style="font-size:48px;">🛡</div>
-      <div style="font-family:var(--font-display);font-size:20px;font-weight:700;">Fraud & Risk Dashboard</div>
-      <div style="color:var(--text-muted);font-size:13px;font-family:var(--font-mono);text-align:center;line-height:1.8;">
-        Suspicious billing patterns · Item skip detection<br>
-        Override abuse monitoring · Cashier anomalies
+    <!-- ══════════════ VIEW: SKU REGISTRATION ══════════════ -->
+    <div class="view" id="view-sku-reg">
+      <div class="reg-layout">
+
+        <!-- Step sidebar -->
+        <div class="reg-sidebar">
+          <div class="reg-sidebar-title">Register New SKU</div>
+
+          <div class="reg-step done" id="rstep-0" onclick="goStep(0)">
+            <div class="reg-step-num">✓</div>
+            <div class="reg-step-text">
+              <div class="step-name">Product Details</div>
+              <div class="step-desc">Name, brand, category</div>
+            </div>
+          </div>
+          <div class="reg-step-connector"></div>
+
+          <div class="reg-step active" id="rstep-1" onclick="goStep(1)">
+            <div class="reg-step-num">2</div>
+            <div class="reg-step-text">
+              <div class="step-name">Packaging Images</div>
+              <div class="step-desc">Upload reference photos</div>
+            </div>
+          </div>
+          <div class="reg-step-connector"></div>
+
+          <div class="reg-step" id="rstep-2" onclick="goStep(2)">
+            <div class="reg-step-num">3</div>
+            <div class="reg-step-text">
+              <div class="step-name">Packaging Variants</div>
+              <div class="step-desc">Sizes, editions, regional</div>
+            </div>
+          </div>
+          <div class="reg-step-connector"></div>
+
+          <div class="reg-step" id="rstep-3" onclick="goStep(3)">
+            <div class="reg-step-num">4</div>
+            <div class="reg-step-text">
+              <div class="step-name">AI Training</div>
+              <div class="step-desc">Configure & initiate</div>
+            </div>
+          </div>
+          <div class="reg-step-connector"></div>
+
+          <div class="reg-step" id="rstep-4" onclick="goStep(4)">
+            <div class="reg-step-num">5</div>
+            <div class="reg-step-text">
+              <div class="step-name">POS Mapping</div>
+              <div class="step-desc">Price, GST, billing code</div>
+            </div>
+          </div>
+
+          <div style="margin-top:auto;padding-top:var(--s5);border-top:1px solid var(--border-0)">
+            <div style="font-size:10px;font-family:var(--font-mono);color:var(--t-muted);margin-bottom:var(--s2)">PROGRESS</div>
+            <div class="step-row">
+              <div class="step-item done" id="sp-0"></div>
+              <div class="step-item active" id="sp-1"></div>
+              <div class="step-item" id="sp-2"></div>
+              <div class="step-item" id="sp-3"></div>
+              <div class="step-item" id="sp-4"></div>
+            </div>
+            <div style="font-size:11px;font-family:var(--font-mono);color:var(--t-muted)">Step <span id="cur-step-num">2</span> of 5</div>
+          </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="reg-main">
+          <div class="reg-content">
+
+            <!-- STEP 0: Product Details (pre-filled / done) -->
+            <div class="step-panel" id="spanel-0">
+              <h2>Product Details</h2>
+              <p class="sub">Enter the core product information. This will be the primary identifier in the system.</p>
+              <div class="form-grid">
+                <div class="form-group full">
+                  <label class="field-label">Product Name</label>
+                  <input class="field-input" value="Maggi Masala Noodles">
+                </div>
+                <div class="form-group">
+                  <label class="field-label">Brand</label>
+                  <input class="field-input" value="Nestle">
+                </div>
+                <div class="form-group">
+                  <label class="field-label">Category</label>
+                  <select class="field-select"><option>Noodles & Pasta</option><option>Snacks</option><option>Beverages</option><option>Dairy</option></select>
+                </div>
+                <div class="form-group">
+                  <label class="field-label">SKU Code</label>
+                  <input class="field-input" value="NGS-MG-70M" style="font-family:var(--font-mono)">
+                </div>
+                <div class="form-group">
+                  <label class="field-label">Barcode (EAN-13)</label>
+                  <input class="field-input" value="8901058851713" style="font-family:var(--font-mono)">
+                </div>
+                <div class="form-group">
+                  <label class="field-label">Weight / Volume</label>
+                  <input class="field-input" value="70g">
+                </div>
+                <div class="form-group">
+                  <label class="field-label">MRP (₹)</label>
+                  <input class="field-input" value="14.00" style="font-family:var(--font-mono)">
+                </div>
+                <div class="form-group full">
+                  <label class="field-label">Notes</label>
+                  <textarea class="field-textarea">Red & yellow primary packaging. Masala variant — distinguish from Chicken & Atta variants. Common misidentification with Yippee noodles.</textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 1: Packaging Images -->
+            <div class="step-panel on" id="spanel-1">
+              <h2>Packaging Images</h2>
+              <p class="sub">Upload clear photos of the product packaging from multiple angles. The AI engine needs at least 3 angles to achieve reliable recognition.</p>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:var(--s4);margin-bottom:var(--s6)">
+                <div>
+                  <div class="field-label">Front Face</div>
+                  <div class="upload-zone" onclick="toast('info','Front Face','Image uploaded: maggi_front.jpg')" style="padding:var(--s6);min-height:140px;">
+                    <div style="font-size:32px">🍜</div>
+                    <div class="upload-text" style="font-size:12px;">Front uploaded</div>
+                    <div class="upload-sub">maggi_front.jpg · 2.1MB</div>
+                    <span class="badge badge-g" style="margin-top:4px">✓ Processed</span>
+                  </div>
+                </div>
+                <div>
+                  <div class="field-label">Back / Ingredient Panel</div>
+                  <div class="upload-zone" onclick="toast('info','Back Panel','Image uploaded: maggi_back.jpg')" style="padding:var(--s6);min-height:140px;">
+                    <div style="font-size:32px">📦</div>
+                    <div class="upload-text" style="font-size:12px;">Back uploaded</div>
+                    <div class="upload-sub">maggi_back.jpg · 1.8MB</div>
+                    <span class="badge badge-g" style="margin-top:4px">✓ Processed</span>
+                  </div>
+                </div>
+                <div>
+                  <div class="field-label">Top View</div>
+                  <div class="upload-zone" onclick="toast('success','Top View','Image uploaded · AI processing...')" style="padding:var(--s6);min-height:140px;">
+                    <div class="upload-icon">☁</div>
+                    <div class="upload-text" style="font-size:12px;">Click to upload</div>
+                    <div class="upload-sub">PNG, JPG up to 10MB</div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="background:var(--bg-2);border:1px solid var(--border-0);border-radius:var(--r2);padding:var(--s5);">
+                <div style="font-size:12px;font-weight:500;margin-bottom:var(--s4)">Upload Guidelines</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s3);font-size:12px;color:var(--t-secondary)">
+                  <div>✓ Minimum 800×800px resolution</div>
+                  <div>✓ Product fills 70%+ of frame</div>
+                  <div>✓ Flat, even lighting</div>
+                  <div>✓ No shadows across text</div>
+                  <div>✗ No blurry or rotated images</div>
+                  <div>✗ No reflective surfaces</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 2: Packaging Variants -->
+            <div class="step-panel" id="spanel-2">
+              <h2>Packaging Variants</h2>
+              <p class="sub">Define all known packaging variants for this SKU — different sizes, limited editions, regional packaging, or packaging evolution. The AI will train on all variants.</p>
+
+              <div class="variant-grid">
+                <div class="variant-card sel" onclick="toggleVariant(this)">
+                  <div class="variant-thumb">🍜</div>
+                  <div class="variant-name">Masala 70g · Standard</div>
+                  <div class="variant-sub">Current · Primary packaging</div>
+                  <div style="position:absolute;top:10px;right:10px"><span class="badge badge-b">Primary</span></div>
+                </div>
+                <div class="variant-card" onclick="toggleVariant(this)">
+                  <div class="variant-thumb">🍜</div>
+                  <div class="variant-name">Masala 70g · 2023 Pack</div>
+                  <div class="variant-sub">Legacy · Pre-rebrand</div>
+                </div>
+                <div class="variant-card" onclick="toggleVariant(this)">
+                  <div class="variant-thumb">🍜</div>
+                  <div class="variant-name">Masala 140g · Twin Pack</div>
+                  <div class="variant-sub">2x pack · Same flavour</div>
+                </div>
+                <div class="variant-card" onclick="toggleVariant(this)">
+                  <div class="variant-thumb">🍜</div>
+                  <div class="variant-name">Masala 70g · Gujarati</div>
+                  <div class="variant-sub">Regional language pack</div>
+                </div>
+                <div class="variant-card" onclick="toggleVariant(this)">
+                  <div class="variant-thumb">🍜</div>
+                  <div class="variant-name">Masala 420g · Family</div>
+                  <div class="variant-sub">6-serve pack</div>
+                </div>
+                <div class="variant-add" onclick="toast('info','Add Variant','Opening variant capture form...')">
+                  <div style="font-size:24px;color:var(--t-muted)">+</div>
+                  <div style="font-size:12px;color:var(--t-muted)">Add Variant</div>
+                </div>
+              </div>
+
+              <div style="margin-top:var(--s5);background:var(--bg-2);border:1px solid var(--border-0);border-radius:var(--r2);padding:var(--s5);">
+                <div style="font-size:12px;font-weight:500;margin-bottom:var(--s4)">Variant Detection Configuration</div>
+                <div class="config-row">
+                  <div><div class="config-lbl">Cross-variant disambiguation</div><div class="config-sub">Differentiate same-SKU packaging changes by date range</div></div>
+                  <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div class="config-row">
+                  <div><div class="config-lbl">Regional pack detection</div><div class="config-sub">Treat Gujarati/Hindi packs as same SKU for billing</div></div>
+                  <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div class="config-row">
+                  <div><div class="config-lbl">Size auto-differentiation</div><div class="config-sub">Different weights billed as separate SKUs</div></div>
+                  <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 3: AI Training -->
+            <div class="step-panel" id="spanel-3">
+              <h2>AI Training Configuration</h2>
+              <p class="sub">Configure the AI recognition model for this SKU. Initiate training once all images and variants are uploaded.</p>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s4);margin-bottom:var(--s5)">
+                <div class="form-group">
+                  <label class="field-label">Detection Confidence Threshold</label>
+                  <select class="field-select">
+                    <option>High (≥85%) — Recommended</option>
+                    <option>Medium (≥70%)</option>
+                    <option>Low (≥55%) — More overrides</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="field-label">Camera Angle Priority</label>
+                  <select class="field-select">
+                    <option>Multi-angle average — Recommended</option>
+                    <option>Top-view primary</option>
+                    <option>Front-view primary</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="training-block">
+                <div class="training-header">
+                  <div class="training-icon">🧠</div>
+                  <div>
+                    <div class="training-title">Training Simulation Preview</div>
+                    <div class="training-sub">Estimated results based on uploaded images</div>
+                  </div>
+                  <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="simulateTraining()">▶ Run Simulation</button>
+                </div>
+
+                <div class="training-metric"><span class="tm-l">Images uploaded</span><span class="tm-r">2 / 3 angles</span></div>
+                <div class="training-metric"><span class="tm-l">Variants configured</span><span class="tm-r">4 active</span></div>
+                <div class="training-metric"><span class="tm-l">Estimated accuracy</span><span class="tm-r" style="color:var(--amber)">~84% (needs top-view)</span></div>
+                <div class="training-metric"><span class="tm-l">Training time</span><span class="tm-r">~12 minutes</span></div>
+                <div class="training-metric"><span class="tm-l">Model version</span><span class="tm-r">v4.2 · ResNet-50</span></div>
+
+                <div style="margin-top:var(--s4)">
+                  <div style="font-size:11px;font-family:var(--font-mono);color:var(--t-muted);margin-bottom:var(--s2)">CONFIDENCE PROJECTION</div>
+                  <div class="prog-track" style="height:8px;border-radius:4px">
+                    <div class="prog-fill" id="train-prog" style="width:84%;background:var(--amber);border-radius:4px"></div>
+                  </div>
+                  <div style="display:flex;justify-content:space-between;font-size:10px;font-family:var(--font-mono);color:var(--t-muted);margin-top:6px">
+                    <span>0%</span><span style="color:var(--amber)">84% projected</span><span>100%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- STEP 4: POS Mapping -->
+            <div class="step-panel" id="spanel-4">
+              <h2>POS Mapping & Billing</h2>
+              <p class="sub">Map this SKU to your POS billing system. This ensures accurate GST calculation and inventory deduction on every checkout.</p>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="field-label">POS Item Code</label>
+                  <input class="field-input" value="ITM-004821" style="font-family:var(--font-mono)">
+                </div>
+                <div class="form-group">
+                  <label class="field-label">Billing Description</label>
+                  <input class="field-input" value="MAGGI MASALA 70G">
+                </div>
+                <div class="form-group">
+                  <label class="field-label">GST Rate</label>
+                  <select class="field-select">
+                    <option>5% — Food items</option>
+                    <option selected>12% — Processed food</option>
+                    <option>18% — Standard</option>
+                    <option>28% — Luxury</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="field-label">HSN Code</label>
+                  <input class="field-input" value="1902" style="font-family:var(--font-mono)">
+                </div>
+                <div class="form-group">
+                  <label class="field-label">Unit of Sale</label>
+                  <select class="field-select"><option>Each (piece)</option><option>Kg</option><option>Gram</option></select>
+                </div>
+                <div class="form-group">
+                  <label class="field-label">Inventory Impact</label>
+                  <select class="field-select"><option selected>Deduct from stock on scan</option><option>Deduct on checkout only</option><option>No deduction</option></select>
+                </div>
+                <div class="form-group full">
+                  <label class="field-label">POS Terminal Assignment</label>
+                  <select class="field-select"><option>All terminals (store-wide)</option><option>Lane 04 only</option><option>Express lanes only</option></select>
+                </div>
+              </div>
+
+              <div style="background:var(--green-dim);border:1px solid rgba(48,201,138,.2);border-radius:var(--r2);padding:var(--s4) var(--s5);display:flex;align-items:center;gap:var(--s3);margin-top:var(--s2)">
+                <div style="font-size:18px">✓</div>
+                <div>
+                  <div style="font-size:12px;font-weight:500;color:var(--green)">Ready for Registration</div>
+                  <div style="font-size:11px;color:var(--t-muted);font-family:var(--font-mono)">All required fields complete. Upload top-view image to reach ≥90% accuracy.</div>
+                </div>
+                <button class="btn btn-success btn-sm" style="margin-left:auto" onclick="toast('success','SKU Registered','Maggi Masala 70g submitted for AI training')">Submit SKU →</button>
+              </div>
+            </div>
+
+          </div><!-- end reg-content -->
+
+          <div class="reg-footer">
+            <button class="btn btn-ghost" id="reg-back" onclick="regStep(-1)">← Back</button>
+            <div style="flex:1;text-align:center;font-size:11px;font-family:var(--font-mono);color:var(--t-muted)" id="reg-step-hint">Step 2 of 5 — Upload packaging images from 3+ angles</div>
+            <button class="btn btn-primary" id="reg-next" onclick="regStep(1)">Continue →</button>
+          </div>
+        </div><!-- end reg-main -->
+
       </div>
-      <button class="action-btn primary-action" onclick="showToast('info','Coming Soon','Fraud & Risk module in next prototype iteration.')">Coming in next iteration</button>
     </div>
 
-  </div><!-- end main-area -->
-</div><!-- end screen-app -->
+  </div><!-- end main -->
+</div><!-- end app -->
 
-<!-- ══════════════════════════════════════════════════
-     VERIFICATION MODAL (Screen 3)
-══════════════════════════════════════════════════ -->
-<div class="modal-overlay" id="verification-modal">
-  <div class="verification-modal">
-    <div class="modal-header">
+<!-- VERIFICATION MODAL -->
+<div class="modal-overlay" id="verify-modal">
+  <div class="modal">
+    <div class="modal-hd">
       <div class="modal-alert-icon">⚠</div>
       <div>
         <div class="modal-title">AI Verification Required</div>
-        <div class="modal-subtitle">Confidence below threshold · 3 possible matches found</div>
+        <div class="modal-subtitle">Confidence below threshold · 3 possible matches</div>
       </div>
     </div>
     <div class="modal-body">
       <div class="modal-frames">
-        <div class="modal-frame-label">Captured Frames</div>
+        <div class="sect-label">Captured Frames</div>
         <div class="frame-grid">
-          <div class="frame-thumb active">🍜</div>
+          <div class="frame-thumb active" onclick="activateFrame(this)">🍜</div>
           <div class="frame-thumb" onclick="activateFrame(this)">🍜</div>
           <div class="frame-thumb" onclick="activateFrame(this)">📦</div>
           <div class="frame-thumb" onclick="activateFrame(this)">🍜</div>
         </div>
       </div>
-
-      <div class="sku-suggestions">
-        <div class="sku-suggestions-label">Top Matches — Select Correct Product</div>
-
-        <div class="sku-option top-match" onclick="selectSKU(this, 'Maggi Masala Noodles 70g', '89.2%')">
-          <div class="sku-rank rank-1">1</div>
-          <div class="sku-thumb">🍜</div>
-          <div class="sku-info">
-            <div class="sku-name">Maggi Masala Noodles 70g</div>
-            <div class="sku-detail">SKU: NGS-MG-70M · ₹14.00 · Nestle</div>
-          </div>
-          <div class="sku-conf-bar">
-            <div class="conf-bar-label">89.2%</div>
-            <div class="conf-bar-track"><div class="conf-bar-fill high" style="width:89%"></div></div>
-          </div>
+      <div class="sku-opts">
+        <div class="sect-label" style="margin-bottom:var(--s3)">Top Matches — Select Correct Product</div>
+        <div class="sku-opt top" onclick="pickSKU(this,'Maggi Masala Noodles 70g')">
+          <div class="sku-rank sr-1">1</div>
+          <div class="sku-opt-em">🍜</div>
+          <div style="flex:1"><div class="sku-opt-name">Maggi Masala Noodles 70g</div><div class="sku-opt-code">NGS-MG-70M · ₹14.00 · Nestle</div></div>
+          <div class="conf-mini"><div class="conf-mini-val" style="color:var(--green)">89.2%</div><div class="prog-track"><div class="prog-fill" style="width:89%;background:var(--green)"></div></div></div>
         </div>
-
-        <div class="sku-option" onclick="selectSKU(this, 'Maggi Chicken Noodles 70g', '54.1%')">
-          <div class="sku-rank rank-2">2</div>
-          <div class="sku-thumb">🍜</div>
-          <div class="sku-info">
-            <div class="sku-name">Maggi Chicken Noodles 70g</div>
-            <div class="sku-detail">SKU: NGS-MC-70C · ₹14.00 · Nestle</div>
-          </div>
-          <div class="sku-conf-bar">
-            <div class="conf-bar-label">54.1%</div>
-            <div class="conf-bar-track"><div class="conf-bar-fill mid" style="width:54%"></div></div>
-          </div>
+        <div class="sku-opt" onclick="pickSKU(this,'Maggi Chicken Noodles 70g')">
+          <div class="sku-rank sr-2">2</div>
+          <div class="sku-opt-em">🍜</div>
+          <div style="flex:1"><div class="sku-opt-name">Maggi Chicken Noodles 70g</div><div class="sku-opt-code">NGS-MC-70C · ₹14.00 · Nestle</div></div>
+          <div class="conf-mini"><div class="conf-mini-val" style="color:var(--amber)">54.1%</div><div class="prog-track"><div class="prog-fill" style="width:54%;background:var(--amber)"></div></div></div>
         </div>
-
-        <div class="sku-option" onclick="selectSKU(this, 'Yippee Magic Masala 70g', '31.7%')">
-          <div class="sku-rank rank-3">3</div>
-          <div class="sku-thumb">🍝</div>
-          <div class="sku-info">
-            <div class="sku-name">Yippee Magic Masala 70g</div>
-            <div class="sku-detail">SKU: YIP-MM-70 · ₹12.00 · ITC</div>
-          </div>
-          <div class="sku-conf-bar">
-            <div class="conf-bar-label">31.7%</div>
-            <div class="conf-bar-track"><div class="conf-bar-fill low" style="width:32%"></div></div>
-          </div>
+        <div class="sku-opt" onclick="pickSKU(this,'Yippee Magic Masala 70g')">
+          <div class="sku-rank sr-3">3</div>
+          <div class="sku-opt-em">🍝</div>
+          <div style="flex:1"><div class="sku-opt-name">Yippee Magic Masala 70g</div><div class="sku-opt-code">YIP-MM-70 · ₹12.00 · ITC</div></div>
+          <div class="conf-mini"><div class="conf-mini-val" style="color:var(--red)">31.7%</div><div class="prog-track"><div class="prog-fill" style="width:32%;background:var(--red)"></div></div></div>
         </div>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn-verify" id="verify-btn" onclick="confirmVerification()">Confirm Selection →</button>
-      <button class="btn-manual" onclick="showToast('info','Manual Entry','Opening barcode / manual SKU entry...');closeVerification()">Manual Entry</button>
-      <div class="modal-tip">Tap correct product · Press Enter to confirm</div>
+    <div class="modal-ft">
+      <button class="btn btn-primary" onclick="confirmVerify()">Confirm Selection →</button>
+      <button class="btn btn-ghost" onclick="closeVerify();toast('info','Manual Entry','Opening barcode entry...')">Manual Entry</button>
+      <div class="modal-tip">Press Enter to confirm · Esc to close</div>
     </div>
   </div>
 </div>
 
-<!-- Toast Container -->
-<div class="toast-container" id="toast-container"></div>
+<!-- TOASTS -->
+<div class="toast-wrap" id="toast-wrap"></div>
 
 <!-- ══════════════════════════════════════════════════
      JAVASCRIPT
 ══════════════════════════════════════════════════ -->
 <script>
-  // ─── CLOCK ──────────────────────────────────────
-  function updateClock() {
-    const now = new Date();
-    document.getElementById('clock').textContent =
-      now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+// ─── CLOCK ────────────────────────────────────────
+const clockEl = document.getElementById('clock');
+function tick() {
+  const n = new Date();
+  clockEl.textContent = n.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+}
+setInterval(tick,1000); tick();
+
+// ─── NAV ──────────────────────────────────────────
+const titles = {
+  checkout:       'Live Checkout · Lane 04',
+  'dashboard-stub': 'Operations Dashboard',
+  pos:            'POS Integration & Device Management',
+  shift:          'Shift Summary & EOD Report',
+  'sku-reg':      'SKU Registration & Packaging Variants'
+};
+
+function nav(id, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
+  document.querySelectorAll('.rail-btn').forEach(b => b.classList.remove('on'));
+  const v = document.getElementById('view-' + id);
+  if (v) v.classList.add('on');
+  if (btn) btn.classList.add('on');
+  document.getElementById('tb-title').textContent = titles[id] || id;
+}
+
+// ─── PAY CHIP ─────────────────────────────────────
+function selectPay(el) {
+  document.querySelectorAll('.pay-chip').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+// ─── CHECKOUT LOGIC ───────────────────────────────
+const NAMES  = ['Amul Taaza Milk 500ml','Maggi Masala Noodles 70g','Parle-G Biscuits 100g','Haldiram Aloo Bhujia 200g','Kurkure Masala Munch 90g','Lay\'s Classic Salted 73g','Tata Salt 1kg','Colgate MaxFresh 150g','Surf Excel Matic 1kg','Sunfeast Marie Light 200g','Nestle KitKat 4 Finger','Real Guava Juice 1L','Coca-Cola 750ml','Fortune Sunflower Oil 1L','Britannia NutriChoice 150g'];
+const EMOJIS = ['🥛','🍜','🍪','🥜','🌶','🍟','🧂','🦷','🧺','🍞','🍫','🧃','🥤','🫒','🥐'];
+const PRICES = [26,14,10,60,30,20,22,82,220,40,35,90,45,130,65];
+
+let cart=[], total=0;
+
+function simulateScan() {
+  const i = Math.floor(Math.random()*NAMES.length);
+  const conf = 65+Math.floor(Math.random()*35);
+  const status = conf>=85?'verified':conf>=72?'ambiguous':'checking';
+  const item = { name:NAMES[i], emoji:EMOJIS[i%EMOJIS.length], price:PRICES[i], conf, status };
+  cart.unshift(item); total+=item.price;
+  updateBilling(); renderFeed();
+
+  // Camera update
+  document.getElementById('cam-emoji').textContent = item.emoji;
+  document.getElementById('cam-txt').textContent =
+    status==='verified'?'Product verified · Billing transmitted':
+    status==='ambiguous'?'Low confidence · Verification suggested':'Analysing product...';
+  const lbl = document.getElementById('det-label');
+  lbl.textContent = conf+'% · '+item.name.split(' ').slice(0,3).join(' ');
+  lbl.style.background = status==='verified'?'var(--green)':status==='ambiguous'?'var(--amber)':'var(--blue)';
+  lbl.style.color = status==='verified'?'#000':'#000';
+  const box = document.getElementById('det-box');
+  box.style.borderColor = status==='verified'?'var(--green)':status==='ambiguous'?'var(--amber)':'var(--blue)';
+
+  if(status==='verified') toast('success','Product Scanned',item.name+' · ₹'+item.price);
+  else if(status==='ambiguous') toast('warning','Low Confidence',conf+'% · Verification suggested');
+}
+
+function renderFeed() {
+  const feed = document.getElementById('product-feed');
+  document.getElementById('feed-count').textContent = cart.length+' item'+(cart.length!==1?'s':'');
+  feed.innerHTML = cart.map(it=>{
+    const cc = it.conf>=85?'ct-g':it.conf>=72?'ct-a':'ct-r';
+    const vi = it.status==='verified'?'<span style="color:var(--green);font-size:11px">✓</span>':it.status==='ambiguous'?'<span style="color:var(--amber);font-size:11px">!</span>':'<span style="color:var(--blue);font-size:11px">↻</span>';
+    return `<div class="pcard ${it.status}">
+      <div class="pcard-icon">${it.emoji}</div>
+      <div style="flex:1;min-width:0">
+        <div class="pcard-name">${it.name}</div>
+        <div class="pcard-meta"><span class="conf-tag ${cc}">${it.conf}%</span></div>
+      </div>
+      <div class="pcard-price">₹${it.price}</div>
+      ${vi}
+    </div>`;
+  }).join('');
+}
+
+function updateBilling() {
+  const tax = +(total*0.18).toFixed(2);
+  const grand = +(total+tax).toFixed(2);
+  document.getElementById('total-num').textContent = grand.toFixed(0);
+  document.getElementById('total-detail').textContent = cart.length+' items · ₹'+tax.toFixed(0)+' GST';
+  document.getElementById('b-sub').textContent = '₹'+total.toFixed(2);
+  document.getElementById('b-tax').textContent = '₹'+tax.toFixed(2);
+  document.getElementById('b-total').textContent = '₹'+grand.toFixed(2);
+}
+
+function clearCart() {
+  cart=[]; total=0; updateBilling(); renderFeed();
+  document.getElementById('cam-emoji').textContent='🛒';
+  document.getElementById('cam-txt').textContent='Ready · Place product in view';
+  document.getElementById('det-label').textContent='Detecting...';
+  document.getElementById('det-label').style.background='';
+  document.getElementById('det-box').style.borderColor='var(--green)';
+}
+
+function completeCheckout() {
+  if(!cart.length){toast('warning','No Items','Scan at least one product first.');return;}
+  const tax=+(total*0.18).toFixed(2), grand=(total+tax).toFixed(2);
+  toast('success','Checkout Complete','₹'+grand+' · '+cart.length+' items · POS synced');
+  setTimeout(clearCart,1000);
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.code==='Space'){
+    const co=document.getElementById('view-checkout');
+    if(co.classList.contains('on')){e.preventDefault();simulateScan();}
   }
-  setInterval(updateClock, 1000);
-  updateClock();
+  if(e.code==='Escape') closeVerify();
+  if(e.code==='Enter' && document.getElementById('verify-modal').classList.contains('open')) confirmVerify();
+});
 
-  // ─── SCREEN NAV ────────────────────────────────
-  function goToApp() {
-    document.getElementById('screen-login').classList.remove('active');
-    document.getElementById('screen-app').classList.add('active');
-    showToast('success', 'Shift Started', 'Lane 04 active · AI engine initialized');
+// ─── VERIFICATION MODAL ───────────────────────────
+let pickedSKU = 'Maggi Masala Noodles 70g';
+
+function openVerify() {
+  pickedSKU='Maggi Masala Noodles 70g';
+  document.getElementById('verify-modal').classList.add('open');
+}
+function closeVerify() { document.getElementById('verify-modal').classList.remove('open'); }
+
+function pickSKU(el,name) {
+  document.querySelectorAll('.sku-opt').forEach(o=>o.classList.remove('top'));
+  el.classList.add('top'); pickedSKU=name;
+}
+function confirmVerify() {
+  closeVerify();
+  cart.unshift({name:pickedSKU,emoji:'🍜',price:14,conf:89,status:'verified'});
+  total+=14; updateBilling(); renderFeed();
+  toast('success','Verified',pickedSKU+' confirmed by operator');
+}
+function activateFrame(el){
+  document.querySelectorAll('.frame-thumb').forEach(f=>f.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ─── POS DEVICES ──────────────────────────────────
+const deviceData = [
+  {
+    icon:'🖥', name:'POS Terminal · Lane 04', sub:'Tally POS 3.2', status:'active',
+    ip:'192.168.1.41', mac:'A4:C3:F0:82:11:EE', firmware:'v3.2.1', lastSync:'Just now',
+    health:{ 'CPU Load':'28%', 'Memory':'1.2GB / 4GB', 'Disk':'12GB free', 'Uptime':'8h 24m' },
+    metrics:{ 'Transactions Today':'214', 'Avg Response':'48ms', 'Sync Errors':'0', 'Queued Items':'0' },
+    logs:[
+      {t:'17:18:02',m:'Transaction TXN-2041 synced to Tally',c:'ok'},
+      {t:'17:17:55',m:'Billing data transmitted · ₹842.00',c:'ok'},
+      {t:'17:04:11',m:'Transaction TXN-2040 synced',c:'ok'},
+      {t:'16:51:33',m:'Manual override logged · TXN-2039',c:'wrn'},
+      {t:'16:22:01',m:'GST recalculation triggered',c:'inf'},
+      {t:'15:30:00',m:'Daily backup completed',c:'ok'},
+    ]
+  },
+  {
+    icon:'📷', name:'AI Dock Camera · Lane 04', sub:'4MP 3-angle array', status:'active',
+    ip:'192.168.1.42', mac:'B2:1A:FF:44:88:C1', firmware:'v2.4.0', lastSync:'Live',
+    health:{ 'Frame Rate':'30fps', 'Resolution':'4K', 'AI Inference':'38ms', 'Uptime':'8h 24m' },
+    metrics:{ 'Scans Today':'1,842', 'Accuracy':'97.4%', 'Ambiguous':'48', 'Rejected':'0' },
+    logs:[
+      {t:'17:18:01',m:'Product detected · Confidence 96%',c:'ok'},
+      {t:'17:18:00',m:'Multi-angle scan completed',c:'ok'},
+      {t:'17:12:44',m:'Ambiguity alert raised · Maggi variant',c:'wrn'},
+      {t:'17:12:40',m:'Low confidence scan · 62%',c:'wrn'},
+      {t:'16:00:00',m:'Camera calibration passed',c:'ok'},
+      {t:'14:30:11',m:'Firmware auto-update skipped · Active shift',c:'inf'},
+    ]
+  },
+  {
+    icon:'🖨', name:'Receipt Printer · Lane 04', sub:'Epson TM-T82', status:'warning',
+    ip:'192.168.1.43', mac:'C9:4D:22:AA:55:B3', firmware:'v1.8.3', lastSync:'2m ago',
+    health:{ 'Paper Level':'Low (12%)', 'Head Temp':'42°C', 'Cutter':'OK', 'Uptime':'8h 24m' },
+    metrics:{ 'Receipts Printed':'198', 'Digital Sent':'16', 'Print Errors':'2', 'Paper Jams':'0' },
+    logs:[
+      {t:'17:10:22',m:'Low paper warning triggered',c:'wrn'},
+      {t:'17:05:01',m:'Receipt printed · TXN-2040',c:'ok'},
+      {t:'16:51:00',m:'Print error · Retried successfully',c:'err'},
+      {t:'16:48:55',m:'Digital receipt sent · +91 98765 43210',c:'ok'},
+      {t:'15:00:00',m:'Paper level check · 38%',c:'inf'},
+    ]
+  },
+  {
+    icon:'🔗', name:'ERP Connector · SAP B1', sub:'SAP Business One', status:'synced',
+    ip:'10.0.0.5', mac:'—', firmware:'API v2.3', lastSync:'45s ago',
+    health:{ 'API Status':'200 OK', 'Latency':'82ms', 'Queue Depth':'0', 'Auth':'Valid' },
+    metrics:{ 'Records Synced':'214', 'Inventory Updates':'1,842', 'Errors':'0', 'Next Sync':'30s' },
+    logs:[
+      {t:'17:17:30',m:'Inventory batch synced · 8 SKUs',c:'ok'},
+      {t:'17:17:28',m:'SAP OITM updated · Stock deducted',c:'ok'},
+      {t:'17:04:00',m:'Tax report pushed · GST-R1',c:'ok'},
+      {t:'16:30:00',m:'Scheduled sync completed',c:'ok'},
+      {t:'14:00:00',m:'API token refreshed',c:'inf'},
+    ]
+  },
+  {
+    icon:'🌐', name:'Network Gateway · 4G LTE', sub:'Failover · Currently idle', status:'idle',
+    ip:'192.168.1.1', mac:'D0:21:F9:BB:44:11', firmware:'v4.1', lastSync:'8h ago',
+    health:{ 'Primary (WiFi)':'Active', '4G Signal':'4 bars', 'Failovers':'0', 'Uptime':'8h 24m' },
+    metrics:{ 'Data Used':'1.2GB', 'Failovers':'0', 'Latency':'12ms', 'Packet Loss':'0%' },
+    logs:[
+      {t:'09:00:01',m:'Network gateway started · WiFi primary',c:'ok'},
+      {t:'09:00:00',m:'4G failover on standby',c:'inf'},
+    ]
+  },
+  {
+    icon:'⚖', name:'Weigh Scale · Lane 04', sub:'Essae DS-252', status:'active',
+    ip:'192.168.1.44', mac:'E5:6C:11:DD:99:22', firmware:'v1.2', lastSync:'Just now',
+    health:{ 'Calibration':'Valid', 'Max Capacity':'15kg', 'Display':'OK', 'Uptime':'8h 24m' },
+    metrics:{ 'Weighed Today':'42', 'Avg Weight':'1.2kg', 'Errors':'0', 'Calibration Due':'14 days' },
+    logs:[
+      {t:'17:15:00',m:'Item weighed · 1.2kg',c:'ok'},
+      {t:'16:40:00',m:'Zero calibration OK',c:'ok'},
+      {t:'12:00:00',m:'Midshift calibration check passed',c:'ok'},
+    ]
   }
+];
 
-  function goToLogin() {
-    document.getElementById('screen-app').classList.remove('active');
-    document.getElementById('screen-login').classList.add('active');
-    clearCheckout();
-  }
+let selDevice = 0;
 
-  function selectRole(btn) {
-    document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('selected'));
-    btn.classList.add('selected');
-  }
+function selectDevice(el, idx) {
+  document.querySelectorAll('.device-item').forEach(d=>d.classList.remove('sel'));
+  el.classList.add('sel');
+  selDevice = idx;
+  renderDevice(idx);
+}
 
-  // ─── VIEW SWITCHING ────────────────────────────
-  const viewTitles = {
-    checkout: 'Live Checkout · Lane 04',
-    dashboard: 'Operations Dashboard',
-    sku: 'SKU Intelligence Manager',
-    fraud: 'Fraud & Risk Monitor'
-  };
+function renderDevice(idx) {
+  const d = deviceData[idx];
+  const statusBadge = d.status==='active'?'<span class="badge badge-g">● Active</span>':d.status==='warning'?'<span class="badge badge-a">⚠ Warning</span>':d.status==='synced'?'<span class="badge badge-b">↻ Synced</span>':'<span class="badge" style="background:var(--bg-3);color:var(--t-muted)">○ Idle</span>';
+  const healthRows = Object.entries(d.health).map(([k,v])=>`
+    <div class="health-item">
+      <div class="health-lbl">${k}</div>
+      <div class="health-bar"><div class="prog-track"><div class="prog-fill" style="width:${v.includes('%')&&!v.includes('/')? parseInt(v)+'%':'60%'};background:${d.status==='warning'&&k.toLowerCase().includes('paper')?'var(--amber)':'var(--blue)'}"></div></div></div>
+      <div class="health-val" style="color:${v.toLowerCase().includes('low')||v.toLowerCase().includes('err')?'var(--amber)':'var(--t-secondary)'}">${v}</div>
+    </div>`).join('');
+  const metricCards = Object.entries(d.metrics).map(([k,v])=>`
+    <div class="info-card">
+      <div class="info-card-label">${k}</div>
+      <div class="info-card-value mono">${v}</div>
+    </div>`).join('');
+  const logLines = d.logs.map(l=>`
+    <div class="log-line">
+      <span class="log-time">${l.t}</span>
+      <span class="log-msg ${l.c}">${l.m}</span>
+    </div>`).join('');
+  const configs = `
+    <div class="config-row">
+      <div><div class="config-lbl">Auto-reconnect on failure</div><div class="config-sub">Automatically retry connection after 30s timeout</div></div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+    </div>
+    <div class="config-row">
+      <div><div class="config-lbl">Real-time sync to POS</div><div class="config-sub">Push every transaction immediately</div></div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+    </div>
+    <div class="config-row">
+      <div><div class="config-lbl">Alert on anomaly</div><div class="config-sub">Notify floor manager on device error</div></div>
+      <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+    </div>`;
 
-  function switchView(viewId, navEl) {
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById('view-' + viewId).classList.add('active');
-    navEl.classList.add('active');
-    document.getElementById('view-title').textContent = viewTitles[viewId];
+  document.getElementById('pos-detail-panel').innerHTML = `
+    <div class="pos-detail-hd">
+      <div class="pos-detail-icon">${d.icon}</div>
+      <div class="pos-detail-meta">
+        <div class="pos-detail-name">${d.name}</div>
+        <div class="pos-detail-sub">${d.sub} · IP ${d.ip} · MAC ${d.mac} · FW ${d.firmware}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:var(--s3);margin-left:auto">
+        ${statusBadge}
+        <button class="btn btn-ghost btn-sm" onclick="toast('info','Restart','Sending restart signal to device...')">↺ Restart</button>
+        <button class="btn btn-ghost btn-sm" onclick="toast('info','Diagnostics','Running full device diagnostic...')">Diagnostics</button>
+      </div>
+    </div>
+    <div class="pos-detail-body">
+      <div>
+        <div class="sect-label" style="margin-bottom:var(--s4)">Performance Metrics</div>
+        <div class="pos-grid-3">${metricCards}</div>
+      </div>
+      <div>
+        <div class="sect-label" style="margin-bottom:var(--s4)">System Health</div>
+        <div style="background:var(--bg-2);border:1px solid var(--border-0);border-radius:var(--r2);padding:var(--s4) var(--s5)">${healthRows}</div>
+      </div>
+      <div>
+        <div class="sect-label" style="margin-bottom:var(--s4)">Live Event Log</div>
+        <div class="log-stream">${logLines}</div>
+      </div>
+      <div>
+        <div class="sect-label" style="margin-bottom:var(--s4)">Configuration</div>
+        <div style="background:var(--bg-2);border:1px solid var(--border-0);border-radius:var(--r2);padding:0 var(--s5)">${configs}</div>
+      </div>
+    </div>`;
+}
 
-    if (viewId === 'sku') renderSKUTable();
-  }
+// init first device
+renderDevice(0);
 
-  // ─── CHECKOUT STATE ────────────────────────────
-  const products = [
-    { name: 'Amul Taaza Milk 500ml', emoji: '🥛', price: 26, conf: 98, status: 'verified', source: 'Multi-angle' },
-    { name: 'Maggi Masala Noodles 70g', emoji: '🍜', price: 14, conf: 89, status: 'verified', source: 'Top-view' },
-    { name: 'Parle-G Biscuits 100g', emoji: '🍪', price: 10, conf: 97, status: 'verified', source: 'Side-view' },
-    { name: 'Tata Salt 1kg', emoji: '🧂', price: 22, conf: 95, status: 'verified', source: 'Top-view' },
-    { name: 'Haldiram Aloo Bhujia 200g', emoji: '🥜', price: 60, conf: 72, status: 'ambiguous', source: 'Side-view' },
-    { name: 'Surf Excel Matic 1kg', emoji: '🧺', price: 220, conf: 91, status: 'verified', source: 'Multi-angle' },
-    { name: 'Colgate MaxFresh 150g', emoji: '🦷', price: 82, conf: 88, status: 'verified', source: 'Top-view' },
-    { name: 'Sunfeast Bournvita 500g', emoji: '☕', price: 199, conf: 64, status: 'checking', source: 'Processing' },
-  ];
+// ─── SKU REGISTRATION STEPS ───────────────────────
+let curStep = 1;
+const stepHints = [
+  'Step 1 of 5 — Enter product name, brand, category and identifiers',
+  'Step 2 of 5 — Upload packaging images from 3+ angles',
+  'Step 3 of 5 — Define all known packaging variants for this SKU',
+  'Step 4 of 5 — Configure AI model and run training simulation',
+  'Step 5 of 5 — Map to POS system and submit for registration'
+];
 
-  const productEmojis = ['🥛','🍜','🍪','🧂','🥜','🧺','🦷','☕','🍫','🧃','🥤','🫙','🧴','🫧','🫒'];
-  const productNames = [
-    'Amul Taaza Milk 500ml', 'Maggi Masala Noodles 70g', 'Parle-G Biscuits 100g',
-    'Haldiram Aloo Bhujia 200g', 'Kurkure Masala Munch 90g', 'Lay\'s Classic Salted 73g',
-    'Tata Salt 1kg', 'Colgate MaxFresh 150g', 'Surf Excel Matic 1kg',
-    'Sunfeast Marie Light 200g', 'Nestle KitKat 4 Finger', 'Real Guava Juice 1L',
-    'Coca-Cola 750ml', 'Good Day Butter Cookies 150g', 'Fortune Sunflower Oil 1L'
-  ];
-  const prices = [26, 14, 10, 60, 30, 20, 22, 82, 220, 40, 35, 90, 45, 55, 130];
-
-  let checkoutItems = [];
-  let runningTotal = 0;
-
-  function simulateProduct() {
-    const idx = Math.floor(Math.random() * productNames.length);
-    const conf = 70 + Math.floor(Math.random() * 30);
-    const status = conf >= 85 ? 'verified' : conf >= 70 ? 'ambiguous' : 'checking';
-    const item = {
-      name: productNames[idx],
-      emoji: productEmojis[idx % productEmojis.length],
-      price: prices[idx],
-      conf,
-      status,
-      source: ['Top-view','Side-view','Multi-angle'][Math.floor(Math.random()*3)]
-    };
-
-    checkoutItems.unshift(item);
-    runningTotal += item.price;
-    updateBilling();
-    renderFeed();
-
-    // Update camera
-    document.getElementById('product-emoji').textContent = item.emoji;
-    document.getElementById('camera-state-text').textContent =
-      status === 'verified' ? 'Product verified · Billing transmitted' :
-      status === 'ambiguous' ? 'Low confidence · Verification suggested' : 'Analyzing...';
-
-    const label = document.getElementById('detection-label');
-    label.textContent = conf + '% · ' + item.name.split(' ').slice(0,2).join(' ');
-    label.style.background = status === 'verified' ? 'var(--state-green)' :
-      status === 'ambiguous' ? 'var(--state-amber)' : 'var(--accent-blue)';
-
-    const box = document.getElementById('detection-box');
-    box.style.borderColor = status === 'verified' ? 'var(--state-green)' :
-      status === 'ambiguous' ? 'var(--state-amber)' : 'var(--accent-blue)';
-
-    if (status === 'verified') {
-      showToast('success', 'Product Scanned', item.name + ' · ₹' + item.price);
-    } else if (status === 'ambiguous') {
-      showToast('warning', 'Low Confidence', 'Verification recommended · ' + conf + '%');
-    }
-  }
-
-  function renderFeed() {
-    const feed = document.getElementById('product-feed');
-    const badge = document.getElementById('item-count-badge');
-    badge.textContent = checkoutItems.length + ' item' + (checkoutItems.length !== 1 ? 's' : '');
-
-    feed.innerHTML = checkoutItems.map(item => {
-      const confClass = item.conf >= 85 ? 'conf-high' : item.conf >= 70 ? 'conf-mid' : 'conf-low';
-      const viClass = item.status === 'verified' ? 'vi-green' : item.status === 'ambiguous' ? 'vi-amber' : 'vi-blue';
-      const viIcon = item.status === 'verified' ? '✓' : item.status === 'ambiguous' ? '!' : '↻';
-      return `
-        <div class="product-card ${item.status}">
-          <div class="product-thumb">${item.emoji}</div>
-          <div class="product-info">
-            <div class="product-name">${item.name}</div>
-            <div class="product-meta">
-              <span class="confidence-badge ${confClass}">${item.conf}%</span>
-              <span class="product-qty">${item.source}</span>
-            </div>
-          </div>
-          <div class="product-price">₹${item.price}</div>
-          <div class="verification-icon ${viClass}">${viIcon}</div>
-        </div>
-      `;
-    }).join('');
-  }
-
-  function updateBilling() {
-    const subtotal = runningTotal;
-    const tax = +(subtotal * 0.18).toFixed(2);
-    const total = subtotal + tax;
-
-    document.getElementById('total-amount').textContent = total.toFixed(0);
-    document.getElementById('total-sub').textContent = checkoutItems.length + ' items · ₹' + tax.toFixed(0) + ' tax';
-    document.getElementById('b-subtotal').textContent = '₹' + subtotal.toFixed(2);
-    document.getElementById('b-tax').textContent = '₹' + tax.toFixed(2);
-    document.getElementById('b-total').textContent = '₹' + total.toFixed(2);
-  }
-
-  function clearCheckout() {
-    checkoutItems = [];
-    runningTotal = 0;
-    updateBilling();
-    renderFeed();
-    document.getElementById('product-emoji').textContent = '🛒';
-    document.getElementById('camera-state-text').textContent = 'Detecting product...';
-    document.getElementById('detection-label').textContent = 'Detecting...';
-    document.getElementById('detection-label').style.background = '';
-    document.getElementById('detection-box').style.borderColor = 'var(--state-green)';
-  }
-
-  function completeCheckout() {
-    if (checkoutItems.length === 0) {
-      showToast('warning', 'No Items', 'Scan products before completing checkout.');
-      return;
-    }
-    const subtotal = runningTotal;
-    const total = +(subtotal * 1.18).toFixed(2);
-    showToast('success', 'Checkout Complete', '₹' + total + ' · ' + checkoutItems.length + ' items · POS synced');
-    setTimeout(() => { clearCheckout(); }, 1200);
-  }
-
-  // Keyboard shortcut
-  document.addEventListener('keydown', e => {
-    if (e.code === 'Space' && document.getElementById('screen-app').classList.contains('active')) {
-      const checkout = document.getElementById('view-checkout');
-      if (checkout.classList.contains('active')) {
-        e.preventDefault();
-        simulateProduct();
-      }
-    }
-    if (e.code === 'Escape') closeVerification();
-    if (e.code === 'Enter') {
-      if (document.getElementById('verification-modal').classList.contains('open')) {
-        confirmVerification();
-      }
-    }
+function goStep(n) {
+  curStep = n;
+  document.querySelectorAll('.step-panel').forEach((p,i)=>p.classList.toggle('on',i===n));
+  document.querySelectorAll('[id^=rstep-]').forEach((s,i)=>{
+    s.classList.remove('active','done');
+    if(i<n) s.classList.add('done');
+    else if(i===n) s.classList.add('active');
+    const num = s.querySelector('.reg-step-num');
+    if(num) num.textContent = i<n?'✓':(i+1);
   });
+  document.querySelectorAll('[id^=sp-]').forEach((b,i)=>{
+    b.classList.remove('done','active');
+    if(i<n) b.classList.add('done');
+    else if(i===n) b.classList.add('active');
+  });
+  document.getElementById('cur-step-num').textContent = n+1;
+  document.getElementById('reg-step-hint').textContent = stepHints[n];
+}
 
-  // ─── VERIFICATION MODAL ────────────────────────
-  let selectedSKU = null;
+function regStep(dir) {
+  const next = Math.max(0,Math.min(4, curStep+dir));
+  goStep(next);
+}
 
-  function openVerification() {
-    document.getElementById('verification-modal').classList.add('open');
-    selectedSKU = null;
-    document.querySelectorAll('.sku-option').forEach(o => o.classList.remove('top-match'));
-    document.querySelectorAll('.sku-option')[0].classList.add('top-match');
-    selectedSKU = { name: 'Maggi Masala Noodles 70g', conf: '89.2%', price: 14 };
+function toggleVariant(el) { el.classList.toggle('sel'); }
+
+function simulateTraining() {
+  toast('info','Simulation Running','Estimating accuracy for Maggi Masala 70g...');
+  const prog = document.getElementById('train-prog');
+  if(prog){
+    prog.style.width='0%';
+    setTimeout(()=>{ prog.style.width='84%'; prog.style.background='var(--amber)'; },200);
+    setTimeout(()=>toast('warning','Needs Top-View','Upload top-view image to reach ≥90% accuracy'),1200);
   }
+}
 
-  function closeVerification() {
-    document.getElementById('verification-modal').classList.remove('open');
-  }
-
-  function selectSKU(el, name, conf) {
-    document.querySelectorAll('.sku-option').forEach(o => o.classList.remove('top-match'));
-    el.classList.add('top-match');
-    selectedSKU = { name, conf, price: 14 };
-  }
-
-  function activateFrame(el) {
-    document.querySelectorAll('.frame-thumb').forEach(f => f.classList.remove('active'));
-    el.classList.add('active');
-  }
-
-  function confirmVerification() {
-    if (!selectedSKU) return;
-    closeVerification();
-    const item = {
-      name: selectedSKU.name,
-      emoji: '🍜',
-      price: 14,
-      conf: 89,
-      status: 'verified',
-      source: 'Verified'
-    };
-    checkoutItems.unshift(item);
-    runningTotal += item.price;
-    updateBilling();
-    renderFeed();
-    showToast('success', 'Product Verified', selectedSKU.name + ' confirmed by operator');
-  }
-
-  // ─── SKU TABLE ─────────────────────────────────
-  const skuData = [
-    { emoji:'🥛', name:'Amul Taaza Milk 500ml', code:'AMT-TZ-500', cat:'Dairy', conf:98, scans:1842, status:'active', updated:'Today' },
-    { emoji:'🍜', name:'Maggi Masala Noodles 70g', code:'NGS-MG-70M', cat:'Noodles', conf:89, scans:1204, status:'review', updated:'2h ago' },
-    { emoji:'🍪', name:'Parle-G Biscuits 100g', code:'PRL-G-100', cat:'Biscuits', conf:97, scans:2341, status:'active', updated:'Yesterday' },
-    { emoji:'🧂', name:'Tata Salt 1kg', code:'TTA-SLT-1K', cat:'Staples', conf:95, scans:876, status:'active', updated:'2 days ago' },
-    { emoji:'🥜', name:'Haldiram Aloo Bhujia 200g', code:'HLD-AB-200', cat:'Snacks', conf:72, scans:643, status:'review', updated:'Today' },
-    { emoji:'🧺', name:'Surf Excel Matic 1kg', code:'SRF-EM-1K', cat:'Detergent', conf:91, scans:512, status:'active', updated:'3 days ago' },
-    { emoji:'🦷', name:'Colgate MaxFresh 150g', code:'CLG-MF-150', cat:'Personal', conf:88, scans:967, status:'active', updated:'Yesterday' },
-    { emoji:'☕', name:'Bru Instant Coffee 100g', code:'BRU-IC-100', cat:'Beverages', conf:66, scans:234, status:'new', updated:'Today' },
-    { emoji:'🍫', name:'Dairy Milk Silk 60g', code:'CDM-SLK-60', cat:'Chocolate', conf:94, scans:1122, status:'active', updated:'Yesterday' },
-    { emoji:'🧃', name:'Real Guava Juice 1L', code:'REL-GV-1L', cat:'Beverages', conf:93, scans:445, status:'active', updated:'4 days ago' },
-  ];
-
-  function renderSKUTable() {
-    const tbody = document.getElementById('sku-tbody');
-    tbody.innerHTML = skuData.map((s, i) => {
-      const confColor = s.conf >= 85 ? 'var(--state-green)' : s.conf >= 70 ? 'var(--state-amber)' : 'var(--state-red)';
-      const badgeClass = s.status === 'active' ? 'badge-active' : s.status === 'review' ? 'badge-review' : 'badge-new';
-      const badgeText = s.status === 'active' ? 'Active' : s.status === 'review' ? 'Under Review' : 'New';
-      return `
-        <tr onclick="showSKUDetail(${i})">
-          <td>
-            <div class="sku-product-cell">
-              <div class="sku-thumb-sm">${s.emoji}</div>
-              <div>
-                <div class="sku-name-cell">${s.name}</div>
-                <div class="sku-code-cell">${s.code}</div>
-              </div>
-            </div>
-          </td>
-          <td style="color:var(--text-muted);font-size:12px;">${s.cat}</td>
-          <td>
-            <div class="conf-indicator">
-              <div class="conf-mini-bar"><div class="conf-mini-fill" style="width:${s.conf}%;background:${confColor}"></div></div>
-              <span style="font-size:11px;font-family:var(--font-mono);color:${confColor}">${s.conf}%</span>
-            </div>
-          </td>
-          <td style="font-family:var(--font-mono);font-size:12px;color:var(--text-secondary);">${s.scans.toLocaleString()}</td>
-          <td><span class="sku-status-badge ${badgeClass}">${badgeText}</span></td>
-          <td style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);">${s.updated}</td>
-        </tr>
-      `;
-    }).join('');
-  }
-
-  function showSKUDetail(idx) {
-    const s = skuData[idx];
-    const confColor = s.conf >= 85 ? 'var(--state-green)' : s.conf >= 70 ? 'var(--state-amber)' : 'var(--state-red)';
-    const r = 28;
-    const circ = 2 * Math.PI * r;
-    const offset = circ * (1 - s.conf / 100);
-
-    document.getElementById('sku-detail-panel').innerHTML = `
-      <div class="detail-product-hero">
-        <span class="detail-emoji">${s.emoji}</span>
-        <div class="detail-name">${s.name}</div>
-        <div class="detail-code">${s.code}</div>
-      </div>
-
-      <div class="detail-section">
-        <div class="detail-section-title">Confidence Score</div>
-        <div class="conf-ring-wrap">
-          <div class="conf-ring">
-            <svg width="64" height="64" viewBox="0 0 64 64">
-              <circle cx="32" cy="32" r="${r}" fill="none" stroke="var(--bg-hover)" stroke-width="5"/>
-              <circle cx="32" cy="32" r="${r}" fill="none" stroke="${confColor}" stroke-width="5"
-                stroke-dasharray="${circ}" stroke-dashoffset="${offset}" stroke-linecap="round"/>
-            </svg>
-            <div class="conf-ring-value" style="color:${confColor}">${s.conf}%</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="detail-section">
-        <div class="detail-section-title">Product Info</div>
-        <div class="detail-row"><span class="dr-label">Category</span><span class="dr-value">${s.cat}</span></div>
-        <div class="detail-row"><span class="dr-label">30d Scans</span><span class="dr-value">${s.scans.toLocaleString()}</span></div>
-        <div class="detail-row"><span class="dr-label">Last Updated</span><span class="dr-value">${s.updated}</span></div>
-        <div class="detail-row"><span class="dr-label">Status</span><span class="dr-value">${s.status}</span></div>
-      </div>
-
-      <div class="detail-section">
-        <div class="detail-section-title">Recognition Sources</div>
-        <div class="detail-row"><span class="dr-label">Top-view</span><span class="dr-value">Active</span></div>
-        <div class="detail-row"><span class="dr-label">Side-view</span><span class="dr-value">Active</span></div>
-        <div class="detail-row"><span class="dr-label">Multi-angle</span><span class="dr-value">Active</span></div>
-      </div>
-
-      <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px;">
-        <button class="action-btn primary-action" style="width:100%;justify-content:center;" onclick="showToast('info','Retrain Model','Initiating retraining for ${s.name}...')">Retrain Model</button>
-        <button class="action-btn" style="width:100%;justify-content:center;" onclick="showToast('info','Packaging Variants','Opening packaging evolution tracker...')">View Packaging Variants</button>
-      </div>
-    `;
-  }
-
-  function toggleChip(el) {
-    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-    el.classList.add('active');
-  }
-
-  // ─── TOAST ─────────────────────────────────────
-  function showToast(type, title, message) {
-    const container = document.getElementById('toast-container');
-    const icon = type === 'success' ? '✓' : type === 'warning' ? '⚠' : type === 'error' ? '✕' : 'ℹ';
-    const iconBg = type === 'success' ? 'var(--state-green-dim)' : type === 'warning' ? 'var(--state-amber-dim)' : type === 'error' ? 'var(--state-red-dim)' : 'var(--accent-blue-dim)';
-    const iconColor = type === 'success' ? 'var(--state-green)' : type === 'warning' ? 'var(--state-amber)' : type === 'error' ? 'var(--state-red)' : 'var(--accent-blue)';
-    const borderColor = type === 'success' ? 'rgba(45,212,160,0.2)' : type === 'warning' ? 'rgba(245,166,35,0.2)' : type === 'error' ? 'rgba(240,80,80,0.2)' : 'rgba(59,110,248,0.2)';
-
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.style.borderColor = borderColor;
-    toast.innerHTML = `
-      <div class="toast-icon" style="background:${iconBg};color:${iconColor};width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;">${icon}</div>
-      <div class="toast-text">
-        <div class="toast-title">${title}</div>
-        <div class="toast-sub">${message}</div>
-      </div>
-    `;
-
-    container.appendChild(toast);
-    setTimeout(() => {
-      toast.style.transition = 'opacity 0.3s, transform 0.3s';
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateY(6px)';
-      setTimeout(() => toast.remove(), 300);
-    }, 3000);
-  }
-
-  // Init
-  renderFeed();
+// ─── TOAST ────────────────────────────────────────
+function toast(type, title, msg) {
+  const wrap = document.getElementById('toast-wrap');
+  const icons = {success:'✓',warning:'⚠',error:'✕',info:'ℹ'};
+  const bgs   = {success:'var(--green-dim)',warning:'var(--amber-dim)',error:'var(--red-dim)',info:'var(--blue-dim)'};
+  const cols  = {success:'var(--green)',warning:'var(--amber)',error:'var(--red)',info:'var(--blue)'};
+  const borders={success:'rgba(48,201,138,.2)',warning:'rgba(240,160,51,.2)',error:'rgba(232,92,92,.2)',info:'rgba(66,113,245,.2)'};
+  const el = document.createElement('div');
+  el.className='toast';
+  el.style.borderColor = borders[type]||'var(--border-1)';
+  el.innerHTML=`<div class="toast-ico" style="background:${bgs[type]};color:${cols[type]}">${icons[type]}</div><div class="toast-body"><div class="tt">${title}</div><div class="ts">${msg}</div></div>`;
+  wrap.appendChild(el);
+  setTimeout(()=>{el.style.transition='opacity .28s,transform .28s';el.style.opacity='0';el.style.transform='translateY(5px)';setTimeout(()=>el.remove(),300);},3200);
+}
 </script>
 </body>
 </html>
