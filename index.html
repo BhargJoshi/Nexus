@@ -712,6 +712,211 @@ input,select,textarea{font-family:inherit;}
 /* ── NO MOBILE ── */
 .nm{display:none;position:fixed;inset:0;background:var(--bg);z-index:9999;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:32px;}
 @media(max-width:860px){.nm{display:flex;}}
+
+/* ═══ ADDON VIEWS CSS ═══ */
+/* Notification Panel */
+.notif-panel{position:fixed;top:var(--top);right:0;width:330px;height:calc(100vh - var(--top));background:var(--bg1);border-left:1px solid var(--b1);z-index:700;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s ease;}
+.notif-panel.open{transform:translateX(0);}
+.notif-hd{padding:14px 16px;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between;}
+.notif-list{flex:1;overflow-y:auto;padding:9px;display:flex;flex-direction:column;gap:7px;}
+.ni{background:var(--bg2);border:1px solid var(--b0);border-radius:9px;padding:11px 12px;cursor:pointer;transition:all .15s;}
+.ni:hover{border-color:var(--b2);}
+.ni.unread{border-left:2.5px solid var(--blue);}
+.ni.unread.crit{border-left-color:var(--red);}
+.ni.unread.warn{border-left-color:var(--amber);}
+.ni-top{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
+.ni-ico{font-size:13px;}
+.ni-title{font-size:12px;font-weight:500;flex:1;}
+.ni-time{font-size:10px;font-family:var(--fm);color:var(--tm);}
+.ni-body{font-size:11px;color:var(--tm);}
+
+/* Role badge */
+.role-badge{background:var(--bdim);border:1px solid rgba(61,111,245,.2);border-radius:20px;padding:3px 10px;font-size:10px;font-family:var(--fm);color:var(--blue);}
+
+/* Notif button */
+.notif-btn{position:relative;width:30px;height:30px;border-radius:8px;background:var(--bg2);border:1px solid var(--b1);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ts);transition:all .15s;font-size:13px;}
+.notif-btn:hover{background:var(--bg3);color:var(--tp);}
+.nc{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9px;font-family:var(--fm);width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--bg1);}
+
+/* Queue Intelligence */
+#v-queue{flex-direction:column;overflow-y:auto;}
+.queue-inner{padding:19px;display:flex;flex-direction:column;gap:13px;}
+.qkpi{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:17px;}
+.qkpi.qcrit{border-color:rgba(224,79,79,.3);background:var(--rdim);}
+.qkpi.qwarn{border-color:rgba(239,160,48,.3);background:var(--adim);}
+.qkpi-l{font-family:var(--fm);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+.qkpi-v{font-size:30px;font-weight:900;font-family:var(--fu);line-height:1;margin-bottom:4px;}
+.qkpi-s{font-size:11px;font-family:var(--fm);color:var(--tm);}
+.pred-banner{background:linear-gradient(135deg,rgba(61,111,245,.1),rgba(34,196,212,.06));border:1px solid rgba(61,111,245,.2);border-radius:12px;padding:15px 18px;display:flex;align-items:center;gap:14px;}
+.ql-card{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:15px;}
+.ql-bar-track{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin:9px 0 6px;}
+.ql-bar-fill{height:100%;border-radius:3px;transition:width 1s ease;}
+
+/* Shrinkage */
+#v-shrinkage{flex-direction:column;overflow-y:auto;}
+.shr-inner{padding:19px;display:flex;flex-direction:column;gap:13px;}
+.shr-kpi{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:17px;}
+.shr-kpi.red-kpi{border-color:rgba(224,79,79,.25);background:var(--rdim);}
+
+/* GST */
+#v-gst{flex-direction:column;overflow-y:auto;}
+.gst-inner{padding:19px;display:flex;flex-direction:column;gap:13px;}
+.gst-card{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:17px;}
+.gst-card.gst-bad{border-color:rgba(224,79,79,.3);background:var(--rdim);}
+.gst-card.gst-ok{border-color:rgba(40,193,133,.25);background:var(--gdim);}
+.gst-table{width:100%;border-collapse:collapse;}
+.gst-table th{text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--b0);position:sticky;top:0;background:var(--bg);}
+.gst-table td{padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px;}
+.gst-table tr:hover td{background:var(--bg2);cursor:pointer;}
+
+/* WhatsApp */
+#v-whatsapp{flex-direction:row;}
+.wa-left{width:296px;border-right:1px solid var(--b0);display:flex;flex-direction:column;flex-shrink:0;}
+.wa-chat-list{flex:1;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:5px;}
+.wa-chat{background:var(--bg2);border:1px solid var(--b0);border-radius:9px;padding:10px 12px;cursor:pointer;transition:all .15s;}
+.wa-chat:hover{border-color:var(--b2);}
+.wa-chat.on{border-color:var(--green);background:var(--gdim);}
+.wa-chat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;}
+.wa-chat-name{font-size:12px;font-weight:500;}
+.wa-chat-time{font-size:10px;font-family:var(--fm);color:var(--tm);}
+.wa-chat-preview{font-size:11px;color:var(--tm);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.unread-dot{width:8px;height:8px;background:var(--green);border-radius:50%;flex-shrink:0;}
+.wa-main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.wa-hd{padding:13px 17px;border-bottom:1px solid var(--b0);display:flex;align-items:center;gap:11px;flex-shrink:0;}
+.wa-av{width:34px;height:34px;border-radius:50%;background:var(--gdim);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.wa-hname{font-size:13px;font-weight:600;}
+.wa-hstatus{font-size:11px;font-family:var(--fm);color:var(--green);}
+.wa-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px;}
+.wa-msg{max-width:76%;padding:9px 12px;border-radius:10px;font-size:12px;line-height:1.6;}
+.wa-msg.out{background:var(--bdim);border:1px solid rgba(61,111,245,.2);align-self:flex-end;border-radius:10px 10px 3px 10px;}
+.wa-msg.in{background:var(--bg2);border:1px solid var(--b0);align-self:flex-start;border-radius:10px 10px 10px 3px;}
+.wa-msg.alert-msg{background:var(--rdim);border:1px solid rgba(224,79,79,.2);align-self:flex-start;border-radius:10px 10px 10px 3px;}
+.wa-msg.ok-msg{background:var(--gdim);border:1px solid rgba(40,193,133,.2);align-self:flex-start;border-radius:10px 10px 10px 3px;}
+.wa-msg-time{font-size:9px;font-family:var(--fm);color:var(--tm);margin-top:3px;text-align:right;}
+.wa-qbtns{display:flex;gap:6px;padding:8px 14px;border-top:1px solid var(--b0);flex-wrap:wrap;flex-shrink:0;}
+.wa-qbtn{background:var(--bg2);border:1px solid var(--b1);border-radius:20px;padding:5px 10px;font-size:10px;font-family:var(--fm);color:var(--ts);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.wa-qbtn:hover{border-color:var(--green);color:var(--green);}
+.wa-inp-row{padding:10px 14px;border-top:1px solid var(--b0);display:flex;gap:9px;align-items:center;flex-shrink:0;}
+.wa-inp{flex:1;background:var(--bg2);border:1px solid var(--b1);border-radius:20px;padding:8px 14px;color:var(--tp);font-size:13px;transition:border-color .2s;}
+.wa-inp:focus{border-color:var(--green);}
+.wa-inp::placeholder{color:var(--tm);}
+.wa-send{width:34px;height:34px;border-radius:50%;background:var(--green);color:#000;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;flex-shrink:0;transition:opacity .15s;}
+.wa-send:hover{opacity:.88;}
+
+/* Coaching */
+#v-coaching{flex-direction:column;overflow-y:auto;}
+.coach-inner{padding:24px 30px;display:flex;flex-direction:column;gap:16px;max-width:1060px;width:100%;margin:0 auto;}
+.coach-hero{background:linear-gradient(135deg,var(--bg1),var(--bdim));border:1px solid rgba(61,111,245,.14);border-radius:14px;padding:22px 26px;display:flex;align-items:center;gap:20px;}
+.coach-av{width:60px;height:60px;border-radius:50%;background:var(--bdim);border:2px solid rgba(61,111,245,.3);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
+.score-ring{position:relative;width:76px;height:76px;}
+.score-ring svg{transform:rotate(-90deg);}
+.score-val{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;}
+.score-lbl{font-size:10px;font-family:var(--fm);color:var(--tm);text-align:center;margin-top:5px;}
+.cstat{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:16px;}
+.cstat-v{font-size:26px;font-weight:900;font-family:var(--fu);line-height:1;margin-bottom:4px;}
+.cstat-l{font-family:var(--fm);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;}
+.achieve{background:var(--bg2);border:1px solid var(--b1);border-radius:9px;padding:11px 13px;display:flex;align-items:center;gap:9px;cursor:pointer;transition:all .15s;}
+.achieve:hover{border-color:var(--b2);}
+.achieve.unlocked{border-color:rgba(239,160,48,.3);background:rgba(239,160,48,.04);}
+.achieve.locked{opacity:.42;}
+.ach-ico{font-size:22px;}
+.ach-name{font-size:12px;font-weight:600;margin-bottom:2px;}
+.ach-desc{font-size:10px;color:var(--tm);font-family:var(--fm);}
+.week-bars{display:flex;align-items:flex-end;gap:9px;height:76px;margin-top:13px;}
+.week-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.week-bar{width:100%;border-radius:4px 4px 0 0;cursor:pointer;transition:opacity .15s;position:relative;}
+.week-bar:hover{opacity:.8;}
+.week-bar::before{content:attr(data-v);position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:9px;font-family:var(--fm);color:var(--ts);white-space:nowrap;}
+.week-lbl{font-size:9px;font-family:var(--fm);color:var(--tm);}
+.tip-item{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid var(--b0);}
+.tip-item:last-child{border-bottom:none;}
+.tip-ico{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.tip-title{font-size:12px;font-weight:600;margin-bottom:3px;}
+.tip-desc{font-size:11px;color:var(--ts);line-height:1.65;}
+
+/* Benchmark */
+#v-benchmark{flex-direction:column;overflow-y:auto;}
+.bench-inner{padding:19px;display:flex;flex-direction:column;gap:13px;}
+.bench-table{width:100%;border-collapse:collapse;}
+.bench-table th{text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--b0);cursor:pointer;user-select:none;}
+.bench-table th:hover{color:var(--tp);}
+.bench-table td{padding:11px 14px;border-bottom:1px solid var(--b0);font-size:12px;}
+.bench-table tr:last-child td{border-bottom:none;}
+.bench-table tr:hover td{background:var(--bg2);cursor:pointer;}
+.bench-rank{font-size:16px;font-weight:800;}
+.br1{color:var(--amber);}
+.br2{color:var(--ts);}
+.br3{color:var(--amber);opacity:.6;}
+
+/* Planogram */
+#v-planogram{flex-direction:column;overflow-y:auto;}
+.plan-inner{padding:19px;display:flex;flex-direction:column;gap:13px;}
+.slot{height:48px;flex:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--fm);cursor:pointer;transition:all .15s;border:1px solid transparent;position:relative;}
+.slot.ok{background:var(--gdim);border-color:rgba(40,193,133,.2);color:var(--green);}
+.slot.miss{background:var(--rdim);border-color:rgba(224,79,79,.2);color:var(--red);}
+.slot.partial{background:var(--adim);border-color:rgba(239,160,48,.2);color:var(--amber);}
+.slot.empty{background:var(--bg2);border-color:var(--b1);color:var(--tm);}
+.slot:hover{transform:scale(1.05);}
+.slot-tip{position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--b1);border-radius:5px;padding:4px 8px;font-size:10px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;z-index:10;}
+.slot:hover .slot-tip{opacity:1;}
+
+/* Loyalty */
+#v-loyalty{flex-direction:column;overflow-y:auto;}
+.loy-inner{padding:19px;display:flex;flex-direction:column;gap:13px;}
+.prog-card{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:17px;}
+.prog-card.active-prog{border-color:rgba(61,111,245,.22);}
+.loy-table{width:100%;border-collapse:collapse;}
+.loy-table th{text-align:left;padding:9px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--b0);}
+.loy-table td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px;}
+.loy-table tr:hover td{background:var(--bg2);cursor:pointer;}
+
+/* Packaging */
+#v-packaging{flex-direction:column;overflow-y:auto;}
+.pkg-inner{padding:19px;display:flex;flex-direction:column;gap:13px;}
+.pkg-tl{padding:18px;display:flex;flex-direction:column;}
+.pkg-tl-item{display:flex;gap:14px;position:relative;padding-bottom:24px;}
+.pkg-tl-item:last-child{padding-bottom:0;}
+.pkg-tl-line{position:absolute;left:18px;top:38px;bottom:0;width:1px;background:var(--b1);}
+.pkg-tl-item:last-child .pkg-tl-line{display:none;}
+.pkg-tl-dot{width:38px;height:38px;border-radius:50%;border:2px solid var(--b2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;background:var(--bg2);}
+.pkg-tl-dot.current{border-color:var(--green);background:var(--gdim);}
+.pkg-tl-dot.drift{border-color:var(--amber);background:var(--adim);}
+.pkg-tl-date{font-family:var(--fm);font-size:10px;color:var(--tm);margin-bottom:3px;}
+.pkg-tl-title{font-size:13px;font-weight:600;margin-bottom:3px;}
+.pkg-tl-desc{font-size:12px;color:var(--ts);line-height:1.6;margin-bottom:7px;}
+
+/* Marketplace */
+#v-marketplace{flex-direction:column;overflow-y:auto;}
+.mkt-inner{padding:19px;display:flex;flex-direction:column;gap:13px;}
+.mkt-hero{background:linear-gradient(135deg,var(--bg1),rgba(143,103,240,.07));border:1px solid rgba(143,103,240,.14);border-radius:14px;padding:22px 26px;display:flex;align-items:center;justify-content:space-between;}
+.mkt-app{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:17px;cursor:pointer;transition:all .15s;}
+.mkt-app:hover{border-color:var(--b2);transform:translateY(-1px);}
+.mkt-app.installed{border-color:rgba(40,193,133,.22);}
+.mkt-ico{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:21px;margin-bottom:10px;}
+.mkt-name{font-size:13px;font-weight:700;margin-bottom:3px;}
+.mkt-maker{font-size:11px;color:var(--tm);font-family:var(--fm);margin-bottom:9px;}
+.mkt-desc{font-size:12px;color:var(--ts);line-height:1.6;margin-bottom:11px;}
+.mkt-footer{display:flex;align-items:center;justify-content:space-between;}
+.mkt-price{font-size:12px;font-family:var(--fm);color:var(--ts);}
+
+/* Rail labels */
+.rail-section-label{font-family:var(--fm);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:.1em;margin:6px 0 3px;text-align:center;width:100%;line-height:1.2;flex-shrink:0;}
+
+/* help btn */
+.help-btn{width:27px;height:27px;border-radius:7px;background:var(--bg2);border:1px solid var(--b1);display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:var(--fm);font-size:11px;color:var(--tm);transition:all .15s;}
+.help-btn:hover{color:var(--tp);border-color:var(--b2);}
+
+/* fchip toggler for non-sku views */
+.fchip{background:var(--bg2);border:1px solid var(--b1);border-radius:20px;padding:4px 11px;font-size:11px;font-family:var(--fm);color:var(--tm);cursor:pointer;transition:all .15s;}
+.fchip:hover{border-color:var(--b2);color:var(--ts);}
+.fchip.on{border-color:var(--blue);background:var(--bdim);color:var(--blue);}
+
+/* Ambiguity banner */
+.amb-banner{background:var(--adim);border:1px solid rgba(239,160,48,.22);border-radius:9px;padding:10px 12px;display:none;margin:0 8px 8px;}
+
+/* Loyalty points in billing */
+#b-pts{color:var(--violet);}
+
 </style>
 </head>
 <body>
@@ -778,6 +983,23 @@ input,select,textarea{font-family:inherit;}
     <button class="rn" onclick="goView('fraud',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span class="rn-tip">Fraud & Risk Monitor</span></button>
     <button class="rn" onclick="goView('reg',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93A10 10 0 1 0 4.93 19.07"/><path d="M21 12a9 9 0 0 1-9 9"/><path d="M12 3v3M21 12h-3M12 21v-3M3 12h3"/></svg><span class="rn-tip">SKU Registration</span></button>
     <button class="rn" onclick="goView('admin',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="rn-tip">Store Admin & Enterprise</span></button>
+    
+    <div class="rsep"></div>
+    <div class="rail-section-label" style="font-family:var(--fm);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:.1em;text-align:center;width:100%;padding:2px 0;flex-shrink:0;">Intel</div>
+    <button class="rn" onclick="goView('queue',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="rn-tip">Smart Queue Intelligence</span></button>
+    <button class="rn" onclick="goView('shrinkage',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="rn-tip">Shrinkage Analytics</span></button>
+    <button class="rn" onclick="goView('benchmark',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span class="rn-tip">Cross-Store Benchmarking</span></button>
+    <button class="rn" onclick="goView('planogram',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="9" x2="9" y2="21"/><line x1="15" y1="9" x2="15" y2="21"/></svg><span class="rn-tip">Planogram Compliance</span></button>
+    <button class="rn" onclick="goView('packaging',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span class="rn-tip">Packaging Evolution</span></button>
+    <div class="rsep"></div>
+    <div class="rail-section-label" style="font-family:var(--fm);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:.1em;text-align:center;width:100%;padding:2px 0;flex-shrink:0;">People</div>
+    <button class="rn" onclick="goView('coaching',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span class="rn-tip">Cashier Coaching</span></button>
+    <button class="rn" onclick="goView('whatsapp',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="rn-tip">WhatsApp Alerts</span></button>
+    <button class="rn" onclick="goView('loyalty',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="rn-tip">Loyalty Integration</span></button>
+    <div class="rsep"></div>
+    <div class="rail-section-label" style="font-family:var(--fm);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:.1em;text-align:center;width:100%;padding:2px 0;flex-shrink:0;">Finance</div>
+    <button class="rn" onclick="goView('gst',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><span class="rn-tip">GST Reconciliation</span></button>
+    <button class="rn" onclick="goView('marketplace',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="rn-tip">API Marketplace</span></button>
     <div class="rsp"></div>
     <button class="rn" onclick="toast('info','CSH-0041','Priya S. · Lane 04 · Shift active 08:45')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><span class="rn-tip">CSH-0041 · Priya S.</span></button>
     <button class="rn" onclick="doLogout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="rn-tip">End Shift / Sign Out</span></button>
@@ -790,7 +1012,7 @@ input,select,textarea{font-family:inherit;}
       <div class="tb-meta">
         <div class="pill-stat"><div class="dot dg"></div>AI Engine</div>
         <div class="pill-stat"><div class="dot db"></div>POS Synced</div>
-        <div class="pill-stat" id="fraud-pill" style="display:none;cursor:pointer" onclick="goView('fraud',document.querySelectorAll('.rn')[6])"><div class="dot dr"></div>Fraud Alert</div>
+        <div class="pill" id="fraud-pill" style="display:none;cursor:pointer;color:var(--red)" onclick="goView('fraud',document.querySelectorAll('.rn')[3])"><div class="dot dr"></div>Risk Alert</div>
         <div class="tb-tag">Reliance Smart · Ahmedabad</div>
         <div class="tb-clock" id="clock">--:--:--</div><button class="btn btn-g btn-sm" onclick="openOverlay('ov-shortcuts')" style="font-family:var(--fmono);padding:4px 10px;font-size:11px">?</button>
       </div>
@@ -1209,6 +1431,346 @@ input,select,textarea{font-family:inherit;}
           </div>
         </div>
       </div>
+    </div>
+
+
+    <!-- ═══ SMART QUEUE INTELLIGENCE ═══ -->
+    <div class="view" id="v-queue">
+      <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;width:100%">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
+          <div style="background:var(--rdim);border:1px solid rgba(224,79,79,.3);border-radius:12px;padding:17px"><div style="font-family:var(--fm);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">⚠ Critical Queue</div><div style="font-size:30px;font-weight:900;line-height:1;margin-bottom:4px;color:var(--red)">Lane 03</div><div style="font-size:11px;font-family:var(--fm);color:var(--tm)">9 customers · 11 min wait</div></div>
+          <div style="background:var(--adim);border:1px solid rgba(239,160,48,.3);border-radius:12px;padding:17px"><div style="font-family:var(--fm);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Avg Wait Time</div><div style="font-size:30px;font-weight:900;line-height:1;margin-bottom:4px;color:var(--amber)">3.8<span style="font-size:16px">m</span></div><div style="font-size:11px;font-family:var(--fm);color:var(--tm)">↑ 1.2 min vs target</div></div>
+          <div style="background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:17px"><div style="font-family:var(--fm);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Customers Served</div><div style="font-size:30px;font-weight:900;line-height:1;margin-bottom:4px">1,842</div><div style="font-size:11px;font-family:var(--fm);color:var(--tm)">Across 6 active lanes</div></div>
+          <div style="background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:17px"><div style="font-family:var(--fm);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">AI Prediction</div><div style="font-size:30px;font-weight:900;line-height:1;margin-bottom:4px;color:#22c4d4">+34%</div><div style="font-size:11px;font-family:var(--fm);color:var(--tm)">Traffic surge in 12 min</div></div>
+        </div>
+        <div style="background:linear-gradient(135deg,rgba(61,111,245,.1),rgba(34,196,212,.06));border:1px solid rgba(61,111,245,.2);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:16px">
+          <div style="font-size:28px">🤖</div>
+          <div style="flex:1"><div style="font-size:14px;font-weight:700;margin-bottom:4px">Predicted Queue Surge — 17:45 to 18:15</div><div style="font-size:13px;color:var(--ts);line-height:1.6">Based on historical patterns, expect <strong>34% increased footfall</strong> in the next 12 minutes. Recommend opening Lane 06 and 07 now.</div></div>
+          <div style="display:flex;gap:8px;flex-shrink:0">
+            <button class="btn btn-p btn-sm" onclick="toast('success','Lanes Activated','Lanes 06 & 07 opening · Cashiers notified via WhatsApp')">Open Lanes 06 & 07</button>
+            <button class="btn btn-g btn-sm" onclick="toast('info','Dismissed','Will re-alert in 5 min')">Dismiss</button>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
+          <div style="background:var(--bg1);border:1px solid var(--green);border-radius:12px;padding:15px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><div style="font-size:14px;font-weight:700;color:var(--green)">Lane 01</div><span class="badge bg">Active</span></div><div style="font-size:12px;color:var(--ts);margin-bottom:7px">2 customers · Priya S.</div><div style="height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-bottom:6px"><div style="width:25%;height:100%;background:var(--green);border-radius:3px"></div></div><div style="font-size:11px;font-family:var(--fm);color:var(--tm)">Est. 1.2 min wait → Stable</div></div>
+          <div style="background:var(--bg1);border:1px solid var(--green);border-radius:12px;padding:15px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><div style="font-size:14px;font-weight:700;color:var(--green)">Lane 02</div><span class="badge bg">Active</span></div><div style="font-size:12px;color:var(--ts);margin-bottom:7px">4 customers · Rahul M.</div><div style="height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-bottom:6px"><div style="width:50%;height:100%;background:var(--green);border-radius:3px"></div></div><div style="font-size:11px;font-family:var(--fm);color:var(--amber)">Est. 2.8 min wait ↑ Rising</div></div>
+          <div style="background:var(--rdim);border:1px solid rgba(224,79,79,.4);border-radius:12px;padding:15px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><div style="font-size:14px;font-weight:700;color:var(--red)">Lane 03</div><span class="badge br">Critical</span></div><div style="font-size:12px;color:var(--ts);margin-bottom:7px">9 customers · Ankita T.</div><div style="height:6px;background:rgba(0,0,0,.3);border-radius:3px;overflow:hidden;margin-bottom:6px"><div style="width:92%;height:100%;background:var(--red);border-radius:3px"></div></div><div style="font-size:11px;font-family:var(--fm);color:var(--red)">Est. 11.4 min 🔴 Overloaded</div></div>
+          <div style="background:var(--bdim);border:1px solid rgba(61,111,245,.4);border-radius:12px;padding:15px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><div style="font-size:14px;font-weight:700;color:var(--blue)">Lane 04 — You</div><span class="badge bb">You</span></div><div style="font-size:12px;color:var(--ts);margin-bottom:7px">3 customers · Current</div><div style="height:6px;background:rgba(0,0,0,.2);border-radius:3px;overflow:hidden;margin-bottom:6px"><div style="width:38%;height:100%;background:var(--blue);border-radius:3px"></div></div><div style="font-size:11px;font-family:var(--fm);color:var(--tm)">Est. 2.1 min → Normal</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px">
+          <div class="chart-card"><div class="chart-hd"><div class="chart-title">Queue Heatmap · Today by Hour & Lane</div><span style="font-size:11px;font-family:var(--fm);color:var(--tm)">Darker = more congested</span></div><div id="heatmap-area" style="margin-top:10px;overflow-x:auto"></div></div>
+          <div class="chart-card"><div class="chart-hd"><div class="chart-title">Staff Actions</div></div>
+            <div style="display:flex;flex-direction:column;gap:9px;margin-top:6px">
+              <div style="background:var(--rdim);border:1px solid rgba(224,79,79,.2);border-radius:9px;padding:12px"><div style="font-size:12px;font-weight:600;color:var(--red);margin-bottom:4px">🔴 Immediate Action</div><div style="font-size:12px;color:var(--ts)">Open Lane 06 — redirect 3 customers from Lane 03</div><button class="btn btn-d btn-sm" style="margin-top:8px;width:100%;justify-content:center" onclick="toast('success','Done','Lane 06 opened · Customers redirected')">Execute Now</button></div>
+              <div style="background:var(--adim);border:1px solid rgba(239,160,48,.2);border-radius:9px;padding:12px"><div style="font-size:12px;font-weight:600;color:var(--amber);margin-bottom:4px">⚠ In 12 Minutes</div><div style="font-size:12px;color:var(--ts)">Open Lane 07 proactively for 17:45 surge</div><button class="btn btn-a btn-sm" style="margin-top:8px;width:100%;justify-content:center" onclick="toast('info','Scheduled','Lane 07 opens at 17:40 · Manager notified')">Schedule</button></div>
+              <div style="background:var(--gdim);border:1px solid rgba(40,193,133,.2);border-radius:9px;padding:12px"><div style="font-size:12px;font-weight:600;color:var(--green);margin-bottom:4px">✓ Auto-Action Ready</div><div style="font-size:12px;color:var(--ts)">WhatsApp alert queued for floor manager</div><button class="btn btn-s btn-sm" style="margin-top:8px;width:100%;justify-content:center" onclick="toast('success','Sent','WhatsApp alert sent to Amit S.')">Send Alert</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SHRINKAGE ANALYTICS ═══ -->
+    <div class="view" id="v-shrinkage">
+      <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;width:100%">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
+          <div style="background:var(--rdim);border:1px solid rgba(224,79,79,.28);border-radius:12px;padding:17px"><div style="font-family:var(--fm);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">Total Shrinkage Today</div><div style="font-size:28px;font-weight:900;line-height:1;margin-bottom:4px;color:var(--red)">₹1,840</div><div style="font-size:11px;font-family:var(--fm);color:var(--tm)">1.2% of revenue · ↑ 0.3%</div></div>
+          <div class="kpi"><div class="kpi-l">Theft Events</div><div class="kpi-v" style="color:var(--amber)">7</div><div class="kpi-s">AI-detected skip events</div></div>
+          <div class="kpi"><div class="kpi-l">Process Loss</div><div class="kpi-v">₹420</div><div class="kpi-s">Billing errors corrected</div></div>
+          <div class="kpi"><div class="kpi-l">Recovery Rate</div><div class="kpi-v" style="color:var(--green)">68%</div><div class="kpi-s">Of flagged events actioned</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="chart-card" style="overflow:hidden">
+            <div class="chart-hd"><div class="chart-title">Shrinkage by Lane</div><button class="btn btn-g btn-sm" onclick="toast('info','Export','Shrinkage report generating…')">Export</button></div>
+            <table style="width:100%;border-collapse:collapse" id="shr-table"><thead><tr>
+              <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Lane</th>
+              <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Cashier</th>
+              <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Events</th>
+              <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Loss</th>
+              <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Risk</th>
+            </tr></thead><tbody id="shr-tbody"></tbody></table>
+          </div>
+          <div class="chart-card"><div class="chart-hd"><div class="chart-title">By Product Category</div></div><div id="shr-cats" style="margin-top:6px"></div>
+            <div style="height:1px;background:var(--b0);margin:12px 0"></div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:9px">Top At-Risk SKUs</div><div id="risk-skus"></div>
+          </div>
+        </div>
+        <div class="chart-card"><div class="chart-hd"><div class="chart-title">30-Day Shrinkage Trend</div><div class="cleg"><span><span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;margin-right:4px"></span>Loss ₹</span><span><span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;margin-right:4px"></span>Recovered</span></div></div>
+          <svg viewBox="0 0 700 70" style="width:100%;overflow:visible;margin-top:8px">
+            <defs><linearGradient id="rg1x" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e04f4f" stop-opacity=".18"/><stop offset="100%" stop-color="#e04f4f" stop-opacity="0"/></linearGradient></defs>
+            <path d="M0,55 C30,50 60,44 100,41 S160,46 200,34 S260,26 300,38 S360,31 400,24 S460,36 500,28 S560,41 600,34 S650,38 700,32 L700,70 L0,70Z" fill="url(#rg1x)"/>
+            <path d="M0,55 C30,50 60,44 100,41 S160,46 200,34 S260,26 300,38 S360,31 400,24 S460,36 500,28 S560,41 600,34 S650,38 700,32" fill="none" stroke="#e04f4f" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M0,64 C30,62 60,59 100,57 S160,61 200,53 S260,50 300,57 S360,52 400,48 S460,55 500,50 S560,57 600,53 S650,56 700,51" fill="none" stroke="#28c185" stroke-width="1.3" stroke-linecap="round" stroke-dasharray="4,3"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ GST RECONCILIATION ═══ -->
+    <div class="view" id="v-gst">
+      <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;width:100%">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
+          <div style="background:var(--rdim);border:1px solid rgba(224,79,79,.3);border-radius:12px;padding:17px"><div style="font-family:var(--fm);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px">Mismatches Found</div><div style="font-size:28px;font-weight:900;line-height:1;margin-bottom:4px;color:var(--red)">4</div><div style="font-size:11px;font-family:var(--fm);color:var(--tm)">₹2,840 variance · Action needed</div></div>
+          <div style="background:var(--gdim);border:1px solid rgba(40,193,133,.25);border-radius:12px;padding:17px"><div style="font-family:var(--fm);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px">Matched Records</div><div style="font-size:28px;font-weight:900;line-height:1;margin-bottom:4px;color:var(--green)">1,838</div><div style="font-size:11px;font-family:var(--fm);color:var(--tm)">99.8% clean · Auto-filed</div></div>
+          <div class="kpi"><div class="kpi-l">GST Collected</div><div class="kpi-v">₹86,821</div><div class="kpi-s">This month · All slabs</div></div>
+          <div class="kpi"><div class="kpi-l">Next Filing</div><div class="kpi-v" style="color:var(--blue)">11<span style="font-size:16px">d</span></div><div class="kpi-s">GSTR-1 · June 11, 2026</div></div>
+        </div>
+        <div class="chart-card"><div class="chart-hd"><div class="chart-title">Filing Timeline · 2026</div></div><div id="gst-timeline" style="display:flex;gap:0;padding:12px 8px 4px"></div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="chart-card" style="overflow:hidden">
+            <div class="chart-hd"><div class="chart-title">Mismatch Records</div><button class="btn btn-p btn-sm" onclick="toast('success','Auto-Fixed','3 records corrected · 1 needs manual review')">Auto-Fix All</button></div>
+            <table style="width:100%;border-collapse:collapse"><thead><tr>
+              <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">TXN</th>
+              <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">HSN</th>
+              <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Billed GST</th>
+              <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Actual</th>
+              <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Variance</th>
+              <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Fix</th>
+            </tr></thead><tbody id="gst-tbody"></tbody></table>
+          </div>
+          <div class="chart-card"><div class="chart-hd"><div class="chart-title">GST Slab Breakdown</div></div>
+            <div id="gst-slabs" style="margin-top:8px"></div>
+            <div style="height:1px;background:var(--b0);margin:12px 0"></div>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <button class="btn btn-p" style="width:100%;justify-content:center" onclick="toast('success','Generated','GSTR-1 draft ready · Downloading…')">Generate GSTR-1 Draft</button>
+              <button class="btn btn-g" style="width:100%;justify-content:center" onclick="toast('success','Exported','HSN-wise summary exported')">Export HSN Summary</button>
+              <button class="btn btn-g" style="width:100%;justify-content:center" onclick="toast('info','Reconciling','Cross-checking with purchase register…')">Reconcile Purchase Register</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ WHATSAPP ALERTS ═══ -->
+    <div class="view" id="v-whatsapp">
+      <div style="width:292px;border-right:1px solid var(--b0);display:flex;flex-direction:column;flex-shrink:0">
+        <div style="padding:13px 15px;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between;flex-shrink:0"><span style="font-family:var(--fm);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.1em">Alert Channels</span><button class="btn btn-p btn-sm" onclick="toast('success','Created','New group created')">+ Group</button></div>
+        <div style="flex:1;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:5px" id="wa-chat-list"></div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+        <div style="padding:13px 17px;border-bottom:1px solid var(--b0);display:flex;align-items:center;gap:11px;flex-shrink:0">
+          <div style="width:34px;height:34px;border-radius:50%;background:var(--gdim);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0" id="wa-av">👨‍💼</div>
+          <div style="flex:1"><div style="font-size:13px;font-weight:600" id="wa-hname">Floor Manager — Amit S.</div><div style="font-size:11px;font-family:var(--fm);color:var(--green)">Online · Responds instantly</div></div>
+          <button class="btn btn-g btn-sm" onclick="toast('info','Call','Initiating call…')">📞 Call</button>
+          <button class="btn btn-g btn-sm" onclick="toast('info','Settings','Channel settings')">⚙</button>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px" id="wa-msgs"></div>
+        <div style="display:flex;gap:6px;padding:8px 14px;border-top:1px solid var(--b0);flex-wrap:wrap;flex-shrink:0">
+          <div style="background:var(--bg2);border:1px solid var(--b1);border-radius:20px;padding:5px 10px;font-size:10px;font-family:var(--fm);color:var(--ts);cursor:pointer;transition:all .15s;white-space:nowrap" onmouseover="this.style.borderColor='var(--green)';this.style.color='var(--green)'" onmouseout="this.style.borderColor='';this.style.color=''" onclick="sendWA('🔴 ALERT: Lane 03 critically congested. 9 customers waiting. Need backup.')">🔴 Congestion</div>
+          <div style="background:var(--bg2);border:1px solid var(--b1);border-radius:20px;padding:5px 10px;font-size:10px;font-family:var(--fm);color:var(--ts);cursor:pointer;white-space:nowrap" onclick="sendWA('⚠️ Fraud suspected Lane 06. TXN-1944. Please review urgently.')">⚠️ Fraud Alert</div>
+          <div style="background:var(--bg2);border:1px solid var(--b1);border-radius:20px;padding:5px 10px;font-size:10px;font-family:var(--fm);color:var(--ts);cursor:pointer;white-space:nowrap" onclick="sendWA('✅ Shift summary: Revenue ₹1.84L. Accuracy 97.4%. All lanes clear.')">✅ Shift OK</div>
+          <div style="background:var(--bg2);border:1px solid var(--b1);border-radius:20px;padding:5px 10px;font-size:10px;font-family:var(--fm);color:var(--ts);cursor:pointer;white-space:nowrap" onclick="sendWA('📦 Retrain needed: Maggi 70g packaging changed. Confidence 68%.')">📦 SKU Alert</div>
+          <div style="background:var(--bg2);border:1px solid var(--b1);border-radius:20px;padding:5px 10px;font-size:10px;font-family:var(--fm);color:var(--ts);cursor:pointer;white-space:nowrap" onclick="sendWA('🖨️ Printer paper low Lane 04. Needs replacement in 30 min.')">🖨️ Device</div>
+        </div>
+        <div style="padding:10px 14px;border-top:1px solid var(--b0);display:flex;gap:9px;align-items:center;flex-shrink:0">
+          <input style="flex:1;background:var(--bg2);border:1px solid var(--b1);border-radius:20px;padding:8px 14px;color:var(--tp);font-size:13px;font-family:var(--fu);outline:none" id="wa-inp" type="text" placeholder="Type a message or alert…" onkeydown="if(event.key==='Enter')sendWA()">
+          <div style="width:34px;height:34px;border-radius:50%;background:var(--green);color:#000;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;flex-shrink:0" onclick="sendWA()">➤</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ CASHIER COACHING ═══ -->
+    <div class="view" id="v-coaching">
+      <div style="flex:1;overflow-y:auto;padding:24px 30px;display:flex;flex-direction:column;gap:16px;max-width:1060px;width:100%;margin:0 auto">
+        <div style="background:linear-gradient(135deg,var(--bg1),var(--bdim));border:1px solid rgba(61,111,245,.14);border-radius:14px;padding:22px 26px;display:flex;align-items:center;gap:20px">
+          <div style="width:60px;height:60px;border-radius:50%;background:var(--bdim);border:2px solid rgba(61,111,245,.3);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0">👩</div>
+          <div style="flex:1">
+            <div style="font-size:22px;font-weight:800;margin-bottom:5px">Good afternoon, Priya! 👋</div>
+            <div style="font-size:13px;color:var(--ts);line-height:1.65">You're in the top 15% of cashiers this week. Scan speed improved 18% from last shift. Your ambiguity rate is 2.1% — well below the store average of 3.4%.</div>
+          </div>
+          <div style="text-align:center;flex-shrink:0;margin-left:16px">
+            <div style="position:relative;width:76px;height:76px">
+              <svg width="76" height="76" viewBox="0 0 76 76" style="transform:rotate(-90deg)"><circle cx="38" cy="38" r="30" fill="none" stroke="var(--bg3)" stroke-width="6"/><circle cx="38" cy="38" r="30" fill="none" stroke="var(--green)" stroke-width="6" stroke-dasharray="188" stroke-dashoffset="47" stroke-linecap="round"/></svg>
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:var(--green)">A+</div>
+            </div>
+            <div style="font-size:10px;font-family:var(--fm);color:var(--tm);margin-top:5px">Performance Grade</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
+          <div class="kpi"><div class="kpi-l">Transactions Today</div><div class="kpi-v">214</div><div class="kpi-s"><span class="tup">↑ 18%</span> vs avg</div></div>
+          <div class="kpi"><div class="kpi-l">Scan Speed</div><div class="kpi-v">2.1<span style="font-size:16px;color:var(--ts)">s</span></div><div class="kpi-s"><span class="tup">↑ 0.3s</span> faster</div></div>
+          <div class="kpi"><div class="kpi-l">Ambiguity Rate</div><div class="kpi-v" style="color:var(--green)">2.1%</div><div class="kpi-s"><span class="tup">↓</span> below 3.4% avg</div></div>
+          <div class="kpi"><div class="kpi-l">Manual Overrides</div><div class="kpi-v" style="color:var(--amber)">6</div><div class="kpi-s"><span class="tdn">↑ 2</span> from yesterday</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:13px">
+          <div class="chart-card" style="padding:17px">
+            <div style="font-size:13px;font-weight:600;margin-bottom:14px">This Week's Throughput</div>
+            <div style="display:flex;align-items:flex-end;gap:10px;height:80px">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:100%;height:54%;background:var(--blue);border-radius:4px 4px 0 0;cursor:pointer;position:relative" data-v="184" title="184 txns"></div><div style="font-size:9px;font-family:var(--fm);color:var(--tm)">Mon</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:100%;height:62%;background:var(--blue);border-radius:4px 4px 0 0;cursor:pointer" title="201 txns"></div><div style="font-size:9px;font-family:var(--fm);color:var(--tm)">Tue</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:100%;height:48%;background:var(--blue);border-radius:4px 4px 0 0;cursor:pointer" title="163 txns"></div><div style="font-size:9px;font-family:var(--fm);color:var(--tm)">Wed</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:100%;height:68%;background:var(--blue);border-radius:4px 4px 0 0;cursor:pointer" title="218 txns"></div><div style="font-size:9px;font-family:var(--fm);color:var(--tm)">Thu</div></div>
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:100%;height:100%;background:var(--green);border-radius:4px 4px 0 0;cursor:pointer;box-shadow:0 0 12px rgba(40,193,133,.3)" title="214 txns ★"></div><div style="font-size:9px;font-family:var(--fm);color:var(--green)">Today★</div></div>
+            </div>
+          </div>
+          <div class="chart-card" style="padding:17px">
+            <div style="font-size:13px;font-weight:600;margin-bottom:12px">Achievements</div>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <div style="background:rgba(239,160,48,.05);border:1px solid rgba(239,160,48,.3);border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:9px;cursor:pointer" onclick="toast('success','Speed Demon','Achievement: Avg scan time below 2.5s · Unlocked!')"><div style="font-size:21px">🚀</div><div><div style="font-size:12px;font-weight:600;margin-bottom:2px">Speed Demon</div><div style="font-size:10px;color:var(--tm);font-family:var(--fm)">Avg &lt;2.5s scan time</div></div></div>
+              <div style="background:rgba(239,160,48,.05);border:1px solid rgba(239,160,48,.3);border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:9px;cursor:pointer" onclick="toast('success','Accuracy Star','Achievement: Below 3% ambiguity · Unlocked!')"><div style="font-size:21px">🎯</div><div><div style="font-size:12px;font-weight:600;margin-bottom:2px">Accuracy Star</div><div style="font-size:10px;color:var(--tm);font-family:var(--fm)">Below 3% ambiguity</div></div></div>
+              <div style="background:rgba(239,160,48,.05);border:1px solid rgba(239,160,48,.3);border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:9px;cursor:pointer" onclick="toast('success','Century Club','Achievement: 200+ txns in a shift · Unlocked!')"><div style="font-size:21px">💯</div><div><div style="font-size:12px;font-weight:600;margin-bottom:2px">Century Club</div><div style="font-size:10px;color:var(--tm);font-family:var(--fm)">200+ txns in a shift</div></div></div>
+              <div style="background:transparent;border:1px solid var(--b1);border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:9px;opacity:.42;cursor:pointer" onclick="toast('info','Locked','Complete a full shift with zero manual overrides to unlock')"><div style="font-size:21px">🏆</div><div><div style="font-size:12px;font-weight:600;margin-bottom:2px">Zero Override Week</div><div style="font-size:10px;color:var(--tm);font-family:var(--fm)">No overrides for 7 days</div></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="chart-card" style="padding:17px">
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px">AI Coach Tips — Personalised for You</div>
+          <div style="font-size:11px;color:var(--tm);font-family:var(--fm);margin-bottom:14px">Based on your last 7 shifts · Refreshes each morning</div>
+          <div style="display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid var(--b0)"><div style="width:30px;height:30px;border-radius:7px;background:var(--adim);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">📦</div><div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Watch for Maggi packaging variants</div><div style="font-size:11px;color:var(--ts);line-height:1.65">You had 4 Maggi-related overrides this week. Masala and Chicken packs look alike from top-view. Try positioning items so the front face is visible to the side camera.</div></div></div>
+          <div style="display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-bottom:1px solid var(--b0)"><div style="width:30px;height:30px;border-radius:7px;background:var(--gdim);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">⚡</div><div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Your peak is 12–2 PM</div><div style="font-size:11px;color:var(--ts);line-height:1.65">You process 28% more transactions per hour in this window. Request your break before 11:30 to maintain peak performance throughout the afternoon rush.</div></div></div>
+          <div style="display:flex;align-items:flex-start;gap:11px;padding:11px 0"><div style="width:30px;height:30px;border-radius:7px;background:var(--bdim);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">💡</div><div><div style="font-size:12px;font-weight:600;margin-bottom:3px">Connect the weigh scale at shift start</div><div style="font-size:11px;color:var(--ts);line-height:1.65">2 manual entries this week were for loose produce that could have been auto-billed if the scale was plugged in. Check the cable connection before your first scan.</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ CROSS-STORE BENCHMARKING ═══ -->
+    <div class="view" id="v-benchmark">
+      <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;width:100%">
+        <div style="display:flex;align-items:center;gap:9px;padding:13px 16px;background:var(--bg1);border:1px solid var(--b0);border-radius:12px;flex-wrap:wrap">
+          <span style="font-family:var(--fm);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-right:6px">Filter:</span>
+          <div class="fchip on" onclick="togChip(this)">This Week</div>
+          <div class="fchip" onclick="togChip(this)">This Month</div>
+          <div class="fchip" onclick="togChip(this)">Last Quarter</div>
+          <div style="width:1px;height:16px;background:var(--b1);margin:0 4px"></div>
+          <div class="fchip on" onclick="togChip(this)">All Metrics</div>
+          <div class="fchip" onclick="togChip(this)">Revenue</div>
+          <div class="fchip" onclick="togChip(this)">Accuracy</div>
+          <button class="btn btn-g btn-sm" style="margin-left:auto" onclick="toast('info','Export','Benchmarking report exporting…')">Export Report</button>
+        </div>
+        <div class="chart-card" style="overflow:hidden">
+          <div style="padding:13px 17px;border-bottom:1px solid var(--b0);font-size:13px;font-weight:600">Store Performance Rankings</div>
+          <table style="width:100%;border-collapse:collapse" id="bench-tbody-wrap"><thead><tr>
+            <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--b0);cursor:pointer">Rank</th>
+            <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Store</th>
+            <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">City</th>
+            <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Revenue</th>
+            <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">AI Accuracy</th>
+            <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Throughput</th>
+            <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Shrinkage</th>
+            <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Overall</th>
+          </tr></thead><tbody id="bench-tbody"></tbody></table>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="chart-card"><div class="chart-hd"><div class="chart-title">Your Store vs Network Average</div></div><div id="bench-compare" style="margin-top:8px"></div></div>
+          <div class="chart-card"><div class="chart-hd"><div class="chart-title">Improvement Opportunities</div></div><div id="bench-opps" style="margin-top:6px"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PLANOGRAM COMPLIANCE ═══ -->
+    <div class="view" id="v-planogram">
+      <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;width:100%">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
+          <div class="kpi"><div class="kpi-l">Overall Compliance</div><div class="kpi-v" style="color:var(--green)">84%</div><div class="kpi-s">32 of 38 slots correct</div></div>
+          <div class="kpi"><div class="kpi-l">Violations Found</div><div class="kpi-v" style="color:var(--red)">6</div><div class="kpi-s">Require correction today</div></div>
+          <div class="kpi"><div class="kpi-l">Brands Verified</div><div class="kpi-v">12</div><div class="kpi-s">Of 15 paid placements</div></div>
+          <div class="kpi"><div class="kpi-l">Last Auto-Scan</div><div class="kpi-v" style="font-size:22px">14<span style="font-size:14px;color:var(--ts)">m</span></div><div class="kpi-s">ago · every 30 min</div></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-hd"><div class="chart-title">Aisle 4 — Noodles & Instant Food</div><div style="display:flex;gap:7px"><button class="btn btn-g btn-sm" onclick="toast('info','Scanning','Planogram scan initiated…')">📷 Scan Now</button><button class="btn btn-p btn-sm" onclick="toast('success','Report','Compliance report generated')">Report</button></div></div>
+          <div id="shelf-area" style="padding:14px;display:flex;flex-direction:column;gap:9px"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px">
+          <div class="chart-card" style="overflow:hidden"><div class="chart-hd"><div class="chart-title">Compliance Issues</div></div>
+            <table style="width:100%;border-collapse:collapse"><thead><tr>
+              <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Location</th>
+              <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Brand</th>
+              <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Expected</th>
+              <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Found</th>
+              <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Status</th>
+            </tr></thead><tbody id="plan-tbody"></tbody></table>
+          </div>
+          <div class="chart-card"><div class="chart-hd"><div class="chart-title">Legend</div></div>
+            <div style="display:flex;flex-direction:column;gap:9px;margin-top:8px">
+              <div style="display:flex;align-items:center;gap:9px"><div style="width:18px;height:18px;border-radius:4px;background:var(--gdim);border:1px solid rgba(40,193,133,.2)"></div><div style="font-size:12px;color:var(--ts)">Compliant — correct position</div></div>
+              <div style="display:flex;align-items:center;gap:9px"><div style="width:18px;height:18px;border-radius:4px;background:var(--rdim);border:1px solid rgba(224,79,79,.2)"></div><div style="font-size:12px;color:var(--ts)">Violation — wrong product</div></div>
+              <div style="display:flex;align-items:center;gap:9px"><div style="width:18px;height:18px;border-radius:4px;background:var(--adim);border:1px solid rgba(239,160,48,.2)"></div><div style="font-size:12px;color:var(--ts)">Partial — partially stocked</div></div>
+              <div style="display:flex;align-items:center;gap:9px"><div style="width:18px;height:18px;border-radius:4px;background:var(--bg2);border:1px solid var(--b1)"></div><div style="font-size:12px;color:var(--ts)">Empty — out of stock</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ LOYALTY INTEGRATION ═══ -->
+    <div class="view" id="v-loyalty">
+      <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;width:100%">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
+          <div class="kpi"><div class="kpi-l">Points Awarded</div><div class="kpi-v" style="color:#8f67f0">18,420</div><div class="kpi-s">Across 214 transactions</div></div>
+          <div class="kpi"><div class="kpi-l">Redemptions</div><div class="kpi-v">34</div><div class="kpi-s">₹2,840 redeemed</div></div>
+          <div class="kpi"><div class="kpi-l">Members Served</div><div class="kpi-v" style="color:var(--blue)">142</div><div class="kpi-s">66% loyalty capture</div></div>
+          <div class="kpi"><div class="kpi-l">Avg Basket (Members)</div><div class="kpi-v" style="color:var(--green)">₹924</div><div class="kpi-s">vs ₹641 non-members</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px">
+          <div style="background:var(--bg1);border:1px solid rgba(61,111,245,.22);border-radius:12px;padding:17px"><div style="font-size:28px;margin-bottom:9px">📱</div><div style="font-size:14px;font-weight:700;margin-bottom:3px">PhonePe Rewards</div><div style="font-size:11px;color:var(--tm);font-family:var(--fm);margin-bottom:12px">Primary integration · Auto-apply</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px"><div class="ic"><div class="ic-l">Txns</div><div class="ic-v">92</div></div><div class="ic"><div class="ic-l">Points</div><div class="ic-v" style="color:#8f67f0">8,280</div></div></div><button class="btn btn-s btn-sm" style="width:100%;justify-content:center">● Connected</button></div>
+          <div style="background:var(--bg1);border:1px solid rgba(61,111,245,.22);border-radius:12px;padding:17px"><div style="font-size:28px;margin-bottom:9px">💎</div><div style="font-size:14px;font-weight:700;margin-bottom:3px">Reliance One</div><div style="font-size:11px;color:var(--tm);font-family:var(--fm);margin-bottom:12px">Native store loyalty · Auto-apply</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px"><div class="ic"><div class="ic-l">Txns</div><div class="ic-v">58</div></div><div class="ic"><div class="ic-l">Points</div><div class="ic-v" style="color:#8f67f0">5,220</div></div></div><button class="btn btn-s btn-sm" style="width:100%;justify-content:center">● Connected</button></div>
+          <div style="background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:17px"><div style="font-size:28px;margin-bottom:9px">🏷</div><div style="font-size:14px;font-weight:700;margin-bottom:3px">ONDC Buyer App</div><div style="font-size:11px;color:var(--tm);font-family:var(--fm);margin-bottom:12px">Connect to enable loyalty sync</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px"><div class="ic"><div class="ic-l">Status</div><div class="ic-v" style="color:var(--tm)">Inactive</div></div><div class="ic"><div class="ic-l">Setup</div><div class="ic-v">~10 min</div></div></div><button class="btn btn-p btn-sm" style="width:100%;justify-content:center" onclick="toast('success','Started','ONDC wizard opened')">Connect →</button></div>
+        </div>
+        <div class="chart-card" style="overflow:hidden">
+          <div style="padding:13px 17px;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between"><div style="font-size:13px;font-weight:600">Recent Loyalty Transactions</div><button class="btn btn-g btn-sm" onclick="toast('info','Export','Loyalty report exporting…')">Export</button></div>
+          <table style="width:100%;border-collapse:collapse"><thead><tr>
+            <th style="text-align:left;padding:9px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Time</th>
+            <th style="text-align:left;padding:9px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Member</th>
+            <th style="text-align:left;padding:9px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Program</th>
+            <th style="text-align:left;padding:9px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Amount</th>
+            <th style="text-align:left;padding:9px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Points</th>
+            <th style="text-align:left;padding:9px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Type</th>
+          </tr></thead><tbody id="loy-tbody"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PACKAGING EVOLUTION ═══ -->
+    <div class="view" id="v-packaging">
+      <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;width:100%">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
+          <div class="kpi"><div class="kpi-l">Changes Detected</div><div class="kpi-v" style="color:var(--amber)">3</div><div class="kpi-s">This month · Auto-flagged</div></div>
+          <div class="kpi"><div class="kpi-l">Auto-Retrains</div><div class="kpi-v" style="color:var(--blue)">2</div><div class="kpi-s">Model auto-updated</div></div>
+          <div class="kpi"><div class="kpi-l">Manual Reviews</div><div class="kpi-v" style="color:var(--red)">1</div><div class="kpi-s">Confidence too low</div></div>
+          <div class="kpi"><div class="kpi-l">Avg Detection Time</div><div class="kpi-v">4.2<span style="font-size:16px;color:var(--ts)">h</span></div><div class="kpi-s">After first low-conf scan</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="chart-card">
+            <div class="chart-hd"><div class="chart-title">Maggi Masala 70g — Packaging History</div><button class="btn btn-g btn-sm" onclick="toast('info','Scan','Scanning for drift across all SKUs…')">🔍 Scan All</button></div>
+            <div id="pkg-tl" style="padding:16px;display:flex;flex-direction:column"></div>
+          </div>
+          <div class="chart-card"><div class="chart-hd"><div class="chart-title">Active Drift Alerts</div></div><div id="drift-list" style="display:flex;flex-direction:column;gap:8px;margin-top:8px;padding:0 4px"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ API MARKETPLACE ═══ -->
+    <div class="view" id="v-marketplace">
+      <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;width:100%">
+        <div style="background:linear-gradient(135deg,var(--bg1),rgba(143,103,240,.07));border:1px solid rgba(143,103,240,.14);border-radius:14px;padding:22px 26px;display:flex;align-items:center;justify-content:space-between">
+          <div><div style="font-size:22px;font-weight:800;margin-bottom:6px">API Marketplace</div><div style="font-size:13px;color:var(--ts);max-width:420px;line-height:1.65">Connect ERP systems, loyalty platforms, accounting tools, communication layers and e-commerce bridges. One-click integration with your AI Checkout system.</div></div>
+          <div style="display:flex;gap:28px">
+            <div><div style="font-size:24px;font-weight:800;color:#8f67f0">24</div><div style="font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;letter-spacing:.07em;margin-top:2px">Available</div></div>
+            <div><div style="font-size:24px;font-weight:800;color:var(--green)">3</div><div style="font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;letter-spacing:.07em;margin-top:2px">Connected</div></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <div class="fchip on" onclick="togChip(this)">All</div>
+          <div class="fchip" onclick="togChip(this)">ERP & Accounting</div>
+          <div class="fchip" onclick="togChip(this)">Loyalty</div>
+          <div class="fchip" onclick="togChip(this)">Analytics</div>
+          <div class="fchip" onclick="togChip(this)">Communication</div>
+          <div class="fchip" onclick="togChip(this)">E-commerce</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px" id="mkt-apps"></div>
+      </div>
+    </div>
+
+    <!-- ═══ NOTIFICATION PANEL ═══ -->
+    <div id="notif-panel" style="position:fixed;top:52px;right:0;width:326px;height:calc(100vh - 52px);background:var(--bg1);border-left:1px solid var(--b1);z-index:700;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s ease">
+      <div style="padding:14px 16px;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:13px;font-weight:600">Notifications</div>
+        <div style="display:flex;gap:7px">
+          <button class="btn btn-g btn-sm" onclick="clearNotifs()">Clear all</button>
+          <button class="btn btn-g btn-sm" onclick="toggleNotif()">✕</button>
+        </div>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:9px;display:flex;flex-direction:column;gap:7px" id="notif-list"></div>
     </div>
 
   </div><!-- /main -->
@@ -1776,6 +2338,587 @@ setInterval(()=>{
     }
   },18000);
 })();
+
+/* ═══════════════════════════════════════════════════
+   NEW MODULE JAVASCRIPT — ALL ADDON VIEWS
+═══════════════════════════════════════════════════ */
+
+/* ── NAV VIEW TITLES ───────────────────────────── */
+const EXTRA_TITLES = {
+  queue:      'Smart Queue Intelligence',
+  shrinkage:  'Shrinkage Analytics',
+  gst:        'GST Reconciliation Engine',
+  whatsapp:   'WhatsApp Alerts Centre',
+  coaching:   'Cashier Performance Coaching',
+  benchmark:  'Cross-Store Benchmarking',
+  planogram:  'Planogram Compliance',
+  loyalty:    'Customer Loyalty Integration',
+  packaging:  'Packaging Evolution Tracker',
+  marketplace:'API Marketplace',
+};
+
+/* Extend existing goView to handle new views */
+const _origGoView = goView;
+function goView(id, btn) {
+  _origGoView(id, btn);
+  if (EXTRA_TITLES[id]) {
+    document.getElementById('tb-title').textContent = EXTRA_TITLES[id];
+  }
+  // Lazy-render new views
+  if (id === 'queue')      renderHeatmap();
+  if (id === 'shrinkage')  renderShrinkage();
+  if (id === 'gst')        renderGST();
+  if (id === 'whatsapp')   initWA();
+  if (id === 'benchmark')  renderBenchmark();
+  if (id === 'planogram')  renderPlanogram();
+  if (id === 'loyalty')    renderLoyalty();
+  if (id === 'packaging')  renderPackaging();
+  if (id === 'marketplace')renderMarketplace();
+}
+
+/* ── ROLE BADGE ────────────────────────────────── */
+const _origDoLogin = doLogin;
+function doLogin() {
+  _origDoLogin();
+  const rb = document.getElementById('role-badge');
+  if (rb) rb.textContent = S.role || 'Cashier';
+}
+
+/* ── LOYALTY POINTS IN CHECKOUT ────────────────── */
+/* Extend addToCart to track loyalty */
+const _origAddToCart = addToCart;
+function addToCart(item) {
+  _origAddToCart(item);
+  const pts = Math.floor((item.p || 0) / 10);
+  S.loyPts = (S.loyPts || 0) + pts;
+  const bpts = document.getElementById('b-pts');
+  if (bpts) bpts.textContent = '+' + S.loyPts + ' pts';
+}
+
+/* ── NOTIFICATIONS ─────────────────────────────── */
+const NOTIFS = [
+  { type:'crit', ico:'🚨', title:'Fraud Alert', body:'Barcode substitution · Lane 06 · TXN-1944', time:'2m ago', unread:true },
+  { type:'warn', ico:'⚠️', title:'Queue Congestion', body:'Lane 03 at critical level · 9 customers', time:'4m ago', unread:true },
+  { type:'warn', ico:'📦', title:'SKU Drift Detected', body:'Maggi 70g packaging changed · Retrain queued', time:'22m ago', unread:true },
+  { type:'info', ico:'✅', title:'Shift Milestone', body:'200 transactions completed · On track for target', time:'41m ago', unread:true },
+  { type:'info', ico:'🖨️', title:'Printer Low Paper', body:'Lane 04 printer · ~30 min remaining', time:'1h ago', unread:false },
+];
+
+function renderNotifs() {
+  const el = document.getElementById('notif-list');
+  if (!el) return;
+  el.innerHTML = NOTIFS.map((n,i) => `
+    <div style="background:var(--bg2);border:1px solid var(--b0);${n.unread?'border-left:2.5px solid '+(n.type==='crit'?'var(--red)':n.type==='warn'?'var(--amber)':'var(--blue)')+'':'border-left:2.5px solid transparent'};border-radius:9px;padding:11px 12px;cursor:pointer;transition:all .15s" onclick="markRead(${i})" onmouseover="this.style.borderColor='var(--b2)'" onmouseout="this.style.borderColor=''">
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px">
+        <span style="font-size:13px">${n.ico}</span>
+        <span style="font-size:12px;font-weight:${n.unread?600:400};flex:1">${n.title}</span>
+        <span style="font-size:10px;font-family:var(--fm);color:var(--tm)">${n.time}</span>
+      </div>
+      <div style="font-size:11px;color:var(--tm)">${n.body}</div>
+    </div>`).join('');
+}
+
+function markRead(i) {
+  NOTIFS[i].unread = false;
+  updateNotifCount();
+  renderNotifs();
+}
+
+function addNotif(type, title, body) {
+  NOTIFS.unshift({ type, ico: type==='crit'?'🚨':type==='warn'?'⚠️':'ℹ️', title, body, time:'Just now', unread:true });
+  updateNotifCount();
+  renderNotifs();
+}
+
+function updateNotifCount() {
+  const count = NOTIFS.filter(n => n.unread).length;
+  const el = document.getElementById('nc');
+  if (el) { el.textContent = count; el.style.display = count > 0 ? 'flex' : 'none'; }
+}
+
+function clearNotifs() {
+  NOTIFS.forEach(n => n.unread = false);
+  updateNotifCount();
+  renderNotifs();
+  toast('info','Cleared','All notifications marked as read');
+}
+
+function toggleNotif() {
+  const panel = document.getElementById('notif-panel');
+  if (!panel) return;
+  const isOpen = panel.style.transform === 'translateX(0%)' || panel.style.transform === 'translateX(0px)';
+  panel.style.transform = isOpen ? 'translateX(100%)' : 'translateX(0%)';
+  if (!isOpen) renderNotifs();
+}
+
+/* ── HEATMAP (QUEUE) ────────────────────────────── */
+function renderHeatmap() {
+  const el = document.getElementById('heatmap-area');
+  if (!el) return;
+  const hours = ['9AM','10AM','11AM','12PM','1PM','2PM','3PM','4PM'];
+  const lanes = ['Lane 01','Lane 02','Lane 03','Lane 04','Lane 05','Lane 08'];
+  const intensities = [
+    [0.1,0.2,0.3,0.7,0.9,0.6,0.4,0.2],
+    [0.2,0.3,0.4,0.8,0.95,0.7,0.5,0.3],
+    [0.3,0.5,0.7,1.0,1.0,0.9,0.8,0.6],
+    [0.1,0.2,0.3,0.6,0.8,0.5,0.3,0.2],
+    [0.2,0.3,0.4,0.7,0.9,0.6,0.4,0.3],
+    [0.1,0.1,0.2,0.5,0.7,0.4,0.2,0.1],
+  ];
+  const getColor = v => {
+    if (v < 0.25) return 'rgba(40,193,133,0.15)';
+    if (v < 0.5)  return 'rgba(40,193,133,0.4)';
+    if (v < 0.75) return 'rgba(239,160,48,0.45)';
+    if (v < 0.9)  return 'rgba(224,79,79,0.45)';
+    return 'rgba(224,79,79,0.75)';
+  };
+  el.innerHTML = `<div style="display:grid;grid-template-columns:72px repeat(8,1fr);gap:3px;font-size:9px;font-family:var(--fm)">
+    <div></div>
+    ${hours.map(h=>`<div style="text-align:center;color:var(--tm);padding-bottom:4px">${h}</div>`).join('')}
+    ${intensities.map((row,li)=>`
+      <div style="display:flex;align-items:center;color:var(--tm);font-size:9px;padding-right:6px;height:32px">${lanes[li]}</div>
+      ${row.map((v,hi)=>`<div style="height:32px;border-radius:4px;background:${getColor(v)};cursor:pointer;transition:transform .15s;display:flex;align-items:center;justify-content:center" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" onclick="toast('info','Queue Data','${lanes[li]} at ${hours[hi]}: Load ${Math.round(v*100)}%')"></div>`).join('')}
+    `).join('')}
+  </div>`;
+}
+
+/* ── SHRINKAGE ──────────────────────────────────── */
+function renderShrinkage() {
+  // Lane table
+  const tbody = document.getElementById('shr-tbody');
+  if (tbody) {
+    const rows = [
+      {lane:'Lane 01',cashier:'Priya S.',events:1,loss:'₹62',risk:'low'},
+      {lane:'Lane 03',cashier:'Ankita T.',events:3,loss:'₹840',risk:'high'},
+      {lane:'Lane 04',cashier:'Priya S.',events:1,loss:'₹220',risk:'high'},
+      {lane:'Lane 05',cashier:'Meena K.',events:2,loss:'₹718',risk:'med'},
+      {lane:'Lane 06',cashier:'Rahul M.',events:0,loss:'₹0',risk:'low'},
+    ];
+    const riskColor = {high:'var(--red)',med:'var(--amber)',low:'var(--green)'};
+    tbody.innerHTML = rows.map(r=>`<tr onclick="toast('info','${r.lane}','${r.events} events · Loss ${r.loss} · Cashier: ${r.cashier}')" style="cursor:pointer">
+      <td style="padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px">${r.lane}</td>
+      <td style="padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px">${r.cashier}</td>
+      <td style="padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px">${r.events}</td>
+      <td style="padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px;font-family:var(--fm)">${r.loss}</td>
+      <td style="padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px"><span style="background:${r.risk==='high'?'var(--rdim)':r.risk==='med'?'var(--adim)':'var(--gdim)'};color:${riskColor[r.risk]};font-size:10px;font-family:var(--fm);padding:2px 8px;border-radius:20px">${r.risk==='high'?'High':r.risk==='med'?'Medium':'Low'}</span></td>
+    </tr>`).join('');
+  }
+
+  // Category bars
+  const cats = document.getElementById('shr-cats');
+  if (cats) {
+    const data = [{n:'Detergents',v:42,a:'₹620'},{n:'Personal Care',v:28,a:'₹412'},{n:'Beverages',v:18,a:'₹264'},{n:'Snacks',v:12,a:'₹176'}];
+    cats.innerHTML = data.map(d=>`<div style="display:flex;align-items:center;gap:10px;margin-bottom:9px">
+      <div style="width:96px;font-size:11px;color:var(--ts)">${d.n}</div>
+      <div style="flex:1"><div style="height:4px;background:var(--bg3);border-radius:2px;overflow:hidden"><div style="width:${d.v}%;height:100%;background:var(--red);border-radius:2px"></div></div></div>
+      <div style="font-size:11px;font-family:var(--fm);color:var(--red);width:44px;text-align:right">${d.a}</div>
+    </div>`).join('');
+  }
+
+  // Risk SKUs
+  const rsk = document.getElementById('risk-skus');
+  if (rsk) {
+    const skus = [{e:'🧺',n:'Surf Excel Matic 1kg',v:'₹440'},{e:'🥛',n:'Amul Gold Milk 1L',v:'₹186'},{e:'🦷',n:'Colgate MaxFresh',v:'₹164'}];
+    rsk.innerHTML = skus.map(s=>`<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--b0);font-size:12px">
+      <div style="font-size:18px">${s.e}</div>
+      <div style="flex:1;color:var(--ts)">${s.n}</div>
+      <div style="font-family:var(--fm);color:var(--red)">${s.v}</div>
+    </div>`).join('');
+  }
+}
+
+/* ── GST RECONCILIATION ─────────────────────────── */
+function renderGST() {
+  // Filing timeline
+  const tl = document.getElementById('gst-timeline');
+  if (tl) {
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const status = ['filed','filed','filed','filed','pending','upcoming','','','','','',''];
+    const colors = {filed:'var(--green)',pending:'var(--amber)',upcoming:'var(--blue)','':`var(--bg3)`};
+    tl.innerHTML = months.map((m,i)=>`<div style="flex:1;text-align:center;position:relative">
+      <div style="width:10px;height:10px;border-radius:50%;background:${colors[status[i]]};margin:0 auto 5px;position:relative;z-index:1"></div>
+      <div style="position:absolute;top:4px;left:50%;right:-50%;height:1px;background:var(--b1)"></div>
+      <div style="font-size:9px;font-family:var(--fm);color:var(--tm)">${m}</div>
+      <div style="font-size:8px;font-family:var(--fm);margin-top:2px;color:${colors[status[i]]}">
+        ${status[i]==='filed'?'✓':status[i]==='pending'?'!':status[i]==='upcoming'?'→':''}
+      </div>
+    </div>`).join('');
+  }
+
+  // Mismatch table
+  const tbody = document.getElementById('gst-tbody');
+  if (tbody) {
+    const rows = [
+      {txn:'TXN-1821',hsn:'1902',billed:'12%',actual:'5%',variance:'₹840',severity:'high'},
+      {txn:'TXN-1756',hsn:'3304',billed:'18%',actual:'12%',variance:'₹612',severity:'high'},
+      {txn:'TXN-1634',hsn:'2106',billed:'28%',actual:'18%',variance:'₹980',severity:'high'},
+      {txn:'TXN-1501',hsn:'1901',billed:'12%',actual:'12%',variance:'₹408',severity:'med'},
+    ];
+    tbody.innerHTML = rows.map(r=>`<tr style="cursor:pointer" onclick="toast('info','${r.txn}','HSN ${r.hsn} · Billed at ${r.billed} · Should be ${r.actual} · Variance ${r.variance}')">
+      <td style="padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px;font-family:var(--fm)">${r.txn}</td>
+      <td style="padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px;font-family:var(--fm)">${r.hsn}</td>
+      <td style="padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px">${r.billed}</td>
+      <td style="padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px">${r.actual}</td>
+      <td style="padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px;font-family:var(--fm);color:var(--red)">${r.variance}</td>
+      <td style="padding:9px 13px;border-bottom:1px solid rgba(255,255,255,.025)"><button class="btn btn-p btn-sm" onclick="event.stopPropagation();toast('success','Fixed','${r.txn} corrected to ${r.actual}')">Fix</button></td>
+    </tr>`).join('');
+  }
+
+  // Slab breakdown
+  const slabs = document.getElementById('gst-slabs');
+  if (slabs) {
+    const data = [{slab:'5% GST',v:'₹12,400',pct:14},{slab:'12% GST',v:'₹38,200',pct:44},{slab:'18% GST',v:'₹29,800',pct:34},{slab:'28% GST',v:'₹6,421',pct:8}];
+    slabs.innerHTML = data.map(d=>`<div style="display:flex;align-items:center;gap:10px;margin-bottom:9px">
+      <div style="width:80px;font-size:11px;color:var(--ts)">${d.slab}</div>
+      <div style="flex:1"><div style="height:4px;background:var(--bg3);border-radius:2px;overflow:hidden"><div style="width:${d.pct}%;height:100%;background:var(--blue);border-radius:2px"></div></div></div>
+      <div style="font-size:11px;font-family:var(--fm);color:var(--ts);width:56px;text-align:right">${d.v}</div>
+    </div>`).join('');
+  }
+}
+
+/* ── WHATSAPP ───────────────────────────────────── */
+const WA_CHATS = [
+  {av:'👨‍💼',name:'Floor Manager — Amit S.',preview:'Got it, opening Lane 06 now',time:'2m',unread:true,active:true},
+  {av:'🏪',name:'Store Alert Channel',preview:'🔴 Lane 03 congested · Action needed',time:'4m',unread:true,active:false},
+  {av:'👥',name:'All Cashiers Group',preview:'Shift starts in 10 minutes',time:'32m',unread:false,active:false},
+  {av:'🔧',name:'Device Alerts',preview:'🖨️ Printer paper low · Lane 04',time:'1h',unread:false,active:false},
+];
+
+const WA_MESSAGES = [
+  {type:'in',  text:'Good morning! Shift briefing: expect busy lunch rush. Lane 03 is already picking up.', time:'09:02'},
+  {type:'out', text:'Understood. I'll keep an eye on it. Scan speed is good so far.', time:'09:05'},
+  {type:'alert-msg', text:'🔴 SYSTEM ALERT: Lane 03 queue critical — 9 customers, est. 11 min wait. Action required.', time:'12:34'},
+  {type:'in',  text:'Sending backup to Lane 03 now. Can you handle any overflow on Lane 04?', time:'12:35'},
+  {type:'out', text:'Yes, routing customers now. Should clear in 5 min.', time:'12:36'},
+  {type:'ok-msg', text:'✅ Queue resolved. Lane 03 back to normal. Good teamwork!', time:'12:42'},
+];
+
+function initWA() {
+  const chatList = document.getElementById('wa-chat-list');
+  if (chatList && chatList.innerHTML === '') {
+    chatList.innerHTML = WA_CHATS.map((c,i) => `
+      <div style="background:${c.active?'var(--gdim)':'var(--bg2)'};border:1px solid ${c.active?'var(--green)':'var(--b0)'};border-radius:9px;padding:10px 12px;cursor:pointer;transition:all .15s" onclick="selectWAChat(${i})">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+          <div style="font-size:12px;font-weight:500;display:flex;align-items:center;gap:6px">
+            <span>${c.av}</span>${c.name}
+          </div>
+          <div style="display:flex;align-items:center;gap:6px">
+            ${c.unread ? '<div style="width:7px;height:7px;background:var(--green);border-radius:50%"></div>' : ''}
+            <span style="font-size:10px;font-family:var(--fm);color:var(--tm)">${c.time}</span>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--tm);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.preview}</div>
+      </div>`).join('');
+  }
+  const msgs = document.getElementById('wa-msgs');
+  if (msgs && msgs.innerHTML === '') {
+    msgs.innerHTML = WA_MESSAGES.map(m => buildWAMsg(m)).join('');
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+}
+
+function buildWAMsg(m) {
+  const bg = m.type==='out' ? 'background:var(--bdim);border:1px solid rgba(61,111,245,.2);align-self:flex-end;border-radius:10px 10px 3px 10px' :
+             m.type==='alert-msg' ? 'background:var(--rdim);border:1px solid rgba(224,79,79,.2);align-self:flex-start;border-radius:10px 10px 10px 3px' :
+             m.type==='ok-msg' ? 'background:var(--gdim);border:1px solid rgba(40,193,133,.2);align-self:flex-start;border-radius:10px 10px 10px 3px' :
+             'background:var(--bg2);border:1px solid var(--b0);align-self:flex-start;border-radius:10px 10px 10px 3px';
+  return `<div style="max-width:76%;padding:9px 12px;${bg}">
+    <div style="font-size:12px;line-height:1.6">${m.text}</div>
+    <div style="font-size:9px;font-family:var(--fm);color:var(--tm);margin-top:3px;text-align:right">${m.time}</div>
+  </div>`;
+}
+
+function sendWA(preset) {
+  const inp = document.getElementById('wa-inp');
+  const text = preset || (inp ? inp.value.trim() : '');
+  if (!text) return;
+  const msgs = document.getElementById('wa-msgs');
+  if (!msgs) return;
+  const now = new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:false});
+  msgs.innerHTML += buildWAMsg({type:'out', text, time:now});
+  msgs.scrollTop = msgs.scrollHeight;
+  if (inp) inp.value = '';
+  // Simulate reply
+  setTimeout(() => {
+    const replies = ['On it! 👍','Got it, will handle right away.','✅ Done. Thanks for the heads up!','Acknowledged. Checking now.','Roger that. Monitoring the situation.'];
+    const reply = replies[Math.floor(Math.random()*replies.length)];
+    const replyTime = new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:false});
+    msgs.innerHTML += buildWAMsg({type:'in', text:reply, time:replyTime});
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 1200 + Math.random()*800);
+  toast('success','Message Sent', text.length > 40 ? text.substring(0,40)+'…' : text);
+}
+
+function selectWAChat(i) {
+  WA_CHATS[i].unread = false;
+  const el = document.getElementById('wa-hname');
+  const av = document.getElementById('wa-av');
+  if (el) el.textContent = WA_CHATS[i].name;
+  if (av) av.textContent = WA_CHATS[i].av;
+  initWA();
+}
+
+/* ── BENCHMARK ─────────────────────────────────── */
+const STORES_DATA = [
+  {rank:1,name:'SG Highway',city:'Ahmedabad',rev:'₹6.1L',acc:'98.2%',throughput:2241,shr:'0.8%',score:94,rankCls:'br1'},
+  {rank:2,name:'Navrangpura',city:'Ahmedabad',rev:'₹5.4L',acc:'97.8%',throughput:2018,shr:'0.9%',score:91,rankCls:'br2'},
+  {rank:3,name:'Ahmedabad Central ★',city:'Ahmedabad',rev:'₹4.8L',acc:'97.4%',throughput:1842,shr:'1.2%',score:87,rankCls:'br3'},
+  {rank:4,name:'Satellite',city:'Ahmedabad',rev:'₹3.9L',acc:'96.1%',throughput:1540,shr:'1.4%',score:82,rankCls:''},
+  {rank:5,name:'Maninagar',city:'Ahmedabad',rev:'₹3.2L',acc:'95.8%',throughput:1280,shr:'1.8%',score:76,rankCls:''},
+  {rank:6,name:'Surat Central',city:'Surat',rev:'₹5.1L',acc:'96.9%',throughput:1920,shr:'1.1%',score:88,rankCls:''},
+];
+
+function renderBenchmark() {
+  const tbody = document.getElementById('bench-tbody');
+  if (tbody) {
+    tbody.innerHTML = STORES_DATA.map(s => {
+      const isYou = s.name.includes('★');
+      const bg = isYou ? 'background:var(--bdim)' : '';
+      return `<tr style="cursor:pointer;${bg}" onclick="toast('info','${s.name.replace(' ★','')}','Revenue ${s.rev} · Accuracy ${s.acc} · Score ${s.score}/100')">
+        <td style="padding:11px 14px;border-bottom:1px solid var(--b0);font-size:16px;font-weight:800;${s.rankCls==='br1'?'color:var(--amber)':s.rankCls==='br2'?'color:var(--ts)':s.rankCls==='br3'?'color:var(--amber);opacity:.7':'color:var(--tm)'}">${s.rank}</td>
+        <td style="padding:11px 14px;border-bottom:1px solid var(--b0);font-size:12px;font-weight:${isYou?600:400}">${s.name}</td>
+        <td style="padding:11px 14px;border-bottom:1px solid var(--b0);font-size:12px;color:var(--ts)">${s.city}</td>
+        <td style="padding:11px 14px;border-bottom:1px solid var(--b0);font-size:12px;font-family:var(--fm)">${s.rev}</td>
+        <td style="padding:11px 14px;border-bottom:1px solid var(--b0);font-size:12px;color:${parseFloat(s.acc)>=97?'var(--green)':'var(--amber)'}">${s.acc}</td>
+        <td style="padding:11px 14px;border-bottom:1px solid var(--b0);font-size:12px;font-family:var(--fm)">${s.throughput.toLocaleString()}</td>
+        <td style="padding:11px 14px;border-bottom:1px solid var(--b0);font-size:12px;color:${parseFloat(s.shr)<1.0?'var(--green)':'var(--red)'}">${s.shr}</td>
+        <td style="padding:11px 14px;border-bottom:1px solid var(--b0)"><div style="display:flex;align-items:center;gap:8px"><div style="width:50px;height:4px;background:var(--bg3);border-radius:2px;overflow:hidden"><div style="width:${s.score}%;height:100%;background:${s.score>=90?'var(--green)':s.score>=80?'var(--blue)':'var(--amber)'};border-radius:2px"></div></div><span style="font-size:11px;font-family:var(--fm)">${s.score}</span></div></td>
+      </tr>`;}).join('');
+  }
+
+  const compare = document.getElementById('bench-compare');
+  if (compare) {
+    const metrics = [{n:'Revenue',yours:'₹4.8L',avg:'₹4.2L',better:true},{n:'AI Accuracy',yours:'97.4%',avg:'96.4%',better:true},{n:'Shrinkage',yours:'1.2%',avg:'1.1%',better:false},{n:'Queue Wait',yours:'3.8m',avg:'3.2m',better:false},{n:'Throughput',yours:'1842',avg:'1760',better:true}];
+    compare.innerHTML = metrics.map(m=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--b0);font-size:12px">
+      <span style="color:var(--ts)">${m.n}</span>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-family:var(--fm);color:var(--tm)">Avg ${m.avg}</span>
+        <span style="font-family:var(--fm);font-weight:500;color:${m.better?'var(--green)':'var(--red)'}">${m.yours} ${m.better?'↑':'↓'}</span>
+      </div>
+    </div>`).join('');
+  }
+
+  const opps = document.getElementById('bench-opps');
+  if (opps) {
+    const items = [
+      {ico:'🎯',title:'Reduce shrinkage by 0.1%',desc:'Match top-3 store average. Focus on Detergent aisle camera coverage.',action:'View Plan'},
+      {ico:'⏱',title:'Cut queue wait by 0.6 min',desc:'Open Lane 06 proactively at 12PM surge. Saves ~40 customers/day.',action:'Set Schedule'},
+      {ico:'🧠',title:'Retrain Noodles category',desc:'82% accuracy vs 95% network average. 3 SKUs need updated training.',action:'Queue Retrain'},
+    ];
+    opps.innerHTML = items.map(it=>`<div style="background:var(--bg2);border:1px solid var(--b0);border-radius:9px;padding:12px;margin-bottom:8px;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='var(--b2)'" onmouseout="this.style.borderColor=''" onclick="toast('info','${it.title}','${it.desc}')">
+      <div style="display:flex;align-items:flex-start;gap:10px">
+        <div style="font-size:19px">${it.ico}</div>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:600;margin-bottom:3px">${it.title}</div>
+          <div style="font-size:11px;color:var(--ts);line-height:1.55">${it.desc}</div>
+        </div>
+        <button class="btn btn-g btn-sm" style="flex-shrink:0" onclick="event.stopPropagation();toast('info','${it.action}','Opening action plan…')">${it.action}</button>
+      </div>
+    </div>`).join('');
+  }
+}
+
+/* ── PLANOGRAM ──────────────────────────────────── */
+function renderPlanogram() {
+  const shelf = document.getElementById('shelf-area');
+  if (shelf) {
+    const rows = [
+      {label:'Top Shelf',slots:[
+        {label:'Maggi Masala',status:'ok'},{label:'Maggi Masala',status:'ok'},
+        {label:'Maggi Chicken',status:'ok'},{label:'Yippee',status:'miss',tip:'Expected: Maggi Atta'},
+        {label:'Yippee Tricolor',status:'ok'},{label:'Top Ramen',status:'partial'},
+      ]},
+      {label:'Mid Shelf',slots:[
+        {label:'Knorr Soup',status:'ok'},{label:'Knorr Soup',status:'ok'},
+        {label:'Maggi Veg',status:'ok'},{label:'Maggi Veg',status:'ok'},
+        {label:'Empty',status:'empty'},{label:'Empty',status:'empty'},
+      ]},
+      {label:'Eye Level',slots:[
+        {label:'Maggi Masala',status:'ok'},{label:'Maggi Masala',status:'ok'},
+        {label:'Nestle Classic',status:'miss',tip:'Expected: Maggi Hot Heads'},{label:'Maggi Masala',status:'ok'},
+        {label:'Maggi Masala',status:'ok'},{label:'Maggi Masala',status:'ok'},
+      ]},
+      {label:'Bottom',slots:[
+        {label:'Bulk Stock',status:'ok'},{label:'Bulk Stock',status:'ok'},
+        {label:'Bulk Stock',status:'partial'},{label:'Bulk Stock',status:'ok'},
+        {label:'Empty',status:'empty'},{label:'Empty',status:'empty'},
+      ]},
+    ];
+    shelf.innerHTML = rows.map(r=>`<div style="display:flex;align-items:center;gap:10px">
+      <div style="font-size:10px;font-family:var(--fm);color:var(--tm);width:60px;flex-shrink:0">${r.label}</div>
+      <div style="flex:1;display:flex;gap:5px">
+        ${r.slots.map(s=>`<div style="height:48px;flex:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-family:var(--fm);cursor:pointer;transition:transform .15s;position:relative;
+          ${s.status==='ok'?'background:var(--gdim);border:1px solid rgba(40,193,133,.2);color:var(--green)':''}
+          ${s.status==='miss'?'background:var(--rdim);border:1px solid rgba(224,79,79,.2);color:var(--red)':''}
+          ${s.status==='partial'?'background:var(--adim);border:1px solid rgba(239,160,48,.2);color:var(--amber)':''}
+          ${s.status==='empty'?'background:var(--bg2);border:1px solid var(--b1);color:var(--tm)':''}
+        " onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'" onclick="toast('info','Slot','${s.label} · Status: ${s.status}${s.tip?' · '+s.tip:''}')">
+          ${s.status==='ok'?'✓':s.status==='miss'?'✗':s.status==='partial'?'~':'—'}
+          ${s.tip?`<div style="position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--b1);border-radius:5px;padding:4px 8px;font-size:10px;white-space:nowrap;z-index:10;pointer-events:none">${s.tip}</div>`:''}
+        </div>`).join('')}
+      </div>
+    </div>`).join('');
+  }
+
+  const ptbody = document.getElementById('plan-tbody');
+  if (ptbody) {
+    const issues = [
+      {loc:'Top Shelf, Slot 4',brand:'Nestle',exp:'Maggi Atta Noodles',found:'Yippee Tricolor',st:'miss'},
+      {loc:'Eye Level, Slot 3',brand:'Nestle',exp:'Maggi Hot Heads',found:'Nestle Classic',st:'miss'},
+      {loc:'Top Shelf, Slot 6',brand:'Wai Wai',exp:'Top Ramen Curry',found:'Partially Stocked',st:'partial'},
+      {loc:'Bottom, Slot 3',brand:'Nestle',exp:'Maggi Bulk 480g',found:'Partially Stocked',st:'partial'},
+    ];
+    ptbody.innerHTML = issues.map(r=>`<tr onclick="toast('info','${r.loc}','Expected: ${r.exp} · Found: ${r.found}')" style="cursor:pointer">
+      <td style="padding:10px 13px;border-bottom:1px solid var(--b0);font-size:12px">${r.loc}</td>
+      <td style="padding:10px 13px;border-bottom:1px solid var(--b0);font-size:12px">${r.brand}</td>
+      <td style="padding:10px 13px;border-bottom:1px solid var(--b0);font-size:12px;color:var(--ts)">${r.exp}</td>
+      <td style="padding:10px 13px;border-bottom:1px solid var(--b0);font-size:12px;color:var(--ts)">${r.found}</td>
+      <td style="padding:10px 13px;border-bottom:1px solid var(--b0)">
+        <span style="font-size:10px;font-family:var(--fm);padding:2px 8px;border-radius:20px;${r.st==='miss'?'background:var(--rdim);color:var(--red)':'background:var(--adim);color:var(--amber)'}">${r.st==='miss'?'Violation':'Partial'}</span>
+      </td>
+    </tr>`).join('');
+  }
+}
+
+/* ── LOYALTY ─────────────────────────────────────── */
+function renderLoyalty() {
+  const tbody = document.getElementById('loy-tbody');
+  if (!tbody) return;
+  const rows = [
+    {t:'17:12',member:'Priya R. ···4521',prog:'PhonePe',amt:'₹842',pts:'+84',type:'Earn'},
+    {t:'17:04',member:'Raj M. ···7823',prog:'Reliance One',amt:'₹391',pts:'+39',type:'Earn'},
+    {t:'16:51',member:'Anita S. ···2901',prog:'PhonePe',amt:'₹1,240',pts:'-120',type:'Redeem'},
+    {t:'16:38',member:'Guest',prog:'—',amt:'₹562',pts:'—',type:'Non-member'},
+    {t:'16:22',member:'Vikram P. ···6644',prog:'Reliance One',amt:'₹88',pts:'+8',type:'Earn'},
+    {t:'16:05',member:'Meera K. ···1133',prog:'PhonePe',amt:'₹3,410',pts:'+341',type:'Earn'},
+  ];
+  tbody.innerHTML = rows.map(r=>`<tr onclick="toast('info','${r.member}','${r.prog} · ${r.amt} · Points ${r.pts}')" style="cursor:pointer">
+    <td style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px;font-family:var(--fm);color:var(--tm)">${r.t}</td>
+    <td style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px">${r.member}</td>
+    <td style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px;color:var(--ts)">${r.prog}</td>
+    <td style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px;font-family:var(--fm)">${r.amt}</td>
+    <td style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.025);font-size:12px;font-family:var(--fm);color:${r.pts.startsWith('+')?'#8f67f0':r.pts.startsWith('-')?'var(--green)':'var(--tm)'}">${r.pts}</td>
+    <td style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.025)"><span style="font-size:10px;font-family:var(--fm);padding:2px 7px;border-radius:20px;${r.type==='Earn'?'background:var(--vdim);color:#8f67f0':r.type==='Redeem'?'background:var(--gdim);color:var(--green)':'background:var(--bg3);color:var(--tm)'}">${r.type}</span></td>
+  </tr>`).join('');
+}
+
+/* ── PACKAGING EVOLUTION ────────────────────────── */
+function renderPackaging() {
+  const tl = document.getElementById('pkg-tl');
+  if (tl) {
+    const events = [
+      {dot:'current',date:'May 2026',title:'Current Packaging — Confidence 89%',desc:'Red & yellow primary colours. Bold "2-minute" tagline. Dual-language (English + Hindi). Camera recognition working at 89%.',tags:[{l:'Live',c:'bg'},{l:'3-angle trained',c:'bb'}]},
+      {dot:'drift',date:'Feb 2026',title:'Packaging Rebrand — Drift Detected',desc:'New "Better Taste Guaranteed" badge added to front face. Confidence dropped from 96% to 68% within 6 hours. Auto-retrain triggered — recovered to 89% in 14 hours.',tags:[{l:'⚠ Drift',c:'ba'},{l:'Auto-retrained',c:'bb'}]},
+      {dot:'',date:'Jul 2025',title:'Regional Variant Added — Gujarati Pack',desc:'Gujarati language packaging variant introduced. Registered as same SKU with regional flag. Training updated to include 2 new angles.',tags:[{l:'Variant Added',c:'bb'}]},
+      {dot:'',date:'Jan 2024',title:'Initial Registration',desc:'SKU first registered in the system. 3 angles uploaded. Trained to 94% confidence within 48 hours.',tags:[{l:'First Registered',c:'bg'}]},
+    ];
+    tl.innerHTML = events.map((ev,i)=>`<div style="display:flex;gap:14px;position:relative;padding-bottom:${i<events.length-1?'24px':'0'}">
+      ${i<events.length-1?'<div style="position:absolute;left:18px;top:38px;bottom:0;width:1px;background:var(--b1)"></div>':''}
+      <div style="width:38px;height:38px;border-radius:50%;border:2px solid ${ev.dot==='current'?'var(--green)':ev.dot==='drift'?'var(--amber)':'var(--b2)'};background:${ev.dot==='current'?'var(--gdim)':ev.dot==='drift'?'var(--adim)':'var(--bg2)'};display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0">${ev.dot==='current'?'🍜':ev.dot==='drift'?'⚠️':'📦'}</div>
+      <div style="flex:1;padding-top:4px">
+        <div style="font-family:var(--fm);font-size:10px;color:var(--tm);margin-bottom:3px">${ev.date}</div>
+        <div style="font-size:13px;font-weight:600;margin-bottom:4px">${ev.title}</div>
+        <div style="font-size:12px;color:var(--ts);line-height:1.6;margin-bottom:8px">${ev.desc}</div>
+        <div style="display:flex;gap:6px">${ev.tags.map(t=>`<span style="font-size:10px;font-family:var(--fm);padding:2px 8px;border-radius:20px;${t.c==='bg'?'background:var(--gdim);color:var(--green)':t.c==='ba'?'background:var(--adim);color:var(--amber)':'background:var(--bdim);color:var(--blue)'}">${t.l}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+  }
+
+  const dl = document.getElementById('drift-list');
+  if (dl) {
+    const drifts = [
+      {e:'🍜',name:'Maggi Masala 70g',from:96,to:68,status:'Retrained',color:'var(--green)'},
+      {e:'🧂',name:'Tata Salt 1kg',from:95,to:81,status:'Under Review',color:'var(--amber)'},
+      {e:'☕',name:'Bru Coffee 100g',from:88,to:62,status:'Needs Manual',color:'var(--red)'},
+    ];
+    dl.innerHTML = drifts.map(d=>`<div style="background:var(--bg2);border:1px solid var(--b0);border-radius:9px;padding:12px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='var(--b2)'" onmouseout="this.style.borderColor=''" onclick="toast('info','${d.name}','Confidence dropped from ${d.from}% to ${d.to}% · Status: ${d.status}')">
+      <div style="font-size:22px">${d.e}</div>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:500;margin-bottom:4px">${d.name}</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:80px;height:4px;background:var(--bg3);border-radius:2px;overflow:hidden"><div style="width:${d.to}%;height:100%;background:${d.to>=85?'var(--green)':d.to>=70?'var(--amber)':'var(--red)'};border-radius:2px"></div></div>
+          <span style="font-size:10px;font-family:var(--fm);color:var(--tm)">${d.from}% → ${d.to}%</span>
+        </div>
+      </div>
+      <span style="font-size:10px;font-family:var(--fm);padding:2px 8px;border-radius:20px;color:${d.color};background:${d.color}22">${d.status}</span>
+      <button class="btn btn-p btn-sm" onclick="event.stopPropagation();toast('success','Retrain','${d.name} queued for model retraining')">Retrain</button>
+    </div>`).join('');
+  }
+}
+
+/* ── MARKETPLACE ────────────────────────────────── */
+function renderMarketplace() {
+  const el = document.getElementById('mkt-apps');
+  if (!el) return;
+  const apps = [
+    {ico:'📊',name:'Tally ERP 9',maker:'Tally Solutions',desc:'Sync billing data, GST reports and inventory in real-time with your existing Tally setup. Zero manual entry.',price:'Included',installed:true,bg:'var(--gdim)'},
+    {ico:'📱',name:'PhonePe Business',maker:'PhonePe Pvt Ltd',desc:'Auto-apply PhonePe loyalty points at checkout. Members earn rewards without any cashier action.',price:'Included',installed:true,bg:'var(--gdim)'},
+    {ico:'💬',name:'WhatsApp Business API',maker:'Meta',desc:'Send automated alerts for fraud events, queue congestion, and shift summaries to manager WhatsApp.',price:'Included',installed:true,bg:'var(--gdim)'},
+    {ico:'📦',name:'SAP Business One',maker:'SAP',desc:'Enterprise ERP connector. Sync inventory, purchase orders, and financial data across your entire chain.',price:'₹4,999/mo',installed:false,bg:'var(--bdim)'},
+    {ico:'🛍',name:'Shopify POS Bridge',maker:'Shopify',desc:'Sync offline checkout data with your Shopify e-commerce store. Unified inventory across channels.',price:'₹1,999/mo',installed:false,bg:'var(--bdim)'},
+    {ico:'📈',name:'Google Analytics 4',maker:'Google',desc:'Push checkout events and customer behaviour data to GA4 for advanced retail analytics.',price:'Free',installed:false,bg:'var(--vdim)'},
+    {ico:'🏦',name:'Zoho Books',maker:'Zoho Corp',desc:'Auto-generate GST-compliant invoices and sync daily sales to Zoho Books for accounting.',price:'₹899/mo',installed:false,bg:'var(--bdim)'},
+    {ico:'🚚',name:'Dunzo for Business',maker:'Dunzo',desc:'Trigger home delivery orders directly from checkout. Customer opts-in at billing stage.',price:'₹2,499/mo',installed:false,bg:'var(--adim)'},
+    {ico:'📲',name:'MSG91 Alerts',maker:'MSG91',desc:'Send transactional SMS — receipts, loyalty points, and fraud alerts to customers and staff.',price:'₹499/mo',installed:false,bg:'var(--bg3)'},
+  ];
+  el.innerHTML = apps.map(a=>`<div style="background:var(--bg1);border:1px solid ${a.installed?'rgba(40,193,133,.22)':'var(--b0)'};border-radius:12px;padding:17px;cursor:pointer;transition:all .15s" onmouseover="this.style.borderColor='var(--b2)';this.style.transform='translateY(-1px)'" onmouseout="this.style.borderColor='${a.installed?'rgba(40,193,133,.22)':'var(--b0)'}';this.style.transform='translateY(0)'">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px">
+      <div style="width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:21px;background:${a.bg}">${a.ico}</div>
+      ${a.installed?'<span style="font-size:10px;font-family:var(--fm);padding:2px 8px;border-radius:20px;background:var(--gdim);color:var(--green)">● Installed</span>':''}
+    </div>
+    <div style="font-size:13px;font-weight:700;margin-bottom:2px">${a.name}</div>
+    <div style="font-size:11px;color:var(--tm);font-family:var(--fm);margin-bottom:8px">${a.maker}</div>
+    <div style="font-size:12px;color:var(--ts);line-height:1.6;margin-bottom:12px">${a.desc}</div>
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <span style="font-size:12px;font-family:var(--fm);color:var(--ts)">${a.price}</span>
+      <button class="btn ${a.installed?'btn-g':'btn-p'} btn-sm" onclick="event.stopPropagation();toast('${a.installed?'info':'success'}','${a.name}','${a.installed?'Opening integration settings…':'Connecting '+a.name+'… Setup wizard started'}')">${a.installed?'Settings':'Connect'}</button>
+    </div>
+  </div>`).join('');
+}
+
+/* ── TOG CHIP (global filter chip helper) ───────── */
+function togChip(el) {
+  const siblings = el.parentElement.querySelectorAll('.fchip');
+  siblings.forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+}
+
+/* ── LIVE SIM ───────────────────────────────────── */
+(function liveSimulation() {
+  // Periodic lane events
+  setInterval(() => {
+    const events = [
+      () => toast('info', 'Lane 02', 'Transaction complete · ₹' + (200 + Math.floor(Math.random()*800))),
+      () => toast('info', 'Lane 05', Math.floor(Math.random()*12+2) + ' items · Customer being served'),
+      () => toast('success', 'AI Engine', 'SKU recognised · Confidence ' + (88+Math.floor(Math.random()*12)) + '%'),
+      () => toast('info', 'POS Sync', Math.floor(Math.random()*5+1) + ' records pushed to Tally'),
+    ];
+    if (Math.random() > 0.62) events[Math.floor(Math.random()*events.length)]();
+  }, 16000);
+
+  // Fraud pulse
+  setTimeout(() => {
+    const fp = document.getElementById('fraud-pill');
+    if (fp) fp.style.display = 'flex';
+    addNotif('crit', '🚨 Fraud Alert', 'High-risk event detected Lane 03 · Click to review');
+    toast('warning', 'Risk Alert', 'High-risk event · Lane 03 · Click Fraud & Risk');
+  }, 9000);
+
+  // Txn count drift
+  setInterval(() => {
+    if (Math.random() > 0.5) {
+      S.txnCount = (S.txnCount || 214) + Math.floor(Math.random()*3+1);
+      const td = document.getElementById('d-txn');
+      if (td) td.textContent = S.txnCount;
+      const st = document.getElementById('s-txn');
+      if (st) st.textContent = S.txnCount;
+    }
+  }, 20000);
+})();
+
+/* ── INIT ───────────────────────────────────────── */
+updateNotifCount();
+
 </script>
 </body>
 </html>
