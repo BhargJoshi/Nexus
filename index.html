@@ -921,14 +921,12 @@ input,select,textarea{font-family:inherit;}
 </head>
 <body>
 
-<!-- NO MOBILE -->
 <div class="nm">
   <div style="font-size:36px">🖥</div>
   <div style="font-size:18px;font-weight:700">Optimised for desktop</div>
   <div style="font-size:13px;color:var(--tm);max-width:300px;line-height:1.7">Requires 860px+ viewport to render correctly.</div>
 </div>
 
-<!-- ═══════════════════ LOGIN ═══════════════════ -->
 <div id="scr-login">
   <div class="login-l">
     <div class="brand">
@@ -967,9 +965,7 @@ input,select,textarea{font-family:inherit;}
   </div>
 </div>
 
-<!-- ═══════════════════ APP SHELL ═══════════════════ -->
 <div class="shell">
-  <!-- RAIL -->
   <nav class="rail">
     <div class="rail-logo" onclick="toast('info','AI Checkout','Intelligence Platform · Final Build')">
       <svg viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="6" height="6" rx="1.5" fill="white"/><rect x="10" y="2" width="6" height="6" rx="1.5" fill="white" opacity=".4"/><rect x="2" y="10" width="6" height="6" rx="1.5" fill="white" opacity=".4"/><rect x="10" y="10" width="6" height="6" rx="1.5" fill="white"/></svg>
@@ -985,6 +981,7 @@ input,select,textarea{font-family:inherit;}
     <button class="rn" onclick="goView('admin',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="rn-tip">Store Admin & Enterprise</span></button>
     
     <div class="rsep"></div>
+ 
     <div class="rail-section-label" style="font-family:var(--fm);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:.1em;text-align:center;width:100%;padding:2px 0;flex-shrink:0;">Intel</div>
     <button class="rn" onclick="goView('queue',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="rn-tip">Smart Queue Intelligence</span></button>
     <button class="rn" onclick="goView('shrinkage',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="rn-tip">Shrinkage Analytics</span></button>
@@ -993,6 +990,7 @@ input,select,textarea{font-family:inherit;}
     <button class="rn" onclick="goView('packaging',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span class="rn-tip">Packaging Evolution</span></button>
     <div class="rsep"></div>
     <div class="rail-section-label" style="font-family:var(--fm);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:.1em;text-align:center;width:100%;padding:2px 0;flex-shrink:0;">People</div>
+   
     <button class="rn" onclick="goView('coaching',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span class="rn-tip">Cashier Coaching</span></button>
     <button class="rn" onclick="goView('whatsapp',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="rn-tip">WhatsApp Alerts</span></button>
     <button class="rn" onclick="goView('loyalty',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span class="rn-tip">Loyalty Integration</span></button>
@@ -1005,9 +1003,9 @@ input,select,textarea{font-family:inherit;}
     <button class="rn" onclick="doLogout()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="rn-tip">End Shift / Sign Out</span></button>
   </nav>
 
-  <!-- MAIN -->
   <div class="main">
     <header class="topbar">
+    
       <div class="tb-title" id="tb-title">Live Checkout · Lane 04</div>
       <div class="tb-meta">
         <div class="pill-stat"><div class="dot dg"></div>AI Engine</div>
@@ -1018,7 +1016,7 @@ input,select,textarea{font-family:inherit;}
       </div>
     </header>
 
-    <!-- ══ 1. LIVE CHECKOUT ══ -->
+   
     <div class="view on" id="v-checkout">
       <div class="co-left">
         <div class="phd"><span class="sect">Detected Products</span><span class="badge bb" id="feed-badge">0 items</span></div>
@@ -1028,6 +1026,7 @@ input,select,textarea{font-family:inherit;}
         <div class="cam">
           <div class="cam-grid"></div>
           <div class="cc tl"></div><div class="cc tr"></div><div class="cc bl"></div><div class="cc br"></div>
+   
           <div class="sbeam"></div>
           <div class="dbox" id="dbox"><span class="dlabel" id="dlabel">Detecting…</span></div>
           <div class="cemoji" id="cemoji">🛒</div>
@@ -1036,6 +1035,7 @@ input,select,textarea{font-family:inherit;}
         <div class="co-bar">
           <button class="btn btn-g btn-sm" onclick="scan()">⚡ Simulate Scan</button>
           <span class="kbhint">Space</span>
+   
           <button class="btn btn-g btn-sm" onclick="openVerify()">⚠ Ambiguity Test</button>
           <button class="btn btn-d btn-sm" onclick="clearCart()">✕ Clear</button>
           <div style="flex:1"></div>
@@ -1044,6 +1044,7 @@ input,select,textarea{font-family:inherit;}
         </div>
       </div>
       <div class="co-right">
+     
         <div class="total-blk">
           <div class="total-lbl">Running Total</div>
           <div class="total-num"><span class="cur">₹</span><span id="tnum">0</span></div>
@@ -1052,6 +1053,7 @@ input,select,textarea{font-family:inherit;}
         <div class="bill-rows">
           <div class="brow"><span class="l">Subtotal</span><span class="r" id="b-sub">₹0.00</span></div>
           <div class="brow"><span class="l">GST (18%)</span><span class="r" id="b-tax">₹0.00</span></div>
+         
           <div class="brow"><span class="l">Discount</span><span class="r" style="color:var(--green)" id="b-disc">— ₹0.00</span></div>
           <div class="dh" style="margin:6px 0"></div>
           <div class="brow tot"><span class="l">Total</span><span class="r" id="b-tot">₹0.00</span></div>
@@ -1060,6 +1062,7 @@ input,select,textarea{font-family:inherit;}
         <div class="pchips" id="pay-chips">
           <div class="pchip" onclick="selPay(this)"><span class="pci">💵</span>Cash</div>
           <div class="pchip" onclick="selPay(this)"><span class="pci">💳</span>Card</div>
+       
           <div class="pchip on" onclick="selPay(this)"><span class="pci">📱</span>UPI</div>
         </div>
         <div class="co-acts">
@@ -1070,7 +1073,6 @@ input,select,textarea{font-family:inherit;}
       </div>
     </div>
 
-    <!-- ══ 2. OPERATIONS DASHBOARD ══ -->
     <div class="view" id="v-dash">
       <div class="dash-wrap" style="width:100%">
         <div class="kpi-row">
@@ -1085,6 +1087,7 @@ input,select,textarea{font-family:inherit;}
           <div class="chart-card">
             <div class="chart-hd">
               <div class="chart-title">Checkout Throughput · Today</div>
+         
               <div class="cleg"><span><span class="cldot" style="background:var(--blue)"></span>Txns</span><span><span class="cldot" style="background:var(--green)"></span>Verified</span></div>
             </div>
             <svg viewBox="0 0 620 110" style="width:100%;overflow:visible" xmlns="http://www.w3.org/2000/svg">
@@ -1104,12 +1107,14 @@ input,select,textarea{font-family:inherit;}
               <text x="76" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">10AM</text>
               <text x="154" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">11AM</text>
               <text x="232" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">12PM</text>
+        
               <text x="310" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">1PM</text>
               <text x="388" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">2PM</text>
               <text x="466" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">3PM</text>
               <text x="544" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">4PM</text>
             </svg>
           </div>
+      
           <div class="chart-card">
             <div class="chart-hd"><div class="chart-title">Lane Status</div><button class="btn btn-g btn-sm" onclick="toggleLane()">Toggle Lane</button></div>
             <div class="lane-grid" id="lane-grid">
@@ -1120,6 +1125,7 @@ input,select,textarea{font-family:inherit;}
               <div class="lane-card la" onclick="openLaneModal(5,'Active','Meena K.','₹2,110','19')"><div class="lnum" style="color:var(--green)">05</div><div class="lstxt" style="color:var(--green)">Active</div></div>
               <div class="lane-card li"><div class="lnum" style="color:var(--tm)">06</div><div class="lstxt" style="color:var(--tm)">Idle</div></div>
               <div class="lane-card li"><div class="lnum" style="color:var(--tm)">07</div><div class="lstxt" style="color:var(--tm)">Idle</div></div>
+          
               <div class="lane-card la" onclick="openLaneModal(8,'Express','Suresh D.','₹660','Express')"><div class="lnum" style="color:var(--green)">08</div><div class="lstxt" style="color:var(--green)">Express</div></div>
             </div>
           </div>
@@ -1129,20 +1135,22 @@ input,select,textarea{font-family:inherit;}
           <div class="chart-card">
             <div class="chart-hd"><div class="chart-title">Live Alerts</div><span style="font-size:11px;font-family:var(--fmono);color:var(--tm)" id="alert-count">3 active</span></div>
             <div class="alert-list" id="alert-list">
+    
               <div class="aitem aw" onclick="resolveAlert(this,'Lane 03 congestion managed · Extra cashier deployed')"><div class="aico" style="background:var(--adim)">⚠️</div><div style="flex:1"><div class="at">Lane 03 — Queue Congestion</div><div class="as">9 customers waiting · Avg wait 4.2 min</div></div><div class="atime">2m ago</div><button class="btn btn-s btn-sm" style="flex-shrink:0">Resolve</button></div>
               <div class="aitem ac" onclick="resolveAlert(this,'SKU flagged for retraining · Model update queued')"><div class="aico" style="background:var(--rdim)">🔴</div><div style="flex:1"><div class="at">SKU Confidence Drop — Maggi 70g</div><div class="as">Packaging change detected · Retrain needed</div></div><div class="atime">18m ago</div><button class="btn btn-s btn-sm" style="flex-shrink:0">Retrain</button></div>
+             
               <div class="aitem ai" onclick="resolveAlert(this,'POS latency normalised · No action needed')"><div class="aico" style="background:var(--bdim)">ℹ️</div><div style="flex:1"><div class="at">POS Sync Latency — Lane 05</div><div class="as">+240ms above baseline · Monitoring</div></div><div class="atime">34m ago</div><button class="btn btn-g btn-sm" style="flex-shrink:0">Dismiss</button></div>
             </div>
           </div>
           <div class="chart-card">
             <div class="chart-hd"><div class="chart-title">AI Accuracy · By Category</div></div>
             <div id="acc-bars"></div>
+      
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ══ 3. POS & DEVICE MANAGEMENT ══ -->
     <div class="view" id="v-pos">
       <div class="pos-sb">
         <div class="pos-sb-hd"><span class="sect">Devices</span><button class="btn btn-p btn-sm" onclick="toast('success','Device Added','Opening device pairing wizard…')">+ Add Device</button></div>
@@ -1151,7 +1159,6 @@ input,select,textarea{font-family:inherit;}
       <div class="pos-detail" id="pos-detail"></div>
     </div>
 
-    <!-- ══ 4. SKU INTELLIGENCE ══ -->
     <div class="view" id="v-sku">
       <div class="sku-tb">
         <div class="si-wrap"><span class="si-ico">🔍</span><input class="si" type="text" placeholder="Search SKU, name, barcode…" oninput="filterSKU(this.value)"></div>
@@ -1160,6 +1167,7 @@ input,select,textarea{font-family:inherit;}
           <div class="fchip" onclick="filterChip(this,'active')">Active</div>
           <div class="fchip" onclick="filterChip(this,'review')">Under Review</div>
           <div class="fchip" onclick="filterChip(this,'new')">New</div>
+      
         </div>
         <div style="margin-left:auto;display:flex;gap:8px">
           <button class="btn btn-g btn-sm" onclick="toast('info','Export','Exporting SKU catalogue as CSV…')">Export CSV</button>
@@ -1170,11 +1178,11 @@ input,select,textarea{font-family:inherit;}
         <div class="sku-table-wrap" style="padding-top:12px">
           <table class="sku-table"><thead><tr><th>Product</th><th>Category</th><th>Confidence</th><th>Scans (30d)</th><th>Status</th><th>Last Updated</th><th></th></tr></thead><tbody id="sku-tbody"></tbody></table>
         </div>
+ 
         <div class="sku-dp" id="sku-dp"><div style="text-align:center;padding:48px 20px;color:var(--tm)"><div style="font-size:32px;margin-bottom:12px">📦</div><div style="font-size:12px;font-family:var(--fmono)">Select a product<br>to view details</div></div></div>
       </div>
     </div>
 
-    <!-- ══ 5. SHIFT SUMMARY ══ -->
     <div class="view" id="v-shift">
       <div class="shift-wrap">
         <div class="shift-hero">
@@ -1197,12 +1205,14 @@ input,select,textarea{font-family:inherit;}
             <div class="chart-hd"><div class="chart-title">Throughput Over Shift</div><div class="cleg"><span><span class="cldot" style="background:var(--blue)"></span>Transactions</span><span><span class="cldot" style="background:var(--green)"></span>Revenue ÷ 1000</span></div></div>
             <svg viewBox="0 0 620 110" style="width:100%;overflow:visible" xmlns="http://www.w3.org/2000/svg">
               <defs><linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4475f7" stop-opacity=".18"/><stop offset="100%" stop-color="#4475f7" stop-opacity="0"/></linearGradient><linearGradient id="gg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2ec990" stop-opacity=".14"/><stop offset="100%" stop-color="#2ec990" stop-opacity="0"/></linearGradient></defs>
+            
               <line x1="0" y1="0" x2="620" y2="0" stroke="rgba(255,255,255,.035)" stroke-width="1"/><line x1="0" y1="28" x2="620" y2="28" stroke="rgba(255,255,255,.035)" stroke-width="1"/><line x1="0" y1="56" x2="620" y2="56" stroke="rgba(255,255,255,.035)" stroke-width="1"/><line x1="0" y1="84" x2="620" y2="84" stroke="rgba(255,255,255,.035)" stroke-width="1"/>
               <path d="M0,96 C55,80 100,55 155,46 S250,16 310,14 S410,38 480,32 S550,58 620,74 L620,110 L0,110Z" fill="url(#bg2)"/>
               <path d="M0,104 C55,92 100,72 155,60 S250,30 310,26 S410,50 480,44 S550,68 620,84 L620,110 L0,110Z" fill="url(#gg2)"/>
               <path d="M0,96 C55,80 100,55 155,46 S250,16 310,14 S410,38 480,32 S550,58 620,74" fill="none" stroke="#4475f7" stroke-width="1.8" stroke-linecap="round"/>
               <path d="M0,104 C55,92 100,72 155,60 S250,30 310,26 S410,50 480,44 S550,68 620,84" fill="none" stroke="#2ec990" stroke-width="1.8" stroke-linecap="round"/>
               <text x="0" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">9AM</text><text x="76" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">10AM</text><text x="154" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">11AM</text><text x="232" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">12PM</text><text x="310" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">1PM</text><text x="388" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">2PM</text><text x="466" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">3PM</text><text x="544" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">4PM</text>
+  
             </svg>
           </div>
           <div class="ai-box">
@@ -1215,6 +1225,7 @@ input,select,textarea{font-family:inherit;}
                 <span class="badge ba">⚠ 2 SKUs flagged</span>
                 <span class="badge bb">→ Retrain queued</span>
               </div>
+    
             </div>
           </div>
         </div>
@@ -1223,6 +1234,7 @@ input,select,textarea{font-family:inherit;}
             <div class="tx-hd"><div style="font-size:13px;font-weight:600">Transactions</div><button class="btn btn-g btn-sm" onclick="toast('info','Export','Exporting transaction log as CSV…')">Export CSV</button></div>
             <table class="tx-table"><thead><tr><th>Time</th><th>Items</th><th>Amount</th><th>Payment</th><th>Status</th></tr></thead>
             <tbody id="tx-tbody"></tbody></table>
+    
           </div>
           <div class="card" style="padding:18px">
             <div style="font-size:13px;font-weight:600;margin-bottom:16px">Accuracy · By Category</div>
@@ -1230,6 +1242,7 @@ input,select,textarea{font-family:inherit;}
             <div class="dh" style="margin:14px 0"></div>
             <div style="font-size:13px;font-weight:600;margin-bottom:12px">Payment Split</div>
             <div style="display:flex;gap:16px;text-align:center">
+           
               <div style="flex:1"><div style="font-size:22px;font-weight:800;color:var(--blue)">48%</div><div style="font-size:10px;font-family:var(--fmono);color:var(--tm);margin-top:3px">UPI</div></div>
               <div style="flex:1"><div style="font-size:22px;font-weight:800;color:var(--green)">33%</div><div style="font-size:10px;font-family:var(--fmono);color:var(--tm);margin-top:3px">Card</div></div>
               <div style="flex:1"><div style="font-size:22px;font-weight:800;color:var(--amber)">19%</div><div style="font-size:10px;font-family:var(--fmono);color:var(--tm);margin-top:3px">Cash</div></div>
@@ -1239,31 +1252,36 @@ input,select,textarea{font-family:inherit;}
       </div>
     </div>
 
-    <!-- ══ 6. FRAUD & RISK (V3) ══ -->
     <div class="view" id="v-fraud">
+  
       <div class="fraud-wrap" style="width:100%">
         <div class="fraud-top">
           <div class="fkpi alert-kpi"><div class="fkpi-l">Risk Alerts Today</div><div class="fkpi-v" style="color:var(--red)" id="f-alerts">3</div><div class="fkpi-s">Requires attention</div></div>
           <div class="fkpi"><div class="fkpi-l">Item Skip Events</div><div class="fkpi-v" style="color:var(--amber)">7</div><div class="fkpi-s"><span class="tdn">↑ 3</span> vs yesterday</div></div>
           <div class="fkpi"><div class="fkpi-l">Override Abuse Score</div><div class="fkpi-v">12</div><div class="fkpi-s">Normal range</div></div>
           <div class="fkpi"><div class="fkpi-l">Amount at Risk</div><div class="fkpi-v" style="color:var(--amber)">₹840</div><div class="fkpi-s">Across flagged events</div></div>
+        
         </div>
         <div class="dash-row" style="grid-template-columns:1fr 1fr">
           <div class="chart-card">
             <div class="chart-hd"><div class="chart-title">High-Risk Events</div><span class="badge br">3 unresolved</span></div>
             <div class="risk-row" id="risk-list">
               <div class="risk-item high" onclick="openRisk('Item Weight Mismatch','Lane 03 · TXN-1982 · 1.8kg item billed as 200g · Loss: ₹340','var(--red)')"><div class="risk-ico" style="background:var(--rdim)">⚖</div><div style="flex:1"><div class="risk-name">Weight Mismatch Detected</div><div class="risk-det">L03 · TXN-1982 · ₹340 variance</div></div><div class="risk-score" style="color:var(--red)">91</div></div>
+ 
               <div class="risk-item high" onclick="openRisk('Barcode Substitution Attempt','Lane 06 · TXN-1944 · Premium item scanned under budget SKU · Loss: ₹280','var(--red)')"><div class="risk-ico" style="background:var(--rdim)">🔄</div><div style="flex:1"><div class="risk-name">Barcode Substitution</div><div class="risk-det">L06 · TXN-1944 · ₹280 variance</div></div><div class="risk-score" style="color:var(--red)">88</div></div>
               <div class="risk-item med" onclick="openRisk('Excessive Override Usage','CSH-0038 · 9 overrides in 2 hours · 4× store average · Escalation recommended','var(--amber)')"><div class="risk-ico" style="background:var(--adim)">🔧</div><div style="flex:1"><div class="risk-name">Excessive Override — CSH-0038</div><div class="risk-det">9 overrides · 2hr window · 4× avg</div></div><div class="risk-score" style="color:var(--amber)">74</div></div>
+       
               <div class="risk-item med" onclick="openRisk('Rapid Void Sequence','Lane 02 · 4 voids in 8 minutes · Unusual pattern flagged','var(--amber)')"><div class="risk-ico" style="background:var(--adim)">⏱</div><div style="flex:1"><div class="risk-name">Rapid Void Sequence</div><div class="risk-det">L02 · 4 voids in 8 min</div></div><div class="risk-score" style="color:var(--amber)">61</div></div>
             </div>
           </div>
           <div class="chart-card">
             <div class="chart-hd"><div class="chart-title">Item Skip Events</div><button class="btn btn-d btn-sm" onclick="toast('info','Report','Generating skip event report…')">Generate Report</button></div>
+     
             <div class="skip-list" id="skip-list">
               <div class="skip-item skip-hi" onclick="openRisk('Item Skip Detected','Lane 04 · Surf Excel 1kg placed in bag without scan · Camera confidence 94% · Estimated loss ₹220','var(--red)')"><div style="font-size:18px">🧺</div><div style="flex:1"><div style="font-size:12px;font-weight:500">Surf Excel Matic 1kg</div><div class="skip-meta">Lane 04 · Camera confidence 94% · ₹220</div></div><span class="badge br">High</span><div class="skip-actions"><button class="btn btn-d btn-sm" onclick="event.stopPropagation();toast('warning','Flagged','Transaction flagged for review')">Flag</button></div></div>
               <div class="skip-item skip-hi" onclick="openRisk('Item Skip Detected','Lane 01 · Amul Milk 1L placed in bag without scan · Camera confidence 88% · Estimated loss ₹62','var(--red)')"><div style="font-size:18px">🥛</div><div style="flex:1"><div style="font-size:12px;font-weight:500">Amul Gold Milk 1L</div><div class="skip-meta">Lane 01 · Camera confidence 88% · ₹62</div></div><span class="badge br">High</span><div class="skip-actions"><button class="btn btn-d btn-sm" onclick="event.stopPropagation();toast('warning','Flagged','Transaction flagged for review')">Flag</button></div></div>
               <div class="skip-item skip-md" onclick="openRisk('Possible Skip','Lane 05 · Item passed zone quickly · Confidence 67% · May be false positive','var(--amber)')"><div style="font-size:18px">🍫</div><div style="flex:1"><div style="font-size:12px;font-weight:500">Dairy Milk Silk 60g</div><div class="skip-meta">Lane 05 · Camera confidence 67% · ₹35</div></div><span class="badge ba">Medium</span><div class="skip-actions"><button class="btn btn-g btn-sm" onclick="event.stopPropagation();toast('info','Dismissed','Event dismissed as false positive')">Dismiss</button></div></div>
+            
             </div>
           </div>
         </div>
@@ -1274,9 +1292,9 @@ input,select,textarea{font-family:inherit;}
       </div>
     </div>
 
-    <!-- ══ 7. SKU REGISTRATION ══ -->
     <div class="view" id="v-reg">
       <div class="reg-sb">
+ 
         <div class="reg-sb-t">Register New SKU</div>
         <div class="rstep done" id="rs0" onclick="goRStep(0)"><div class="rsn">✓</div><div><div class="rsname">Product Details</div><div class="rsdesc">Name, brand, category</div></div></div>
         <div class="rconn"></div>
@@ -1291,6 +1309,7 @@ input,select,textarea{font-family:inherit;}
           <div style="font-size:10px;font-family:var(--fmono);color:var(--tm);margin-bottom:8px">PROGRESS</div>
           <div class="step-prog"><div class="spi done" id="spi0"></div><div class="spi on" id="spi1"></div><div class="spi" id="spi2"></div><div class="spi" id="spi3"></div><div class="spi" id="spi4"></div></div>
           <div style="font-size:11px;font-family:var(--fmono);color:var(--tm)">Step <span id="rscur">2</span> of 5</div>
+       
         </div>
       </div>
       <div class="reg-main">
@@ -1311,6 +1330,7 @@ input,select,textarea{font-family:inherit;}
             <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px">
               <div><div class="fi" style="margin-bottom:7px"><label>Front Face</label></div><div class="upz done" onclick="toast('success','Front View','Image already uploaded · maggi_front.jpg')"><div style="font-size:28px">🍜</div><div style="font-size:12px;font-weight:500">Uploaded</div><div style="font-size:10px;color:var(--tm);font-family:var(--fmono)">maggi_front.jpg · 2.1MB</div><span class="badge bg">✓ Processed</span></div></div>
               <div><div class="fi" style="margin-bottom:7px"><label>Back Panel</label></div><div class="upz done" onclick="toast('success','Back Panel','Image already uploaded · maggi_back.jpg')"><div style="font-size:28px">📦</div><div style="font-size:12px;font-weight:500">Uploaded</div><div style="font-size:10px;color:var(--tm);font-family:var(--fmono)">maggi_back.jpg · 1.8MB</div><span class="badge bg">✓ Processed</span></div></div>
+          
               <div><div class="fi" style="margin-bottom:7px"><label>Top View</label></div><div class="upz" id="upz-top" onclick="uploadTopView()"><div style="font-size:28px">☁</div><div style="font-size:12px;font-weight:500">Click to upload</div><div style="font-size:10px;color:var(--tm);font-family:var(--fmono)">PNG, JPG up to 10MB</div></div></div>
             </div>
             <div style="background:var(--bg2);border:1px solid var(--b0);border-radius:9px;padding:14px 18px">
@@ -1327,11 +1347,13 @@ input,select,textarea{font-family:inherit;}
             <div style="margin-top:18px;background:var(--bg2);border:1px solid var(--b0);border-radius:10px;padding:16px 18px">
               <div style="font-size:12px;font-weight:500;margin-bottom:12px">Variant Detection Config</div>
               <div class="cfrow"><div><div class="cf-l">Cross-variant disambiguation</div><div class="cf-s">Differentiate packaging changes by date range</div></div><label class="tog"><input type="checkbox" checked><span class="tog-sl"></span></label></div>
+           
               <div class="cfrow"><div><div class="cf-l">Regional pack detection</div><div class="cf-s">Gujarati/Hindi packs bill as same SKU</div></div><label class="tog"><input type="checkbox" checked><span class="tog-sl"></span></label></div>
               <div class="cfrow"><div><div class="cf-l">Size auto-differentiation</div><div class="cf-s">Different weights billed as separate SKUs</div></div><label class="tog"><input type="checkbox"><span class="tog-sl"></span></label></div>
             </div>
           </div>
           <div class="step-p" id="sp3"><h2>AI Training Configuration</h2><p class="sub">Configure the recognition model and simulate training results before live deployment.</p>
+          
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px">
               <div class="fi fgrp"><label>Confidence Threshold</label><select><option>High (≥85%) — Recommended</option><option>Medium (≥70%)</option><option>Low (≥55%)</option></select></div>
               <div class="fi fgrp"><label>Camera Angle Priority</label><select><option>Multi-angle average — Recommended</option><option>Top-view primary</option><option>Front-view primary</option></select></div>
@@ -1342,6 +1364,7 @@ input,select,textarea{font-family:inherit;}
               <div class="tm-row"><span class="tm-l">Variants configured</span><span class="tm-r">4 active</span></div>
               <div class="tm-row"><span class="tm-l">Estimated accuracy</span><span class="tm-r" id="train-acc" style="color:var(--amber)">~84% (needs top-view)</span></div>
               <div class="tm-row"><span class="tm-l">Training time</span><span class="tm-r">~12 minutes</span></div>
+              
               <div class="tm-row"><span class="tm-l">Model</span><span class="tm-r">v4.2 · ResNet-50</span></div>
               <div style="margin-top:14px"><div style="font-size:10px;font-family:var(--fmono);color:var(--tm);margin-bottom:7px">CONFIDENCE PROJECTION</div>
               <div class="pt" style="height:8px;border-radius:4px"><div class="pf" id="train-prog" style="width:84%;background:var(--amber);border-radius:4px"></div></div>
@@ -1359,6 +1382,7 @@ input,select,textarea{font-family:inherit;}
               <div class="fi full fgrp"><label>Terminal Assignment</label><select><option>All terminals (store-wide)</option><option>Lane 04 only</option><option>Express lanes only</option></select></div>
             </div>
             <div style="background:var(--gdim);border:1px solid rgba(46,201,144,.2);border-radius:9px;padding:14px 16px;display:flex;align-items:center;gap:12px">
+    
               <div style="font-size:18px">✓</div><div style="flex:1"><div style="font-size:12px;font-weight:500;color:var(--green)">Ready for Registration</div><div style="font-size:11px;color:var(--tm);font-family:var(--fmono)">Upload top-view to reach ≥90% accuracy</div></div>
               <button class="btn btn-s" onclick="submitSKU()">Submit SKU →</button>
             </div>
@@ -1366,13 +1390,13 @@ input,select,textarea{font-family:inherit;}
         </div>
         <div class="reg-ft">
           <button class="btn btn-g" onclick="rStep(-1)">← Back</button>
+       
           <div style="flex:1;text-align:center;font-size:11px;font-family:var(--fmono);color:var(--tm)" id="reg-hint">Step 2 of 5 — Upload packaging images from 3+ angles</div>
           <button class="btn btn-p" onclick="rStep(1)">Continue →</button>
         </div>
       </div>
     </div>
 
-    <!-- ══ 8. STORE ADMIN & ENTERPRISE (V3) ══ -->
     <div class="view" id="v-admin">
       <div class="admin-wrap" style="width:100%">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
@@ -1384,18 +1408,21 @@ input,select,textarea{font-family:inherit;}
         </div>
         <div class="admin-grid">
           <div class="admin-card">
+        
             <div class="admin-card-hd"><div class="admin-card-ico" style="background:var(--bdim)">🏪</div><div class="admin-card-title">Store Performance</div></div>
             <div class="admin-card-body">
               <div class="store-metric"><span class="sm-l">Total Revenue Today</span><span class="sm-r" style="color:var(--green)">₹4,82,340</span></div>
               <div class="store-metric"><span class="sm-l">Transactions</span><span class="sm-r">1,842</span></div>
               <div class="store-metric"><span class="sm-l">Active Cashiers</span><span class="sm-r">6 / 8</span></div>
               <div class="store-metric"><span class="sm-l">AI Accuracy</span><span class="sm-r" style="color:var(--blue)">97.4%</span></div>
+  
               <div class="store-metric"><span class="sm-l">Avg Queue Wait</span><span class="sm-r">2.8 min</span></div>
               <div class="store-metric"><span class="sm-l">Items Processed</span><span class="sm-r">15,104</span></div>
               <div class="store-metric"><span class="sm-l">Fraud Alerts</span><span class="sm-r" style="color:var(--red)">3 active</span></div>
             </div>
           </div>
           <div class="admin-card">
+           
             <div class="admin-card-hd"><div class="admin-card-ico" style="background:var(--gdim)">👥</div><div class="admin-card-title">Operator Management</div><button class="btn btn-p btn-sm" style="margin-left:auto" onclick="toast('success','Invite Sent','Operator invitation sent via SMS')">+ Invite</button></div>
             <div class="admin-card-body" id="user-list"></div>
           </div>
@@ -1407,6 +1434,7 @@ input,select,textarea{font-family:inherit;}
                 <div class="pf-item"><div class="pfc" style="background:var(--gdim);color:var(--green)">✓</div>Unlimited SKUs</div>
                 <div class="pf-item"><div class="pfc" style="background:var(--gdim);color:var(--green)">✓</div>Fraud & Risk Module</div>
                 <div class="pf-item"><div class="pfc" style="background:var(--gdim);color:var(--green)">✓</div>Enterprise Analytics</div>
+                
                 <div class="pf-item"><div class="pfc" style="background:var(--gdim);color:var(--green)">✓</div>Priority Support (4h SLA)</div>
                 <div class="pf-item"><div class="pfc" style="background:var(--gdim);color:var(--green)">✓</div>Multi-store Management</div>
               </div>
@@ -1414,6 +1442,7 @@ input,select,textarea{font-family:inherit;}
             </div>
           </div>
         </div>
+        
         <div class="admin-grid" style="grid-template-columns:1fr 1fr">
           <div class="admin-card">
             <div class="admin-card-hd"><div class="admin-card-ico" style="background:var(--adim)">⚙️</div><div class="admin-card-title">System Configuration</div></div>
@@ -1423,6 +1452,7 @@ input,select,textarea{font-family:inherit;}
               <div class="cfrow"><div><div class="cf-l">Offline Mode Fallback</div><div class="cf-s">Enable barcode-only mode on network loss</div></div><label class="tog"><input type="checkbox" checked><span class="tog-sl"></span></label></div>
               <div class="cfrow"><div><div class="cf-l">GST Auto-calculation</div><div class="cf-s">Apply GST slab from HSN mapping automatically</div></div><label class="tog"><input type="checkbox" checked><span class="tog-sl"></span></label></div>
               <div class="cfrow"><div><div class="cf-l">Shift Auto-close at Midnight</div><div class="cf-s">Force EOD report and shift closure at 00:00</div></div><label class="tog"><input type="checkbox"><span class="tog-sl"></span></label></div>
+           
             </div>
           </div>
           <div class="admin-card">
@@ -1434,8 +1464,8 @@ input,select,textarea{font-family:inherit;}
     </div>
 
 
-    <!-- ═══ SMART QUEUE INTELLIGENCE ═══ -->
     <div class="view" id="v-queue">
+   
       <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;width:100%">
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
           <div style="background:var(--rdim);border:1px solid rgba(224,79,79,.3);border-radius:12px;padding:17px"><div style="font-family:var(--fm);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">⚠ Critical Queue</div><div style="font-size:30px;font-weight:900;line-height:1;margin-bottom:4px;color:var(--red)">Lane 03</div><div style="font-size:11px;font-family:var(--fm);color:var(--tm)">9 customers · 11 min wait</div></div>
@@ -1452,6 +1482,7 @@ input,select,textarea{font-family:inherit;}
           </div>
         </div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
+      
           <div style="background:var(--bg1);border:1px solid var(--green);border-radius:12px;padding:15px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><div style="font-size:14px;font-weight:700;color:var(--green)">Lane 01</div><span class="badge bg">Active</span></div><div style="font-size:12px;color:var(--ts);margin-bottom:7px">2 customers · Priya S.</div><div style="height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-bottom:6px"><div style="width:25%;height:100%;background:var(--green);border-radius:3px"></div></div><div style="font-size:11px;font-family:var(--fm);color:var(--tm)">Est. 1.2 min wait → Stable</div></div>
           <div style="background:var(--bg1);border:1px solid var(--green);border-radius:12px;padding:15px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><div style="font-size:14px;font-weight:700;color:var(--green)">Lane 02</div><span class="badge bg">Active</span></div><div style="font-size:12px;color:var(--ts);margin-bottom:7px">4 customers · Rahul M.</div><div style="height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-bottom:6px"><div style="width:50%;height:100%;background:var(--green);border-radius:3px"></div></div><div style="font-size:11px;font-family:var(--fm);color:var(--amber)">Est. 2.8 min wait ↑ Rising</div></div>
           <div style="background:var(--rdim);border:1px solid rgba(224,79,79,.4);border-radius:12px;padding:15px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><div style="font-size:14px;font-weight:700;color:var(--red)">Lane 03</div><span class="badge br">Critical</span></div><div style="font-size:12px;color:var(--ts);margin-bottom:7px">9 customers · Ankita T.</div><div style="height:6px;background:rgba(0,0,0,.3);border-radius:3px;overflow:hidden;margin-bottom:6px"><div style="width:92%;height:100%;background:var(--red);border-radius:3px"></div></div><div style="font-size:11px;font-family:var(--fm);color:var(--red)">Est. 11.4 min 🔴 Overloaded</div></div>
@@ -1464,13 +1495,13 @@ input,select,textarea{font-family:inherit;}
               <div style="background:var(--rdim);border:1px solid rgba(224,79,79,.2);border-radius:9px;padding:12px"><div style="font-size:12px;font-weight:600;color:var(--red);margin-bottom:4px">🔴 Immediate Action</div><div style="font-size:12px;color:var(--ts)">Open Lane 06 — redirect 3 customers from Lane 03</div><button class="btn btn-d btn-sm" style="margin-top:8px;width:100%;justify-content:center" onclick="toast('success','Done','Lane 06 opened · Customers redirected')">Execute Now</button></div>
               <div style="background:var(--adim);border:1px solid rgba(239,160,48,.2);border-radius:9px;padding:12px"><div style="font-size:12px;font-weight:600;color:var(--amber);margin-bottom:4px">⚠ In 12 Minutes</div><div style="font-size:12px;color:var(--ts)">Open Lane 07 proactively for 17:45 surge</div><button class="btn btn-a btn-sm" style="margin-top:8px;width:100%;justify-content:center" onclick="toast('info','Scheduled','Lane 07 opens at 17:40 · Manager notified')">Schedule</button></div>
               <div style="background:var(--gdim);border:1px solid rgba(40,193,133,.2);border-radius:9px;padding:12px"><div style="font-size:12px;font-weight:600;color:var(--green);margin-bottom:4px">✓ Auto-Action Ready</div><div style="font-size:12px;color:var(--ts)">WhatsApp alert queued for floor manager</div><button class="btn btn-s btn-sm" style="margin-top:8px;width:100%;justify-content:center" onclick="toast('success','Sent','WhatsApp alert sent to Amit S.')">Send Alert</button></div>
+        
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ═══ SHRINKAGE ANALYTICS ═══ -->
     <div class="view" id="v-shrinkage">
       <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;width:100%">
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
@@ -1482,12 +1513,14 @@ input,select,textarea{font-family:inherit;}
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
           <div class="chart-card" style="overflow:hidden">
             <div class="chart-hd"><div class="chart-title">Shrinkage by Lane</div><button class="btn btn-g btn-sm" onclick="toast('info','Export','Shrinkage report generating…')">Export</button></div>
+        
             <table style="width:100%;border-collapse:collapse" id="shr-table"><thead><tr>
               <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Lane</th>
               <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Cashier</th>
               <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Events</th>
               <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Loss</th>
               <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Risk</th>
+    
             </tr></thead><tbody id="shr-tbody"></tbody></table>
           </div>
           <div class="chart-card"><div class="chart-hd"><div class="chart-title">By Product Category</div></div><div id="shr-cats" style="margin-top:6px"></div>
@@ -1506,10 +1539,10 @@ input,select,textarea{font-family:inherit;}
       </div>
     </div>
 
-    <!-- ═══ GST RECONCILIATION ═══ -->
     <div class="view" id="v-gst">
       <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;width:100%">
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
+      
           <div style="background:var(--rdim);border:1px solid rgba(224,79,79,.3);border-radius:12px;padding:17px"><div style="font-family:var(--fm);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px">Mismatches Found</div><div style="font-size:28px;font-weight:900;line-height:1;margin-bottom:4px;color:var(--red)">4</div><div style="font-size:11px;font-family:var(--fm);color:var(--tm)">₹2,840 variance · Action needed</div></div>
           <div style="background:var(--gdim);border:1px solid rgba(40,193,133,.25);border-radius:12px;padding:17px"><div style="font-family:var(--fm);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px">Matched Records</div><div style="font-size:28px;font-weight:900;line-height:1;margin-bottom:4px;color:var(--green)">1,838</div><div style="font-size:11px;font-family:var(--fm);color:var(--tm)">99.8% clean · Auto-filed</div></div>
           <div class="kpi"><div class="kpi-l">GST Collected</div><div class="kpi-v">₹86,821</div><div class="kpi-s">This month · All slabs</div></div>
@@ -1522,18 +1555,21 @@ input,select,textarea{font-family:inherit;}
             <table style="width:100%;border-collapse:collapse"><thead><tr>
               <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">TXN</th>
               <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">HSN</th>
+ 
               <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Billed GST</th>
               <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Actual</th>
               <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Variance</th>
               <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Fix</th>
             </tr></thead><tbody id="gst-tbody"></tbody></table>
           </div>
+     
           <div class="chart-card"><div class="chart-hd"><div class="chart-title">GST Slab Breakdown</div></div>
             <div id="gst-slabs" style="margin-top:8px"></div>
             <div style="height:1px;background:var(--b0);margin:12px 0"></div>
             <div style="display:flex;flex-direction:column;gap:7px">
               <button class="btn btn-p" style="width:100%;justify-content:center" onclick="toast('success','Generated','GSTR-1 draft ready · Downloading…')">Generate GSTR-1 Draft</button>
               <button class="btn btn-g" style="width:100%;justify-content:center" onclick="toast('success','Exported','HSN-wise summary exported')">Export HSN Summary</button>
+   
               <button class="btn btn-g" style="width:100%;justify-content:center" onclick="toast('info','Reconciling','Cross-checking with purchase register…')">Reconcile Purchase Register</button>
             </div>
           </div>
@@ -1541,7 +1577,6 @@ input,select,textarea{font-family:inherit;}
       </div>
     </div>
 
-    <!-- ═══ WHATSAPP ALERTS ═══ -->
     <div class="view" id="v-whatsapp">
       <div style="width:292px;border-right:1px solid var(--b0);display:flex;flex-direction:column;flex-shrink:0">
         <div style="padding:13px 15px;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between;flex-shrink:0"><span style="font-family:var(--fm);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.1em">Alert Channels</span><button class="btn btn-p btn-sm" onclick="toast('success','Created','New group created')">+ Group</button></div>
@@ -1569,8 +1604,8 @@ input,select,textarea{font-family:inherit;}
       </div>
     </div>
 
-    <!-- ═══ CASHIER COACHING ═══ -->
     <div class="view" id="v-coaching">
+      
       <div style="flex:1;overflow-y:auto;padding:24px 30px;display:flex;flex-direction:column;gap:16px;max-width:1060px;width:100%;margin:0 auto">
         <div style="background:linear-gradient(135deg,var(--bg1),var(--bdim));border:1px solid rgba(61,111,245,.14);border-radius:14px;padding:22px 26px;display:flex;align-items:center;gap:20px">
           <div style="width:60px;height:60px;border-radius:50%;background:var(--bdim);border:2px solid rgba(61,111,245,.3);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0">👩</div>
@@ -1581,6 +1616,7 @@ input,select,textarea{font-family:inherit;}
           <div style="text-align:center;flex-shrink:0;margin-left:16px">
             <div style="position:relative;width:76px;height:76px">
               <svg width="76" height="76" viewBox="0 0 76 76" style="transform:rotate(-90deg)"><circle cx="38" cy="38" r="30" fill="none" stroke="var(--bg3)" stroke-width="6"/><circle cx="38" cy="38" r="30" fill="none" stroke="var(--green)" stroke-width="6" stroke-dasharray="188" stroke-dashoffset="47" stroke-linecap="round"/></svg>
+           
               <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:var(--green)">A+</div>
             </div>
             <div style="font-size:10px;font-family:var(--fm);color:var(--tm);margin-top:5px">Performance Grade</div>
@@ -1589,6 +1625,7 @@ input,select,textarea{font-family:inherit;}
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
           <div class="kpi"><div class="kpi-l">Transactions Today</div><div class="kpi-v">214</div><div class="kpi-s"><span class="tup">↑ 18%</span> vs avg</div></div>
           <div class="kpi"><div class="kpi-l">Scan Speed</div><div class="kpi-v">2.1<span style="font-size:16px;color:var(--ts)">s</span></div><div class="kpi-s"><span class="tup">↑ 0.3s</span> faster</div></div>
+     
           <div class="kpi"><div class="kpi-l">Ambiguity Rate</div><div class="kpi-v" style="color:var(--green)">2.1%</div><div class="kpi-s"><span class="tup">↓</span> below 3.4% avg</div></div>
           <div class="kpi"><div class="kpi-l">Manual Overrides</div><div class="kpi-v" style="color:var(--amber)">6</div><div class="kpi-s"><span class="tdn">↑ 2</span> from yesterday</div></div>
         </div>
@@ -1596,6 +1633,7 @@ input,select,textarea{font-family:inherit;}
           <div class="chart-card" style="padding:17px">
             <div style="font-size:13px;font-weight:600;margin-bottom:14px">This Week's Throughput</div>
             <div style="display:flex;align-items:flex-end;gap:10px;height:80px">
+       
               <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:100%;height:54%;background:var(--blue);border-radius:4px 4px 0 0;cursor:pointer;position:relative" data-v="184" title="184 txns"></div><div style="font-size:9px;font-family:var(--fm);color:var(--tm)">Mon</div></div>
               <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:100%;height:62%;background:var(--blue);border-radius:4px 4px 0 0;cursor:pointer" title="201 txns"></div><div style="font-size:9px;font-family:var(--fm);color:var(--tm)">Tue</div></div>
               <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px"><div style="width:100%;height:48%;background:var(--blue);border-radius:4px 4px 0 0;cursor:pointer" title="163 txns"></div><div style="font-size:9px;font-family:var(--fm);color:var(--tm)">Wed</div></div>
@@ -1606,7 +1644,7 @@ input,select,textarea{font-family:inherit;}
           <div class="chart-card" style="padding:17px">
             <div style="font-size:13px;font-weight:600;margin-bottom:12px">Achievements</div>
             <div style="display:flex;flex-direction:column;gap:7px">
-              <div style="background:rgba(239,160,48,.05);border:1px solid rgba(239,160,48,.3);border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:9px;cursor:pointer" onclick="toast('success','Speed Demon','Achievement: Avg scan time below 2.5s · Unlocked!')"><div style="font-size:21px">🚀</div><div><div style="font-size:12px;font-weight:600;margin-bottom:2px">Speed Demon</div><div style="font-size:10px;color:var(--tm);font-family:var(--fm)">Avg &lt;2.5s scan time</div></div></div>
+              <div style="background:rgba(239,160,48,.05);border:1px solid rgba(239,160,48,.3);border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:9px;cursor:pointer" onclick="toast('success','Speed Demon','Achievement: Avg scan time below 2.5s · Unlocked!')"><div style="font-size:21px">🚀</div><div><div style="font-size:12px;font-weight:600;margin-bottom:2px">Speed Demon</div><div style="font-size:10px;color:var(--tm);font-family:var(--fm)">Avg <2.5s scan time</div></div></div>
               <div style="background:rgba(239,160,48,.05);border:1px solid rgba(239,160,48,.3);border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:9px;cursor:pointer" onclick="toast('success','Accuracy Star','Achievement: Below 3% ambiguity · Unlocked!')"><div style="font-size:21px">🎯</div><div><div style="font-size:12px;font-weight:600;margin-bottom:2px">Accuracy Star</div><div style="font-size:10px;color:var(--tm);font-family:var(--fm)">Below 3% ambiguity</div></div></div>
               <div style="background:rgba(239,160,48,.05);border:1px solid rgba(239,160,48,.3);border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:9px;cursor:pointer" onclick="toast('success','Century Club','Achievement: 200+ txns in a shift · Unlocked!')"><div style="font-size:21px">💯</div><div><div style="font-size:12px;font-weight:600;margin-bottom:2px">Century Club</div><div style="font-size:10px;color:var(--tm);font-family:var(--fm)">200+ txns in a shift</div></div></div>
               <div style="background:transparent;border:1px solid var(--b1);border-radius:9px;padding:10px 12px;display:flex;align-items:center;gap:9px;opacity:.42;cursor:pointer" onclick="toast('info','Locked','Complete a full shift with zero manual overrides to unlock')"><div style="font-size:21px">🏆</div><div><div style="font-size:12px;font-weight:600;margin-bottom:2px">Zero Override Week</div><div style="font-size:10px;color:var(--tm);font-family:var(--fm)">No overrides for 7 days</div></div></div>
@@ -1623,7 +1661,6 @@ input,select,textarea{font-family:inherit;}
       </div>
     </div>
 
-    <!-- ═══ CROSS-STORE BENCHMARKING ═══ -->
     <div class="view" id="v-benchmark">
       <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;width:100%">
         <div style="display:flex;align-items:center;gap:9px;padding:13px 16px;background:var(--bg1);border:1px solid var(--b0);border-radius:12px;flex-wrap:wrap">
@@ -1641,12 +1678,14 @@ input,select,textarea{font-family:inherit;}
           <div style="padding:13px 17px;border-bottom:1px solid var(--b0);font-size:13px;font-weight:600">Store Performance Rankings</div>
           <table style="width:100%;border-collapse:collapse" id="bench-tbody-wrap"><thead><tr>
             <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--b0);cursor:pointer">Rank</th>
-            <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Store</th>
+       
+             <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Store</th>
             <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">City</th>
             <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Revenue</th>
             <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">AI Accuracy</th>
             <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Throughput</th>
             <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Shrinkage</th>
+          
             <th style="text-align:left;padding:10px 14px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Overall</th>
           </tr></thead><tbody id="bench-tbody"></tbody></table>
         </div>
@@ -1657,7 +1696,6 @@ input,select,textarea{font-family:inherit;}
       </div>
     </div>
 
-    <!-- ═══ PLANOGRAM COMPLIANCE ═══ -->
     <div class="view" id="v-planogram">
       <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;width:100%">
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
@@ -1665,6 +1703,7 @@ input,select,textarea{font-family:inherit;}
           <div class="kpi"><div class="kpi-l">Violations Found</div><div class="kpi-v" style="color:var(--red)">6</div><div class="kpi-s">Require correction today</div></div>
           <div class="kpi"><div class="kpi-l">Brands Verified</div><div class="kpi-v">12</div><div class="kpi-s">Of 15 paid placements</div></div>
           <div class="kpi"><div class="kpi-l">Last Auto-Scan</div><div class="kpi-v" style="font-size:22px">14<span style="font-size:14px;color:var(--ts)">m</span></div><div class="kpi-s">ago · every 30 min</div></div>
+    
         </div>
         <div class="chart-card">
           <div class="chart-hd"><div class="chart-title">Aisle 4 — Noodles & Instant Food</div><div style="display:flex;gap:7px"><button class="btn btn-g btn-sm" onclick="toast('info','Scanning','Planogram scan initiated…')">📷 Scan Now</button><button class="btn btn-p btn-sm" onclick="toast('success','Report','Compliance report generated')">Report</button></div></div>
@@ -1672,18 +1711,21 @@ input,select,textarea{font-family:inherit;}
         </div>
         <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px">
           <div class="chart-card" style="overflow:hidden"><div class="chart-hd"><div class="chart-title">Compliance Issues</div></div>
+         
             <table style="width:100%;border-collapse:collapse"><thead><tr>
               <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Location</th>
               <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Brand</th>
               <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Expected</th>
               <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Found</th>
               <th style="text-align:left;padding:9px 13px;font-size:10px;font-family:var(--fm);color:var(--tm);text-transform:uppercase;border-bottom:1px solid var(--b0)">Status</th>
+      
             </tr></thead><tbody id="plan-tbody"></tbody></table>
           </div>
           <div class="chart-card"><div class="chart-hd"><div class="chart-title">Legend</div></div>
             <div style="display:flex;flex-direction:column;gap:9px;margin-top:8px">
               <div style="display:flex;align-items:center;gap:9px"><div style="width:18px;height:18px;border-radius:4px;background:var(--gdim);border:1px solid rgba(40,193,133,.2)"></div><div style="font-size:12px;color:var(--ts)">Compliant — correct position</div></div>
               <div style="display:flex;align-items:center;gap:9px"><div style="width:18px;height:18px;border-radius:4px;background:var(--rdim);border:1px solid rgba(224,79,79,.2)"></div><div style="font-size:12px;color:var(--ts)">Violation — wrong product</div></div>
+             
               <div style="display:flex;align-items:center;gap:9px"><div style="width:18px;height:18px;border-radius:4px;background:var(--adim);border:1px solid rgba(239,160,48,.2)"></div><div style="font-size:12px;color:var(--ts)">Partial — partially stocked</div></div>
               <div style="display:flex;align-items:center;gap:9px"><div style="width:18px;height:18px;border-radius:4px;background:var(--bg2);border:1px solid var(--b1)"></div><div style="font-size:12px;color:var(--ts)">Empty — out of stock</div></div>
             </div>
@@ -1692,9 +1734,9 @@ input,select,textarea{font-family:inherit;}
       </div>
     </div>
 
-    <!-- ═══ LOYALTY INTEGRATION ═══ -->
     <div class="view" id="v-loyalty">
       <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;width:100%">
+      
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
           <div class="kpi"><div class="kpi-l">Points Awarded</div><div class="kpi-v" style="color:#8f67f0">18,420</div><div class="kpi-s">Across 214 transactions</div></div>
           <div class="kpi"><div class="kpi-l">Redemptions</div><div class="kpi-v">34</div><div class="kpi-s">₹2,840 redeemed</div></div>
@@ -1702,6 +1744,7 @@ input,select,textarea{font-family:inherit;}
           <div class="kpi"><div class="kpi-l">Avg Basket (Members)</div><div class="kpi-v" style="color:var(--green)">₹924</div><div class="kpi-s">vs ₹641 non-members</div></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px">
+        
           <div style="background:var(--bg1);border:1px solid rgba(61,111,245,.22);border-radius:12px;padding:17px"><div style="font-size:28px;margin-bottom:9px">📱</div><div style="font-size:14px;font-weight:700;margin-bottom:3px">PhonePe Rewards</div><div style="font-size:11px;color:var(--tm);font-family:var(--fm);margin-bottom:12px">Primary integration · Auto-apply</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px"><div class="ic"><div class="ic-l">Txns</div><div class="ic-v">92</div></div><div class="ic"><div class="ic-l">Points</div><div class="ic-v" style="color:#8f67f0">8,280</div></div></div><button class="btn btn-s btn-sm" style="width:100%;justify-content:center">● Connected</button></div>
           <div style="background:var(--bg1);border:1px solid rgba(61,111,245,.22);border-radius:12px;padding:17px"><div style="font-size:28px;margin-bottom:9px">💎</div><div style="font-size:14px;font-weight:700;margin-bottom:3px">Reliance One</div><div style="font-size:11px;color:var(--tm);font-family:var(--fm);margin-bottom:12px">Native store loyalty · Auto-apply</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px"><div class="ic"><div class="ic-l">Txns</div><div class="ic-v">58</div></div><div class="ic"><div class="ic-l">Points</div><div class="ic-v" style="color:#8f67f0">5,220</div></div></div><button class="btn btn-s btn-sm" style="width:100%;justify-content:center">● Connected</button></div>
           <div style="background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:17px"><div style="font-size:28px;margin-bottom:9px">🏷</div><div style="font-size:14px;font-weight:700;margin-bottom:3px">ONDC Buyer App</div><div style="font-size:11px;color:var(--tm);font-family:var(--fm);margin-bottom:12px">Connect to enable loyalty sync</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px"><div class="ic"><div class="ic-l">Status</div><div class="ic-v" style="color:var(--tm)">Inactive</div></div><div class="ic"><div class="ic-l">Setup</div><div class="ic-v">~10 min</div></div></div><button class="btn btn-p btn-sm" style="width:100%;justify-content:center" onclick="toast('success','Started','ONDC wizard opened')">Connect →</button></div>
@@ -1720,7 +1763,6 @@ input,select,textarea{font-family:inherit;}
       </div>
     </div>
 
-    <!-- ═══ PACKAGING EVOLUTION ═══ -->
     <div class="view" id="v-packaging">
       <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;width:100%">
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
@@ -1737,9 +1779,9 @@ input,select,textarea{font-family:inherit;}
           <div class="chart-card"><div class="chart-hd"><div class="chart-title">Active Drift Alerts</div></div><div id="drift-list" style="display:flex;flex-direction:column;gap:8px;margin-top:8px;padding:0 4px"></div></div>
         </div>
       </div>
+   
     </div>
 
-    <!-- ═══ API MARKETPLACE ═══ -->
     <div class="view" id="v-marketplace">
       <div style="flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;width:100%">
         <div style="background:linear-gradient(135deg,var(--bg1),rgba(143,103,240,.07));border:1px solid rgba(143,103,240,.14);border-radius:14px;padding:22px 26px;display:flex;align-items:center;justify-content:space-between">
@@ -1752,6 +1794,7 @@ input,select,textarea{font-family:inherit;}
         <div style="display:flex;gap:6px;flex-wrap:wrap">
           <div class="fchip on" onclick="togChip(this)">All</div>
           <div class="fchip" onclick="togChip(this)">ERP & Accounting</div>
+ 
           <div class="fchip" onclick="togChip(this)">Loyalty</div>
           <div class="fchip" onclick="togChip(this)">Analytics</div>
           <div class="fchip" onclick="togChip(this)">Communication</div>
@@ -1761,8 +1804,8 @@ input,select,textarea{font-family:inherit;}
       </div>
     </div>
 
-    <!-- ═══ NOTIFICATION PANEL ═══ -->
     <div id="notif-panel" style="position:fixed;top:52px;right:0;width:326px;height:calc(100vh - 52px);background:var(--bg1);border-left:1px solid var(--b1);z-index:700;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s ease">
+    
       <div style="padding:14px 16px;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between">
         <div style="font-size:13px;font-weight:600">Notifications</div>
         <div style="display:flex;gap:7px">
@@ -1773,11 +1816,7 @@ input,select,textarea{font-family:inherit;}
       <div style="flex:1;overflow-y:auto;padding:9px;display:flex;flex-direction:column;gap:7px" id="notif-list"></div>
     </div>
 
-  </div><!-- /main -->
-</div><!-- /shell -->
-
-<!-- VERIFY MODAL -->
-<div class="overlay" id="ov-verify">
+  </div></div><div class="overlay" id="ov-verify">
   <div class="modal">
     <div class="mhd"><div class="m-aico" style="background:var(--adim)">⚠</div><div><div class="mtitle">AI Verification Required</div><div class="msub">Confidence below threshold · 3 possible matches</div></div></div>
     <div class="mbody">
@@ -1794,9 +1833,9 @@ input,select,textarea{font-family:inherit;}
 </div>
 
 
-<!-- SHORTCUTS MODAL -->
 <div class="overlay" id="ov-shortcuts">
   <div class="modal" style="max-width:480px">
+  
     <div class="mhd"><div class="m-aico" style="background:var(--bdim)">⌨</div><div><div class="mtitle">Keyboard Shortcuts</div><div class="msub">Quick actions for cashier workflow</div></div></div>
     <div style="padding:18px 22px;display:flex;flex-direction:column;gap:0">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px">
@@ -1818,7 +1857,6 @@ input,select,textarea{font-family:inherit;}
   </div>
 </div>
 
-<!-- RISK MODAL -->
 <div class="overlay" id="ov-risk">
   <div class="rmodal">
     <div class="mhd"><div class="m-aico" style="background:var(--rdim)">🚨</div><div><div class="mtitle" id="risk-title">Risk Event</div><div class="msub" id="risk-sub">Details</div></div></div>
@@ -1827,13 +1865,13 @@ input,select,textarea{font-family:inherit;}
       <div style="display:flex;gap:10px">
         <button class="btn btn-d" onclick="toast('warning','Escalated','Event escalated to store manager');closeOverlay('ov-risk')">Escalate to Manager</button>
         <button class="btn btn-s" onclick="toast('success','Resolved','Risk event marked as resolved');closeOverlay('ov-risk')">Mark Resolved</button>
+    
         <button class="btn btn-g" onclick="toast('info','Dismissed','Event dismissed');closeOverlay('ov-risk')">Dismiss</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- LANE MODAL -->
 <div class="overlay" id="ov-lane">
   <div class="lmodal">
     <div class="mhd"><div class="m-aico" style="background:var(--bdim)">🛒</div><div><div class="mtitle" id="lane-title">Lane Details</div><div class="msub" id="lane-sub">Live status</div></div></div>
@@ -1842,6 +1880,7 @@ input,select,textarea{font-family:inherit;}
       <div style="display:flex;gap:10px">
         <button class="btn btn-p" onclick="toast('info','Switch','Switching to selected lane view');closeOverlay('ov-lane')">View Lane</button>
         <button class="btn btn-a" onclick="toast('warning','Alert Sent','Alert sent to cashier');closeOverlay('ov-lane')">Send Alert</button>
+       
         <button class="btn btn-g" onclick="closeOverlay('ov-lane')">Close</button>
       </div>
     </div>
@@ -1860,7 +1899,6 @@ const S = {
   verPick: {name:'Maggi Masala Noodles 70g', price:14},
   regStep: 1, topUploaded: false, laneToggle: false, alerts: 3
 };
-
 /* ══════════════════════════════════════════════════
    CLOCK
 ══════════════════════════════════════════════════ */
@@ -1935,7 +1973,6 @@ const PRODS=[
   {n:'Britannia NutriChoice 150g',e:'🥐',p:65},{n:'Dettol Handwash 200ml',e:'🧴',p:72},
   {n:'Lays Spanish Tomato 73g',e:'🍅',p:20},{n:'Bournvita 500g',e:'☕',p:199},
 ];
-
 /* ══════════════════════════════════════════════════
    CHECKOUT
 ══════════════════════════════════════════════════ */
@@ -2039,7 +2076,6 @@ const ACC_CATS=[{n:'Beverages',v:98},{n:'Dairy',v:97},{n:'Biscuits',v:95},{n:'No
     return`<div style="display:flex;align-items:center;gap:12px;margin-bottom:9px"><div style="width:110px;font-size:11px;color:var(--ts)">${c.n}</div><div style="flex:1"><div class="pt"><div class="pf" style="width:${c.v}%;background:${col}"></div></div></div><div style="font-size:11px;font-family:var(--fmono);color:${col};width:36px;text-align:right">${c.v}%</div></div>`;
   }).join('');
 })();
-
 function resolveAlert(el,msg){toast('success','Resolved',msg);el.style.opacity='.4';el.style.pointerEvents='none';S.alerts=Math.max(0,S.alerts-1);document.getElementById('alert-count').textContent=S.alerts+' active';}
 function toggleLane(){S.laneToggle=!S.laneToggle;toast('info','Lane '+(S.laneToggle?'06':'06'),(S.laneToggle?'Lane 06 activated · Cashier assigned':'Lane 06 deactivated'));}
 function openLaneModal(num,status,cashier,rev,extra){
@@ -2295,7 +2331,6 @@ document.addEventListener('keydown',e=>{
   if(e.altKey&&e.key==='3'){e.preventDefault();goView('sku',document.querySelectorAll('.rn')[3]);}
   if(e.altKey&&e.key==='4'){e.preventDefault();goView('fraud',document.querySelectorAll('.rn')[6]);}
 });
-
 /* ══════════════════════════════════════════════════
    TOAST
 ══════════════════════════════════════════════════ */
@@ -2334,7 +2369,6 @@ setInterval(()=>{
   if(txEl) txEl.textContent=S.txnCount;
   if(lEl) lEl.textContent=6;
 },2000);
-
 /* ══════════════════════════════════════════════════
    LIVE SIMULATION ENGINE
 ══════════════════════════════════════════════════ */
@@ -2416,7 +2450,8 @@ function addNotif(type, title, body) {
 function updateNotifCount() {
   const count = NOTIFS.filter(n => n.unread).length;
   const el = document.getElementById('nc');
-  if (el) { el.textContent = count; el.style.display = count > 0 ? 'flex' : 'none'; }
+  if (el) { el.textContent = count; el.style.display = count > 0 ? 'flex' : 'none';
+  }
 }
 
 function clearNotifs() {
@@ -2566,16 +2601,14 @@ const WA_CHATS = [
   {av:'👥',name:'All Cashiers Group',preview:'Shift starts in 10 minutes',time:'32m',unread:false,active:false},
   {av:'🔧',name:'Device Alerts',preview:'🖨️ Printer paper low · Lane 04',time:'1h',unread:false,active:false},
 ];
-
 const WA_MESSAGES = [
   {type:'in',  text:'Good morning! Shift briefing: expect busy lunch rush. Lane 03 is already picking up.', time:'09:02'},
-  {type:'out', text:'Understood. I'll keep an eye on it. Scan speed is good so far.', time:'09:05'},
+  {type:'out', text:'Understood. I\'ll keep an eye on it. Scan speed is good so far.', time:'09:05'},
   {type:'alert-msg', text:'🔴 SYSTEM ALERT: Lane 03 queue critical — 9 customers, est. 11 min wait. Action required.', time:'12:34'},
   {type:'in',  text:'Sending backup to Lane 03 now. Can you handle any overflow on Lane 04?', time:'12:35'},
   {type:'out', text:'Yes, routing customers now. Should clear in 5 min.', time:'12:36'},
   {type:'ok-msg', text:'✅ Queue resolved. Lane 03 back to normal. Good teamwork!', time:'12:42'},
 ];
-
 function initWA() {
   const chatList = document.getElementById('wa-chat-list');
   if (chatList && chatList.innerHTML === '') {
@@ -2601,9 +2634,12 @@ function initWA() {
 }
 
 function buildWAMsg(m) {
-  const bg = m.type==='out' ? 'background:var(--bdim);border:1px solid rgba(61,111,245,.2);align-self:flex-end;border-radius:10px 10px 3px 10px' :
-             m.type==='alert-msg' ? 'background:var(--rdim);border:1px solid rgba(224,79,79,.2);align-self:flex-start;border-radius:10px 10px 10px 3px' :
-             m.type==='ok-msg' ? 'background:var(--gdim);border:1px solid rgba(40,193,133,.2);align-self:flex-start;border-radius:10px 10px 10px 3px' :
+  const bg = m.type==='out' ?
+             'background:var(--bdim);border:1px solid rgba(61,111,245,.2);align-self:flex-end;border-radius:10px 10px 3px 10px' :
+             m.type==='alert-msg' ?
+             'background:var(--rdim);border:1px solid rgba(224,79,79,.2);align-self:flex-start;border-radius:10px 10px 10px 3px' :
+             m.type==='ok-msg' ?
+             'background:var(--gdim);border:1px solid rgba(40,193,133,.2);align-self:flex-start;border-radius:10px 10px 10px 3px' :
              'background:var(--bg2);border:1px solid var(--b0);align-self:flex-start;border-radius:10px 10px 10px 3px';
   return `<div style="max-width:76%;padding:9px 12px;${bg}">
     <div style="font-size:12px;line-height:1.6">${m.text}</div>
@@ -2650,7 +2686,6 @@ const STORES_DATA = [
   {rank:5,name:'Maninagar',city:'Ahmedabad',rev:'₹3.2L',acc:'95.8%',throughput:1280,shr:'1.8%',score:76,rankCls:''},
   {rank:6,name:'Surat Central',city:'Surat',rev:'₹5.1L',acc:'96.9%',throughput:1920,shr:'1.1%',score:88,rankCls:''},
 ];
-
 function renderBenchmark() {
   const tbody = document.getElementById('bench-tbody');
   if (tbody) {
@@ -2661,6 +2696,7 @@ function renderBenchmark() {
         <td style="padding:11px 14px;border-bottom:1px solid var(--b0);font-size:16px;font-weight:800;${s.rankCls==='br1'?'color:var(--amber)':s.rankCls==='br2'?'color:var(--ts)':s.rankCls==='br3'?'color:var(--amber);opacity:.7':'color:var(--tm)'}">${s.rank}</td>
         <td style="padding:11px 14px;border-bottom:1px solid var(--b0);font-size:12px;font-weight:${isYou?600:400}">${s.name}</td>
         <td style="padding:11px 14px;border-bottom:1px solid var(--b0);font-size:12px;color:var(--ts)">${s.city}</td>
+       
         <td style="padding:11px 14px;border-bottom:1px solid var(--b0);font-size:12px;font-family:var(--fm)">${s.rev}</td>
         <td style="padding:11px 14px;border-bottom:1px solid var(--b0);font-size:12px;color:${parseFloat(s.acc)>=97?'var(--green)':'var(--amber)'}">${s.acc}</td>
         <td style="padding:11px 14px;border-bottom:1px solid var(--b0);font-size:12px;font-family:var(--fm)">${s.throughput.toLocaleString()}</td>
@@ -2716,6 +2752,7 @@ function renderPlanogram() {
         {label:'Maggi Veg',status:'ok'},{label:'Maggi Veg',status:'ok'},
         {label:'Empty',status:'empty'},{label:'Empty',status:'empty'},
       ]},
+      
       {label:'Eye Level',slots:[
         {label:'Maggi Masala',status:'ok'},{label:'Maggi Masala',status:'ok'},
         {label:'Nestle Classic',status:'miss',tip:'Expected: Maggi Hot Heads'},{label:'Maggi Masala',status:'ok'},
@@ -2736,6 +2773,7 @@ function renderPlanogram() {
           ${s.status==='partial'?'background:var(--adim);border:1px solid rgba(239,160,48,.2);color:var(--amber)':''}
           ${s.status==='empty'?'background:var(--bg2);border:1px solid var(--b1);color:var(--tm)':''}
         " onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'" onclick="toast('info','Slot','${s.label} · Status: ${s.status}${s.tip?' · '+s.tip:''}')">
+         
           ${s.status==='ok'?'✓':s.status==='miss'?'✗':s.status==='partial'?'~':'—'}
           ${s.tip?`<div style="position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--b1);border-radius:5px;padding:4px 8px;font-size:10px;white-space:nowrap;z-index:10;pointer-events:none">${s.tip}</div>`:''}
         </div>`).join('')}
@@ -2824,6 +2862,7 @@ function renderPackaging() {
         </div>
       </div>
       <span style="font-size:10px;font-family:var(--fm);padding:2px 8px;border-radius:20px;color:${d.color};background:${d.color}22">${d.status}</span>
+    
       <button class="btn btn-p btn-sm" onclick="event.stopPropagation();toast('success','Retrain','${d.name} queued for model retraining')">Retrain</button>
     </div>`).join('');
   }
@@ -2875,6 +2914,7 @@ function togChip(el) {
       () => toast('info', 'Lane 05', Math.floor(Math.random()*12+2) + ' items · Customer being served'),
       () => toast('success', 'AI Engine', 'SKU recognised · Confidence ' + (88+Math.floor(Math.random()*12)) + '%'),
       () => toast('info', 'POS Sync', Math.floor(Math.random()*5+1) + ' records pushed to Tally'),
+    
     ];
     if (Math.random() > 0.62) events[Math.floor(Math.random()*events.length)]();
   }, 16000);
