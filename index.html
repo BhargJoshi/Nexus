@@ -1014,7 +1014,7 @@ input,select,textarea{font-family:inherit;}
         <div class="pill-stat"><div class="dot db"></div>POS Synced</div>
         <div class="pill" id="fraud-pill" style="display:none;cursor:pointer;color:var(--red)" onclick="goView('fraud',document.querySelectorAll('.rn')[3])"><div class="dot dr"></div>Risk Alert</div>
         <div class="tb-tag">Reliance Smart · Ahmedabad</div>
-        <div class="tb-clock" id="clock">--:--:--</div><button class="btn btn-g btn-sm" onclick="openOverlay('ov-shortcuts')" style="font-family:var(--fmono);padding:4px 10px;font-size:11px">?</button>
+        <span style="background:var(--bdim);border:1px solid rgba(61,111,245,.2);border-radius:20px;padding:3px 10px;font-size:10px;font-family:var(--fm);color:var(--blue)" id="role-badge">Cashier</span><div class="tb-clock" id="clock">--:--:--</div><button class="btn btn-g btn-sm" onclick="openOverlay('ov-shortcuts')" style="font-family:var(--fmono);padding:4px 10px;font-size:11px">?</button>
       </div>
     </header>
 
@@ -1855,10 +1855,10 @@ input,select,textarea{font-family:inherit;}
    STATE
 ══════════════════════════════════════════════════ */
 const S = {
-  cart: [], total: 0, discount: 0, txnCount: 214,
-  revenue: 184000, verPick: {name:'Maggi Masala Noodles 70g', price:14},
-  regStep: 1, topUploaded: false, laneToggle: false,
-  alerts: 3
+  cart: [], total: 0, discount: 0, loyPts: 0, role: 'Cashier',
+  txnCount: 214, revenue: 184000,
+  verPick: {name:'Maggi Masala Noodles 70g', price:14},
+  regStep: 1, topUploaded: false, laneToggle: false, alerts: 3
 };
 
 /* ══════════════════════════════════════════════════
@@ -1871,8 +1871,26 @@ setInterval(tick,1000);tick();
    LOGIN / LOGOUT
 ══════════════════════════════════════════════════ */
 function selRole(el){document.querySelectorAll('.role-card').forEach(r=>r.classList.remove('on'));el.classList.add('on');}
-function doLogin(){document.getElementById('scr-login').classList.add('gone');toast('success','Shift Started','Lane 04 active · AI engine initialized');}
-function doLogout(){document.getElementById('scr-login').classList.remove('gone');clearCart();toast('info','Signed Out','Shift summary saved');}
+function doLogin(){
+  document.getElementById('scr-login').classList.add('gone');
+  var rb=document.getElementById('role-badge');
+  if(rb) rb.textContent=S.role||'Cashier';
+  toast('success','Shift Started','Lane 04 active · AI engine ready · 16 modules active');
+  renderNotifs();
+  setTimeout(function(){
+    var fp=document.getElementById('fraud-pill');
+    if(fp) fp.style.display='flex';
+    addNotif('crit','🚨 Fraud Alert','High-risk event detected Lane 03 · Click Fraud & Risk');
+    toast('warning','Risk Alert','Fraud event on Lane 03 · Review Fraud & Risk module');
+  },9000);
+}
+function doLogout(){
+  document.getElementById('scr-login').classList.remove('gone');
+  clearCart();
+  var rb=document.getElementById('role-badge');
+  if(rb) rb.textContent='Cashier';
+  toast('info','Signed Out','Shift summary saved');
+}
 
 /* ══════════════════════════════════════════════════
    VIEW NAV
@@ -1881,14 +1899,26 @@ const viewTitles={checkout:'Live Checkout · Lane 04',dash:'Operations Dashboard
 function goView(id,btn){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
   document.querySelectorAll('.rn').forEach(r=>r.classList.remove('on'));
-  document.getElementById('v-'+id).classList.add('on');
-  if(btn)btn.classList.add('on');
-  document.getElementById('tb-title').textContent=viewTitles[id]||id;
+  var vEl=document.getElementById('v-'+id);
+  if(vEl) vEl.classList.add('on');
+  if(btn) btn.classList.add('on');
+  var allTitles=Object.assign({},viewTitles,{queue:'Smart Queue Intelligence',shrinkage:'Shrinkage Analytics',gst:'GST Reconciliation Engine',whatsapp:'WhatsApp Alerts Centre',coaching:'Cashier Performance Coaching',benchmark:'Cross-Store Benchmarking',planogram:'Planogram Compliance',loyalty:'Customer Loyalty Integration',packaging:'Packaging Evolution Tracker',marketplace:'API Marketplace'});
+  var tb=document.getElementById('tb-title');
+  if(tb) tb.textContent=allTitles[id]||id;
   if(id==='sku')renderSKU();
   if(id==='shift')renderShift();
   if(id==='pos')renderDevList();
   if(id==='admin')renderAdmin();
   if(id==='fraud')renderFraud();
+  if(id==='queue')renderHeatmap();
+  if(id==='shrinkage')renderShrinkage();
+  if(id==='gst')renderGST();
+  if(id==='whatsapp')initWA();
+  if(id==='benchmark')renderBenchmark();
+  if(id==='planogram')renderPlanogram();
+  if(id==='loyalty')renderLoyalty();
+  if(id==='packaging')renderPackaging();
+  if(id==='marketplace')renderMarketplace();
 }
 
 /* ══════════════════════════════════════════════════
@@ -2111,6 +2141,7 @@ function renderSKU(){
 }
 function filterChip(el,f){document.querySelectorAll('.fchip').forEach(c=>c.classList.remove('on'));el.classList.add('on');skuFilter=f;renderSKU();}
 function filterSKU(v){skuSearch=v.toLowerCase();renderSKU();}
+function addFromSKU(i){addToCartFromSKU(i);}
 function addToCartFromSKU(i){
   const s=SKU_DATA[i];
   const prices={'Dairy':30,'Noodles':14,'Biscuits':10,'Snacks':50,'Detergent':180,'Personal':80,'Beverages':45,'Chocolate':40,'Staples':22};
@@ -2268,6 +2299,8 @@ document.addEventListener('keydown',e=>{
 /* ══════════════════════════════════════════════════
    TOAST
 ══════════════════════════════════════════════════ */
+function showAmbBanner(){var b=document.getElementById('amb-banner');if(b)b.style.display='block';}
+function hideAmbBanner(){var b=document.getElementById('amb-banner');if(b)b.style.display='none';}
 function toast(type,title,msg){
   const w=document.getElementById('tw');
   const ico={success:'✓',warning:'⚠',error:'✕',info:'ℹ'};
@@ -2343,57 +2376,7 @@ setInterval(()=>{
    NEW MODULE JAVASCRIPT — ALL ADDON VIEWS
 ═══════════════════════════════════════════════════ */
 
-/* ── NAV VIEW TITLES ───────────────────────────── */
-const EXTRA_TITLES = {
-  queue:      'Smart Queue Intelligence',
-  shrinkage:  'Shrinkage Analytics',
-  gst:        'GST Reconciliation Engine',
-  whatsapp:   'WhatsApp Alerts Centre',
-  coaching:   'Cashier Performance Coaching',
-  benchmark:  'Cross-Store Benchmarking',
-  planogram:  'Planogram Compliance',
-  loyalty:    'Customer Loyalty Integration',
-  packaging:  'Packaging Evolution Tracker',
-  marketplace:'API Marketplace',
-};
 
-/* Extend existing goView to handle new views */
-const _origGoView = goView;
-function goView(id, btn) {
-  _origGoView(id, btn);
-  if (EXTRA_TITLES[id]) {
-    document.getElementById('tb-title').textContent = EXTRA_TITLES[id];
-  }
-  // Lazy-render new views
-  if (id === 'queue')      renderHeatmap();
-  if (id === 'shrinkage')  renderShrinkage();
-  if (id === 'gst')        renderGST();
-  if (id === 'whatsapp')   initWA();
-  if (id === 'benchmark')  renderBenchmark();
-  if (id === 'planogram')  renderPlanogram();
-  if (id === 'loyalty')    renderLoyalty();
-  if (id === 'packaging')  renderPackaging();
-  if (id === 'marketplace')renderMarketplace();
-}
-
-/* ── ROLE BADGE ────────────────────────────────── */
-const _origDoLogin = doLogin;
-function doLogin() {
-  _origDoLogin();
-  const rb = document.getElementById('role-badge');
-  if (rb) rb.textContent = S.role || 'Cashier';
-}
-
-/* ── LOYALTY POINTS IN CHECKOUT ────────────────── */
-/* Extend addToCart to track loyalty */
-const _origAddToCart = addToCart;
-function addToCart(item) {
-  _origAddToCart(item);
-  const pts = Math.floor((item.p || 0) / 10);
-  S.loyPts = (S.loyPts || 0) + pts;
-  const bpts = document.getElementById('b-pts');
-  if (bpts) bpts.textContent = '+' + S.loyPts + ' pts';
-}
 
 /* ── NOTIFICATIONS ─────────────────────────────── */
 const NOTIFS = [
