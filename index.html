@@ -3,82 +3,305 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nexus Retail Intelligence · Sign In</title>
+<title>Nexus · Cashier Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Outfit:wght@300;400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
 <style>
+/* ═══════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════ */
 :root{
-  --bg:#0a0b0e;--bg1:#0f1115;--bg2:#161920;--bg3:#1d2028;
-  --b0:rgba(255,255,255,.035);--b1:rgba(255,255,255,.065);--b2:rgba(255,255,255,.11);
-  --tp:#eceef3;--ts:#878f9c;--tm:#4a5260;
-  --blue:#4475f7;--bdim:rgba(68,117,247,.12);
+  --bg:#0a0b0e;--bg1:#0f1115;--bg2:#161920;--bg3:#1d2028;--bg4:#242830;--bh:#2a2f38;
+  --b0:rgba(255,255,255,.035);--b1:rgba(255,255,255,.065);--b2:rgba(255,255,255,.11);--b3:rgba(255,255,255,.18);
+  --tp:#eceef3;--ts:#878f9c;--tm:#4a5260;--tf:#272c35;
+  --blue:#4475f7;--bdim:rgba(68,117,247,.12);--bglow:rgba(68,117,247,.22);
   --green:#2ec990;--gdim:rgba(46,201,144,.09);
-  --amber:#f0a034;--red:#e85555;--violet:#9a70f4;
+  --amber:#f0a034;--adim:rgba(240,160,52,.09);
+  --red:#e85555;--rdim:rgba(232,85,85,.09);
+  --violet:#9a70f4;--vdim:rgba(154,112,244,.10);
+  --rail:52px;--top:50px;
   --fui:'Outfit',sans-serif;--fmono:'DM Mono',monospace;--fser:'Fraunces',serif;
   --fm:'DM Mono',monospace;--fu:'Outfit',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;font-family:var(--fui);background:var(--bg);color:var(--tp);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:var(--fui);background:var(--bg);color:var(--tp);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;}
 button{font-family:inherit;cursor:pointer;border:none;}
-input,select{font-family:inherit;}
-::-webkit-scrollbar{width:3px;}
+input,select,textarea{font-family:inherit;}
+::-webkit-scrollbar{width:3px;height:3px;}
+::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px;}
 
-.login-wrap{display:flex;height:100vh;}
-.login-l{
-  width:50%;background:var(--bg1);border-right:1px solid var(--b1);
-  display:flex;flex-direction:column;justify-content:space-between;padding:48px;
-  position:relative;overflow:hidden;
+/* ═══════════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════════ */
+.shell{display:flex;height:100vh;}
+.rail{
+  width:var(--rail);background:var(--bg1);border-right:1px solid var(--b0);
+  display:flex;flex-direction:column;align-items:center;
+  padding:14px 0;gap:2px;flex-shrink:0;z-index:100;
 }
-.login-l::before{content:'';position:absolute;top:-100px;left:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(68,117,247,.14) 0%,transparent 70%);pointer-events:none;}
-.login-l::after{content:'';position:absolute;bottom:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(46,201,144,.07) 0%,transparent 70%);pointer-events:none;}
-.brand{display:flex;align-items:center;gap:12px;position:relative;z-index:1;}
-.brand-logo{width:36px;height:36px;background:var(--blue);border-radius:9px;display:flex;align-items:center;justify-content:center;}
-.brand-logo svg{width:19px;height:19px;}
-.brand-name{font-size:14px;font-weight:700;letter-spacing:.01em;}
-.brand-tag{font-family:var(--fmono);font-size:10px;color:var(--tm);letter-spacing:.08em;text-transform:uppercase;margin-top:1px;}
-.login-hero{position:relative;z-index:1;}
-.login-hero h1{font-family:var(--fser);font-size:46px;font-weight:600;line-height:1.08;margin-bottom:18px;font-style:italic;}
-.login-hero h1 em{font-style:normal;color:var(--blue);}
-.login-hero p{font-size:14px;color:var(--ts);line-height:1.75;max-width:340px;}
-.login-stats{display:flex;gap:36px;position:relative;z-index:1;}
-.lstat-v{font-size:26px;font-weight:800;letter-spacing:-.02em;}
-.lstat-l{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.07em;margin-top:2px;}
+.rail-logo{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;cursor:pointer;transition:opacity .15s;flex-shrink:0;}
+.rail-logo:hover{opacity:.85;}
+.rail-logo svg{width:17px;height:17px;}
+.rn{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:transparent;color:var(--tm);cursor:pointer;transition:all .15s;position:relative;flex-shrink:0;}
+.rn:hover{background:var(--bg3);color:var(--ts);}
+.rn.on{background:var(--bdim);color:var(--blue);}
+.rn svg{width:17px;height:17px;stroke-width:1.65;}
+.rn-tip{position:absolute;left:44px;background:var(--bg3);border:1px solid var(--b1);border-radius:6px;padding:5px 10px;font-size:11px;font-family:var(--fmono);color:var(--tp);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:999;}
+.rn:hover .rn-tip{opacity:1;}
+.rsep{width:20px;height:1px;background:var(--b0);margin:6px 0;flex-shrink:0;}
+.rsp{flex:1;}
 
-.login-r{flex:1;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:48px;}
-.login-form{width:100%;max-width:420px;}
-.login-form h2{font-size:22px;font-weight:700;margin-bottom:5px;}
-.login-form>p{color:var(--ts);font-size:13px;margin-bottom:28px;}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
 
-/* 3-column role grid */
-.role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px;}
-.role-card{background:var(--bg2);border:1px solid var(--b1);border-radius:10px;padding:14px 10px;cursor:pointer;transition:all .15s;text-align:left;}
-.role-card:hover{border-color:var(--b2);}
-.role-card.on{border-color:var(--blue);background:var(--bdim);}
-.role-card .ri{font-size:20px;display:block;margin-bottom:6px;}
-.role-card .rl{font-size:12px;font-weight:600;}
-.role-card .rs{font-size:10px;color:var(--tm);font-family:var(--fmono);margin-top:2px;}
-
-.fl{margin-bottom:16px;}
-.fl label{display:block;font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;}
-.fl input,.fl select{width:100%;background:var(--bg2);border:1px solid var(--b1);border-radius:8px;padding:11px 13px;color:var(--tp);font-size:13px;outline:none;transition:border-color .2s;appearance:none;}
-.fl input:focus,.fl select:focus{border-color:var(--blue);}
-.fl input::placeholder{color:var(--tm);}
-
-.btn-login{width:100%;background:var(--blue);color:#fff;border-radius:8px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .15s;letter-spacing:.01em;}
-.btn-login:hover{opacity:.88;}
-.sys-ok{display:flex;align-items:center;gap:8px;margin-top:16px;padding:10px 14px;background:var(--gdim);border:1px solid rgba(46,201,144,.18);border-radius:8px;}
-.sys-ok span{font-family:var(--fmono);font-size:11px;color:var(--green);}
+/* Cashier Topbar — checkout status, cashier identity, device, time */
+.topbar{height:var(--top);background:var(--bg1);border-bottom:1px solid var(--b0);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0;}
+.tb-title{font-size:13px;font-weight:600;flex:1;letter-spacing:.01em;}
+.tb-meta{display:flex;align-items:center;gap:12px;}
+.pill-stat{display:flex;align-items:center;gap:6px;font-size:11px;font-family:var(--fmono);color:var(--tm);}
 .dot{width:5px;height:5px;border-radius:50%;}
 .dg{background:var(--green);animation:blink 2.4s infinite;}
+.db{background:var(--blue);}
+.da{background:var(--amber);}
+.dr{background:var(--red);}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+.tb-tag{background:var(--bg2);border:1px solid var(--b1);border-radius:20px;padding:3px 12px;font-size:11px;font-family:var(--fmono);color:var(--ts);}
+.tb-clock{font-family:var(--fmono);font-size:12px;color:var(--tm);}
 
-/* role description footer */
-.role-desc{margin-top:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--b0);border-radius:8px;font-size:11px;color:var(--tm);font-family:var(--fmono);min-height:36px;transition:all .2s;}
-.role-desc span{color:var(--ts);}
+.view{display:none;flex:1;overflow:hidden;}
+.view.on{display:flex;}
 
+/* ═══════════════════════════════════════════════
+   SHARED UI ATOMS
+═══════════════════════════════════════════════ */
+.sect{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;}
+.card{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;}
+.dh{height:1px;background:var(--b0);}
+.dv{width:1px;background:var(--b0);flex-shrink:0;}
+.badge{font-size:10px;font-family:var(--fmono);padding:2px 8px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;}
+.bg{background:var(--gdim);color:var(--green);}
+.ba{background:var(--adim);color:var(--amber);}
+.br{background:var(--rdim);color:var(--red);}
+.bb{background:var(--bdim);color:var(--blue);}
+.bv{background:var(--vdim);color:var(--violet);}
+.bn{background:var(--bg3);color:var(--tm);}
+.btn{display:inline-flex;align-items:center;gap:6px;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;border:none;}
+.btn-p{background:var(--blue);color:#fff;}
+.btn-p:hover{opacity:.88;}
+.btn-g{background:transparent;border:1px solid var(--b1);color:var(--ts);}
+.btn-g:hover{background:var(--bg3);color:var(--tp);border-color:var(--b2);}
+.btn-d{background:var(--rdim);border:1px solid rgba(232,85,85,.2);color:var(--red);}
+.btn-d:hover{background:rgba(232,85,85,.16);}
+.btn-s{background:var(--gdim);border:1px solid rgba(46,201,144,.2);color:var(--green);}
+.btn-s:hover{background:rgba(46,201,144,.14);}
+.btn-a{background:var(--adim);border:1px solid rgba(240,160,52,.2);color:var(--amber);}
+.btn-sm{padding:5px 12px;font-size:11px;}
+.btn-lg{padding:13px 22px;font-size:14px;font-weight:700;}
+.fi label{display:block;font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;}
+.fi input,.fi select,.fi textarea{width:100%;background:var(--bg2);border:1px solid var(--b1);border-radius:8px;padding:10px 13px;color:var(--tp);font-size:13px;outline:none;transition:border-color .2s;appearance:none;}
+.fi input:focus,.fi select:focus,.fi textarea:focus{border-color:var(--blue);}
+.fi input::placeholder,.fi textarea::placeholder{color:var(--tm);}
+.fi textarea{resize:vertical;min-height:76px;line-height:1.6;}
+.pt{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;}
+.pf{height:100%;border-radius:2px;transition:width .45s ease;}
+.tog label{position:relative;width:34px;height:18px;cursor:pointer;display:block;}
+.tog input{opacity:0;width:0;height:0;}
+.tog-sl{position:absolute;inset:0;background:var(--bg3);border:1px solid var(--b2);border-radius:20px;transition:all .2s;}
+.tog-sl::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;background:var(--tm);border-radius:50%;transition:all .2s;}
+.tog input:checked~.tog-sl{background:var(--bdim);border-color:var(--blue);}
+.tog input:checked~.tog-sl::after{transform:translateX(16px);background:var(--blue);}
+.phd{padding:13px 16px;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+
+/* ═══════════════════════════════════════════════
+   1. LIVE CHECKOUT
+═══════════════════════════════════════════════ */
+#v-checkout{flex-direction:row;}
+.co-left{width:268px;border-right:1px solid var(--b0);display:flex;flex-direction:column;flex-shrink:0;}
+.feed{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:6px;}
+.pcard{background:var(--bg2);border:1px solid var(--b0);border-left:2px solid transparent;border-radius:9px;padding:10px;display:flex;align-items:center;gap:9px;animation:fadeUp .22s ease;cursor:default;transition:border-color .2s;}
+.pcard:hover{border-color:var(--b1);}
+.pcard.verified{border-left-color:var(--green);}
+.pcard.ambiguous{border-left-color:var(--amber);}
+.pcard.checking{border-left-color:var(--blue);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+.pi{width:36px;height:36px;background:var(--bg3);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.pname{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
+.pmeta{display:flex;align-items:center;gap:5px;}
+.pprice{font-family:var(--fmono);font-size:11px;color:var(--ts);margin-left:auto;white-space:nowrap;}
+.ctag{font-family:var(--fmono);font-size:9px;padding:1px 5px;border-radius:3px;}
+.ctg{background:var(--gdim);color:var(--green);}
+.cta{background:var(--adim);color:var(--amber);}
+.ctr{background:var(--rdim);color:var(--red);}
+.ctb{background:var(--bdim);color:var(--blue);}
+.co-ctr{flex:1;display:flex;flex-direction:column;}
+.cam{flex:1;position:relative;background:#060709;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.cam-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(68,117,247,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(68,117,247,.03) 1px,transparent 1px);background-size:50px 50px;}
+.cc{position:absolute;width:20px;height:20px;border-color:rgba(68,117,247,.38);border-style:solid;}
+.cc.tl{top:26px;left:26px;border-width:2px 0 0 2px;}
+.cc.tr{top:26px;right:26px;border-width:2px 2px 0 0;}
+.cc.bl{bottom:26px;left:26px;border-width:0 0 2px 2px;}
+.cc.br{bottom:26px;right:26px;border-width:0 2px 2px 0;}
+.sbeam{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(46,201,144,.55),transparent);animation:scanB 2.8s linear infinite;pointer-events:none;}
+@keyframes scanB{from{top:12%;}to{top:88%;}}
+.dbox{position:absolute;width:130px;height:130px;border:1.5px solid var(--green);border-radius:5px;animation:dPulse 1.8s ease-in-out infinite;}
+@keyframes dPulse{0%,100%{box-shadow:0 0 0 0 rgba(46,201,144,.1);}50%{box-shadow:0 0 18px rgba(46,201,144,.1);}}
+.dlabel{position:absolute;top:-22px;left:0;background:var(--green);color:#000;font-size:9px;font-family:var(--fmono);font-weight:600;padding:2px 7px;border-radius:3px;white-space:nowrap;}
+.cemoji{font-size:72px;animation:flt 3.2s ease-in-out infinite;position:relative;z-index:2;user-select:none;}
+@keyframes flt{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+.cstatus{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(10,11,14,.88);border:1px solid var(--b1);backdrop-filter:blur(10px);border-radius:20px;padding:6px 18px;font-size:11px;font-family:var(--fmono);display:flex;align-items:center;gap:8px;white-space:nowrap;}
+.co-bar{height:52px;border-top:1px solid var(--b0);background:var(--bg1);display:flex;align-items:center;padding:0 14px;gap:10px;}
+.kbhint{font-family:var(--fmono);font-size:10px;color:var(--tf);background:var(--bg2);border:1px solid var(--b1);border-radius:4px;padding:1px 6px;}
+.co-right{width:252px;border-left:1px solid var(--b0);display:flex;flex-direction:column;flex-shrink:0;}
+.total-blk{padding:22px 18px;text-align:center;border-bottom:1px solid var(--b0);}
+.total-lbl{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;}
+.total-num{font-family:var(--fui);font-size:46px;font-weight:900;line-height:1;letter-spacing:-.03em;}
+.total-num .cur{font-size:22px;color:var(--ts);vertical-align:top;margin-top:9px;display:inline-block;}
+.total-det{font-size:11px;font-family:var(--fmono);color:var(--tm);margin-top:8px;}
+.bill-rows{padding:14px 18px;border-bottom:1px solid var(--b0);}
+.brow{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;}
+.brow .l{color:var(--tm);}
+.brow .r{font-family:var(--fmono);color:var(--ts);}
+.brow.tot .l{color:var(--tp);font-weight:600;}
+.brow.tot .r{color:var(--tp);font-weight:600;}
+.pchips{display:flex;gap:7px;padding:12px 14px;border-bottom:1px solid var(--b0);}
+.pchip{flex:1;background:var(--bg2);border:1px solid var(--b1);border-radius:8px;padding:8px 5px;text-align:center;font-size:10px;color:var(--tm);cursor:pointer;transition:all .15s;font-family:var(--fmono);}
+.pchip:hover{border-color:var(--blue);color:var(--blue);}
+.pchip.on{border-color:var(--blue);background:var(--bdim);color:var(--blue);}
+.pchip .pci{font-size:16px;display:block;margin-bottom:3px;}
+.pos-sync{display:flex;align-items:center;gap:8px;padding:10px 18px;border-bottom:1px solid var(--b0);}
+.pos-sync .sl{font-size:10px;font-family:var(--fmono);color:var(--tm);}
+.pos-sync .sr{font-size:10px;font-family:var(--fmono);color:var(--green);margin-left:auto;}
+.co-acts{padding:12px 14px;display:flex;flex-direction:column;gap:8px;margin-top:auto;}
+.btn-co{width:100%;background:var(--green);color:#000;border-radius:8px;padding:14px;font-family:var(--fui);font-size:13px;font-weight:800;cursor:pointer;transition:opacity .15s;letter-spacing:.01em;}
+.btn-co:hover{opacity:.88;}
+
+/* Ambiguity banner */
+.amb-banner{background:var(--adim);border:1px solid rgba(239,160,48,.22);border-radius:9px;padding:10px 12px;display:none;margin:0 8px 8px;}
+
+/* ═══════════════════════════════════════════════
+   2. POS & DEVICE MANAGEMENT (Cashier-level)
+═══════════════════════════════════════════════ */
+#v-pos{flex-direction:row;}
+.pos-sb{width:276px;border-right:1px solid var(--b0);display:flex;flex-direction:column;flex-shrink:0;}
+.pos-sb-hd{padding:16px;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between;}
+.dev-list{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:6px;}
+.dev-item{background:var(--bg2);border:1px solid var(--b0);border-radius:9px;padding:12px 13px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .15s;}
+.dev-item:hover{border-color:var(--b2);}
+.dev-item.on{border-color:var(--blue);background:var(--bdim);}
+.dev-ico{width:36px;height:36px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.dev-name{font-size:12px;font-weight:500;margin-bottom:2px;}
+.dev-sub{font-size:10px;color:var(--tm);font-family:var(--fmono);}
+.pos-detail{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.pos-dhd{padding:18px 22px;border-bottom:1px solid var(--b0);display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.pos-dico{width:48px;height:48px;background:var(--bg2);border:1px solid var(--b1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.pos-dname{font-size:16px;font-weight:700;margin-bottom:3px;}
+.pos-dsub{font-size:11px;font-family:var(--fmono);color:var(--tm);}
+.pos-dbody{flex:1;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:22px;}
+.pg2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.pg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.pg4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;}
+.ic{background:var(--bg2);border:1px solid var(--b0);border-radius:9px;padding:13px 15px;}
+.ic-l{font-size:10px;font-family:var(--fmono);color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
+.ic-v{font-size:13px;font-weight:500;}
+.ic-v.mono{font-family:var(--fmono);font-size:12px;}
+.ic-v.big{font-size:26px;font-weight:800;font-family:var(--fui);}
+.hi{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.hl{width:110px;font-size:11px;color:var(--ts);flex-shrink:0;}
+.hb{flex:1;}
+.hv{width:42px;font-size:11px;font-family:var(--fmono);text-align:right;flex-shrink:0;}
+.log-box{background:var(--bg);border:1px solid var(--b0);border-radius:9px;padding:14px;font-family:var(--fmono);font-size:11px;height:170px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;}
+.ll{display:flex;gap:14px;}
+.lt{color:var(--tm);flex-shrink:0;}
+.lm.ok{color:var(--green);}
+.lm.err{color:var(--red);}
+.lm.inf{color:var(--ts);}
+.lm.wrn{color:var(--amber);}
+.cfrow{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--b0);}
+.cfrow:last-child{border-bottom:none;}
+.cf-l{font-size:12px;font-weight:500;}
+.cf-s{font-size:11px;color:var(--tm);margin-top:2px;}
+
+/* ═══════════════════════════════════════════════
+   3. SHIFT SUMMARY & EOD
+═══════════════════════════════════════════════ */
+#v-shift{flex-direction:column;overflow-y:auto;}
+.shift-wrap{display:flex;flex-direction:column;gap:20px;padding:28px 36px;max-width:1140px;width:100%;margin:0 auto;}
+.shift-hero{display:flex;align-items:flex-start;justify-content:space-between;padding-bottom:22px;border-bottom:1px solid var(--b0);}
+.sh-l h1{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-bottom:5px;}
+.sh-l p{font-size:12px;color:var(--tm);font-family:var(--fmono);}
+.sh-r{display:flex;gap:10px;align-items:center;}
+.shift-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
+.skpi{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:18px;}
+.skpi-l{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}
+.skpi-v{font-family:var(--fui);font-size:30px;font-weight:900;line-height:1;margin-bottom:6px;letter-spacing:-.02em;}
+.skpi-t{font-size:11px;font-family:var(--fmono);color:var(--tm);}
+.tx-card{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;overflow:hidden;}
+.tx-hd{padding:16px 20px;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between;}
+.tx-table{width:100%;border-collapse:collapse;}
+.tx-table th{text-align:left;padding:10px 20px;font-size:10px;font-family:var(--fmono);color:var(--tm);text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--b0);}
+.tx-table td{padding:11px 20px;border-bottom:1px solid var(--b0);font-size:12px;}
+.tx-table tr:last-child td{border-bottom:none;}
+.tx-table tr:hover td{background:var(--bg2);cursor:pointer;}
+.ai-box{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:20px;display:flex;gap:18px;}
+.ai-ico{width:48px;height:48px;background:var(--bdim);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.ai-c h3{font-size:14px;font-weight:700;margin-bottom:8px;}
+.ai-c p{font-size:12px;color:var(--ts);line-height:1.75;}
+.tup{color:var(--green);}
+.tdn{color:var(--red);}
+
+/* ═══════════════════════════════════════════════
+   MODALS & OVERLAYS
+═══════════════════════════════════════════════ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.74);backdrop-filter:blur(6px);z-index:800;align-items:center;justify-content:center;}
+.overlay.open{display:flex;}
+.modal{background:var(--bg1);border:1px solid var(--b1);border-radius:14px;width:730px;max-width:92vw;overflow:hidden;animation:mIn .18s ease;}
+@keyframes mIn{from{opacity:0;transform:scale(.97) translateY(8px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.mhd{padding:18px 22px;border-bottom:1px solid var(--b0);display:flex;align-items:center;gap:12px;}
+.m-aico{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;}
+.mtitle{font-size:14px;font-weight:700;}
+.msub{font-size:11px;color:var(--tm);font-family:var(--fmono);margin-top:2px;}
+.mbody{padding:18px 22px;display:flex;gap:18px;}
+.mframes{width:128px;flex-shrink:0;}
+.frgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px;}
+.frt{aspect-ratio:1;background:var(--bg2);border:1px solid var(--b1);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;transition:border-color .15s;}
+.frt.on{border-color:var(--blue);}
+.sopts{flex:1;}
+.sopt{background:var(--bg2);border:1px solid var(--b0);border-radius:9px;padding:11px 13px;display:flex;align-items:center;gap:11px;margin-bottom:8px;cursor:pointer;transition:all .15s;}
+.sopt:hover{border-color:var(--b2);}
+.sopt.top{border-color:var(--blue);background:var(--bdim);}
+.srank{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--fmono);flex-shrink:0;}
+.sr1{background:var(--bdim);color:var(--blue);}
+.sr2,.sr3{background:var(--bg3);color:var(--tm);}
+.son{font-size:27px;}
+.sname{font-size:12px;font-weight:500;margin-bottom:2px;}
+.scode{font-size:10px;color:var(--tm);font-family:var(--fmono);}
+.cm{width:72px;flex-shrink:0;}
+.cmv{font-size:10px;font-family:var(--fmono);text-align:right;margin-bottom:4px;}
+.mft{padding:14px 22px;border-top:1px solid var(--b0);display:flex;gap:10px;align-items:center;}
+.mtip{margin-left:auto;font-size:11px;font-family:var(--fmono);color:var(--tm);}
+
+/* ── TOAST ── */
+.tw{position:fixed;bottom:18px;right:18px;z-index:999;display:flex;flex-direction:column;gap:8px;}
+.toast{background:var(--bg2);border:1px solid var(--b1);border-radius:10px;padding:11px 15px;display:flex;align-items:center;gap:10px;min-width:260px;max-width:340px;animation:tIn .22s ease;box-shadow:0 8px 28px rgba(0,0,0,.42);}
+@keyframes tIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.ti{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
+.tt{font-size:12px;font-weight:500;}
+.ts2{font-size:10px;color:var(--tm);font-family:var(--fmono);margin-top:1px;}
+
+/* ── NO MOBILE ── */
 .nm{display:none;position:fixed;inset:0;background:var(--bg);z-index:9999;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:32px;}
 @media(max-width:860px){.nm{display:flex;}}
+
+/* Loyalty points colour */
+#b-pts{color:var(--violet);}
+
+/* chart-card (used in shift) */
+.chart-card{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:18px;}
+.chart-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.chart-title{font-size:13px;font-weight:600;}
+.cleg{display:flex;gap:14px;font-size:11px;font-family:var(--fmono);color:var(--tm);}
+.cldot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;}
 </style>
 </head>
 <body>
@@ -89,73 +312,455 @@ input,select{font-family:inherit;}
   <div style="font-size:13px;color:var(--tm);max-width:300px;line-height:1.7">Requires 860px+ viewport to render correctly.</div>
 </div>
 
-<div class="login-wrap">
-  <div class="login-l">
-    <div class="brand">
-      <div class="brand-logo"><svg viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="6" height="6" rx="1.5" fill="white"/><rect x="10" y="2" width="6" height="6" rx="1.5" fill="white" opacity=".4"/><rect x="2" y="10" width="6" height="6" rx="1.5" fill="white" opacity=".4"/><rect x="10" y="10" width="6" height="6" rx="1.5" fill="white"/></svg></div>
-      <div><div class="brand-name">Nexus Retail Intelligence</div><div class="brand-tag">Platform · Enterprise Build</div></div>
+<div class="shell">
+  <!-- Cashier Rail — 3 modules only, per SRS Section 3 -->
+  <nav class="rail">
+    <div class="rail-logo" onclick="toast('info','Nexus','Cashier Dashboard · Lane 04')">
+      <svg viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="6" height="6" rx="1.5" fill="white"/><rect x="10" y="2" width="6" height="6" rx="1.5" fill="white" opacity=".4"/><rect x="2" y="10" width="6" height="6" rx="1.5" fill="white" opacity=".4"/><rect x="10" y="10" width="6" height="6" rx="1.5" fill="white"/></svg>
     </div>
-    <div class="login-hero">
-      <h1>Smarter<br>checkout.<br><em>Zero friction.</em></h1>
-      <p>AI-assisted product recognition, real-time billing intelligence, fraud detection and operational analytics — embedded into your existing retail infrastructure.</p>
-    </div>
-    <div class="login-stats">
-      <div><div class="lstat-v" style="color:var(--green)">97.4%</div><div class="lstat-l">Recognition Accuracy</div></div>
-      <div><div class="lstat-v">2.1s</div><div class="lstat-l">Avg Scan Time</div></div>
-      <div><div class="lstat-v" style="color:var(--blue)">12K+</div><div class="lstat-l">SKUs Trained</div></div>
-    </div>
-  </div>
+    <!-- Module 1: Live Checkout -->
+    <button class="rn on" onclick="goView('checkout',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 10h8M8 14h5"/><circle cx="17" cy="14" r="1" fill="currentColor" stroke="none"/></svg>
+      <span class="rn-tip">Live Checkout</span>
+    </button>
+    <!-- Module 2: POS & Device Management -->
+    <button class="rn" onclick="goView('pos',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2M12 12v4M10 14h4"/></svg>
+      <span class="rn-tip">POS &amp; Device</span>
+    </button>
+    <!-- Module 3: Shift Summary & EOD -->
+    <button class="rn" onclick="goView('shift',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+      <span class="rn-tip">Shift Summary &amp; EOD</span>
+    </button>
+    <div class="rsp"></div>
+    <!-- User identity & logout -->
+    <button class="rn" onclick="toast('info',opId,opId+' · Lane 04 · Cashier')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span class="rn-tip" id="rn-user-tip">CSH-0041</span>
+    </button>
+    <button class="rn" onclick="doLogout()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      <span class="rn-tip">End Shift / Sign Out</span>
+    </button>
+  </nav>
 
-  <div class="login-r">
-    <div class="login-form">
-      <h2>Operator Sign In</h2>
-      <p>Select your role — you will be routed to your dedicated dashboard.</p>
-
-      <div class="role-grid">
-        <button class="role-card on" onclick="selRole(this,'Cashier','Checkout execution · POS & device · Shift closure')"><span class="ri">🧾</span><span class="rl">Cashier</span><span class="rs">Lane-level access</span></button>
-        <button class="role-card" onclick="selRole(this,'Store Manager','Operational intel · Workforce · Inventory · Fraud · Reports')"><span class="ri">📊</span><span class="rl">Store Manager</span><span class="rs">Operational intel</span></button>
-        <button class="role-card" onclick="selRole(this,'Board / Executive','Strategic KPIs · ROI analytics · Regional intelligence')"><span class="ri">🏢</span><span class="rl">Board / Executive</span><span class="rs">Strategic overview</span></button>
+  <div class="main">
+    <!-- Cashier Topbar: checkout status, cashier identity, device connectivity, time -->
+    <header class="topbar">
+      <div class="tb-title" id="tb-title">Live Checkout · Lane 04</div>
+      <div class="tb-meta">
+        <div class="pill-stat"><div class="dot dg"></div>AI Engine</div>
+        <div class="pill-stat"><div class="dot db"></div>POS Synced</div>
+        <div class="pill-stat" id="device-status"><div class="dot dg"></div>Devices OK</div>
+        <div class="tb-tag" id="store-tag">Reliance Smart · Ahmedabad</div>
+        <span style="background:var(--bdim);border:1px solid rgba(68,117,247,.2);border-radius:20px;padding:3px 10px;font-size:10px;font-family:var(--fm);color:var(--blue)" id="role-badge">Cashier</span>
+        <div class="tb-clock" id="clock">--:--:--</div>
+        <button class="btn btn-g btn-sm" onclick="openOverlay('ov-shortcuts')" style="font-family:var(--fmono);padding:4px 10px;font-size:11px">?</button>
       </div>
+    </header>
 
-      <div class="role-desc" id="role-desc"><span>Checkout execution · POS &amp; device management · Shift closure</span></div>
-
-      <div style="height:14px"></div>
-      <div class="fl"><label>Operator ID</label><input type="text" id="op-id" value="CSH-0041" placeholder="Enter operator ID"></div>
-      <div class="fl"><label>PIN / Password</label><input type="password" id="op-pin" value="123456" placeholder="••••••"></div>
-      <div class="fl">
-        <label>Store Location</label>
-        <select id="op-store">
-          <option>Reliance Smart — Ahmedabad Central</option>
-          <option>DMart — SG Highway</option>
-          <option>BigBazaar — Satellite</option>
-        </select>
+    <!-- ── VIEW 1: LIVE CHECKOUT ── -->
+    <div class="view on" id="v-checkout">
+      <div class="co-left">
+        <div class="phd"><span class="sect">Detected Products</span><span class="badge bb" id="feed-badge">0 items</span></div>
+        <div class="feed" id="feed"></div>
       </div>
-      <button class="btn-login" onclick="doLogin()">Initialize Session →</button>
-      <div class="sys-ok"><div class="dot dg"></div><span>All systems operational · POS connected · AI engine ready</span></div>
+      <div class="co-ctr">
+        <div class="cam">
+          <div class="cam-grid"></div>
+          <div class="cc tl"></div><div class="cc tr"></div><div class="cc bl"></div><div class="cc br"></div>
+          <div class="sbeam"></div>
+          <div class="dbox" id="dbox"><span class="dlabel" id="dlabel">Detecting…</span></div>
+          <div class="cemoji" id="cemoji">🛒</div>
+          <div class="cstatus"><div class="dot dg"></div><span id="camt">Ready · Place product in view</span></div>
+        </div>
+        <div class="co-bar">
+          <button class="btn btn-g btn-sm" onclick="scan()">⚡ Simulate Scan</button>
+          <span class="kbhint">Space</span>
+          <button class="btn btn-g btn-sm" onclick="openVerify()">⚠ Ambiguity Test</button>
+          <button class="btn btn-d btn-sm" onclick="clearCart()">✕ Clear</button>
+          <div style="flex:1"></div>
+          <button class="btn btn-g btn-sm" onclick="toast('info','Manual Override','Barcode fallback mode activated')">Manual Override</button>
+          <button class="btn btn-a btn-sm" onclick="bulkScan()">Bulk Scan (×5)</button>
+        </div>
+      </div>
+      <div class="co-right">
+        <div class="total-blk">
+          <div class="total-lbl">Running Total</div>
+          <div class="total-num"><span class="cur">₹</span><span id="tnum">0</span></div>
+          <div class="total-det" id="tdet">0 items · ₹0 GST</div>
+        </div>
+        <div class="bill-rows">
+          <div class="brow"><span class="l">Subtotal</span><span class="r" id="b-sub">₹0.00</span></div>
+          <div class="brow"><span class="l">GST (18%)</span><span class="r" id="b-tax">₹0.00</span></div>
+          <div class="brow"><span class="l">Discount</span><span class="r" style="color:var(--green)" id="b-disc">— ₹0.00</span></div>
+          <div class="dh" style="margin:6px 0"></div>
+          <div class="brow tot"><span class="l">Total</span><span class="r" id="b-tot">₹0.00</span></div>
+        </div>
+        <div class="pos-sync"><div class="dot dg"></div><span class="sl">POS Sync</span><span class="sr">LIVE</span></div>
+        <div class="pchips" id="pay-chips">
+          <div class="pchip" onclick="selPay(this)"><span class="pci">💵</span>Cash</div>
+          <div class="pchip" onclick="selPay(this)"><span class="pci">💳</span>Card</div>
+          <div class="pchip on" onclick="selPay(this)"><span class="pci">📱</span>UPI</div>
+        </div>
+        <div class="co-acts">
+          <button class="btn-co" onclick="checkout()">Complete Checkout →</button>
+          <button class="btn btn-g" style="width:100%;justify-content:center" onclick="clearCart()">Cancel Transaction</button>
+          <button class="btn btn-g btn-sm" style="width:100%;justify-content:center" onclick="applyDiscount()">Apply Discount / Coupon</button>
+        </div>
+      </div>
     </div>
+
+    <!-- ── VIEW 2: POS & DEVICE MANAGEMENT ── -->
+    <div class="view" id="v-pos">
+      <div class="pos-sb">
+        <div class="pos-sb-hd"><span class="sect">Devices</span><button class="btn btn-p btn-sm" onclick="toast('success','Device Added','Opening device pairing wizard…')">+ Add</button></div>
+        <div class="dev-list" id="dev-list"></div>
+      </div>
+      <div class="pos-detail" id="pos-detail"></div>
+    </div>
+
+    <!-- ── VIEW 3: SHIFT SUMMARY & EOD ── -->
+    <div class="view" id="v-shift">
+      <div class="shift-wrap">
+        <div class="shift-hero">
+          <div class="sh-l"><h1>Shift Summary &amp; EOD Report</h1><p id="shift-meta">CSH-0041 · Priya S. · Lane 04 · Thu 14 May 2026 · 09:00 – 17:30</p></div>
+          <div class="sh-r">
+            <button class="btn btn-g" onclick="toast('info','Export PDF','Generating PDF report…')">⬇ Export PDF</button>
+            <button class="btn btn-g" onclick="toast('info','Share','Sending to floor manager…')">↗ Share</button>
+            <button class="btn btn-p" onclick="closeShift()">Close Shift</button>
+          </div>
+        </div>
+        <div class="shift-kpis">
+          <div class="skpi"><div class="skpi-l">Transactions</div><div class="skpi-v" id="s-txn">214</div><div class="skpi-t"><span class="tup">↑ 12%</span> vs yesterday</div></div>
+          <div class="skpi"><div class="skpi-l">Revenue Handled</div><div class="skpi-v" style="color:var(--green)" id="s-rev">₹1.84L</div><div class="skpi-t"><span class="tup">↑ 8.3%</span> vs yesterday</div></div>
+          <div class="skpi"><div class="skpi-l">AI Accuracy</div><div class="skpi-v" style="color:var(--blue)">97.4%</div><div class="skpi-t"><span class="tup">↑ 0.3%</span> last shift</div></div>
+          <div class="skpi"><div class="skpi-l">Manual Overrides</div><div class="skpi-v" style="color:var(--amber)">6</div><div class="skpi-t"><span class="tdn">↑ 2</span> needs review</div></div>
+          <div class="skpi"><div class="skpi-l">Flagged Transactions</div><div class="skpi-v" style="color:var(--red)">3</div><div class="skpi-t">Requires supervisor review</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 350px;gap:14px">
+          <div class="chart-card">
+            <div class="chart-hd"><div class="chart-title">Throughput Over Shift</div><div class="cleg"><span><span class="cldot" style="background:var(--blue)"></span>Transactions</span><span><span class="cldot" style="background:var(--green)"></span>Revenue ÷ 1000</span></div></div>
+            <svg viewBox="0 0 620 110" style="width:100%;overflow:visible" xmlns="http://www.w3.org/2000/svg">
+              <defs><linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4475f7" stop-opacity=".18"/><stop offset="100%" stop-color="#4475f7" stop-opacity="0"/></linearGradient><linearGradient id="gg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2ec990" stop-opacity=".14"/><stop offset="100%" stop-color="#2ec990" stop-opacity="0"/></linearGradient></defs>
+              <line x1="0" y1="0" x2="620" y2="0" stroke="rgba(255,255,255,.035)" stroke-width="1"/><line x1="0" y1="28" x2="620" y2="28" stroke="rgba(255,255,255,.035)" stroke-width="1"/><line x1="0" y1="56" x2="620" y2="56" stroke="rgba(255,255,255,.035)" stroke-width="1"/><line x1="0" y1="84" x2="620" y2="84" stroke="rgba(255,255,255,.035)" stroke-width="1"/>
+              <path d="M0,96 C55,80 100,55 155,46 S250,16 310,14 S410,38 480,32 S550,58 620,74 L620,110 L0,110Z" fill="url(#bg2)"/>
+              <path d="M0,104 C55,92 100,72 155,60 S250,30 310,26 S410,50 480,44 S550,68 620,84 L620,110 L0,110Z" fill="url(#gg2)"/>
+              <path d="M0,96 C55,80 100,55 155,46 S250,16 310,14 S410,38 480,32 S550,58 620,74" fill="none" stroke="#4475f7" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M0,104 C55,92 100,72 155,60 S250,30 310,26 S410,50 480,44 S550,68 620,84" fill="none" stroke="#2ec990" stroke-width="1.8" stroke-linecap="round"/>
+              <text x="0" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">9AM</text><text x="76" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">10AM</text><text x="154" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">11AM</text><text x="232" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">12PM</text><text x="310" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">1PM</text><text x="388" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">2PM</text><text x="466" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">3PM</text><text x="544" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">4PM</text>
+            </svg>
+          </div>
+          <div class="ai-box">
+            <div class="ai-ico">🤖</div>
+            <div class="ai-c">
+              <h3>AI Shift Insights</h3>
+              <p>Peak 12–1PM with 44 transactions. 6 manual overrides — 4 were Maggi variant confusion (retrain queued). Accuracy <strong>97.4%</strong>, above store average of 96.1%.</p>
+              <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:6px">
+                <span class="badge bg">✓ Target met</span>
+                <span class="badge ba">⚠ 2 SKUs flagged</span>
+                <span class="badge bb">→ Retrain queued</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="tx-card">
+            <div class="tx-hd"><div style="font-size:13px;font-weight:600">Transactions</div><button class="btn btn-g btn-sm" onclick="toast('info','Export','Exporting transaction log as CSV…')">Export CSV</button></div>
+            <table class="tx-table"><thead><tr><th>Time</th><th>Items</th><th>Amount</th><th>Payment</th><th>Status</th></tr></thead>
+            <tbody id="tx-tbody"></tbody></table>
+          </div>
+          <div class="card" style="padding:18px">
+            <div style="font-size:13px;font-weight:600;margin-bottom:12px">Payment Split</div>
+            <div style="display:flex;gap:16px;text-align:center;margin-bottom:18px">
+              <div style="flex:1"><div style="font-size:22px;font-weight:800;color:var(--blue)">48%</div><div style="font-size:10px;font-family:var(--fmono);color:var(--tm);margin-top:3px">UPI</div></div>
+              <div style="flex:1"><div style="font-size:22px;font-weight:800;color:var(--green)">33%</div><div style="font-size:10px;font-family:var(--fmono);color:var(--tm);margin-top:3px">Card</div></div>
+              <div style="flex:1"><div style="font-size:22px;font-weight:800;color:var(--amber)">19%</div><div style="font-size:10px;font-family:var(--fmono);color:var(--tm);margin-top:3px">Cash</div></div>
+            </div>
+            <div class="dh" style="margin-bottom:14px"></div>
+            <div style="font-size:13px;font-weight:600;margin-bottom:12px">Accuracy · By Category</div>
+            <div id="shift-acc"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
+<!-- Verification Modal -->
+<div class="overlay" id="ov-verify">
+  <div class="modal">
+    <div class="mhd"><div class="m-aico" style="background:var(--adim)">⚠</div><div><div class="mtitle">AI Verification Required</div><div class="msub">Confidence below threshold · 3 possible matches</div></div></div>
+    <div class="mbody">
+      <div class="mframes"><div class="sect">Captured Frames</div><div class="frgrid"><div class="frt on" onclick="pickFrame(this)">🍜</div><div class="frt" onclick="pickFrame(this)">🍜</div><div class="frt" onclick="pickFrame(this)">📦</div><div class="frt" onclick="pickFrame(this)">🍜</div></div></div>
+      <div class="sopts">
+        <div class="sect" style="margin-bottom:10px">Top Matches — Select Correct Product</div>
+        <div class="sopt top" onclick="pickSKU(this,'Maggi Masala Noodles 70g',14)"><div class="srank sr1">1</div><div class="son">🍜</div><div style="flex:1"><div class="sname">Maggi Masala Noodles 70g</div><div class="scode">NGS-MG-70M · ₹14 · Nestle</div></div><div class="cm"><div class="cmv" style="color:var(--green)">89.2%</div><div class="pt"><div class="pf" style="width:89%;background:var(--green)"></div></div></div></div>
+        <div class="sopt" onclick="pickSKU(this,'Maggi Chicken Noodles 70g',14)"><div class="srank sr2">2</div><div class="son">🍜</div><div style="flex:1"><div class="sname">Maggi Chicken Noodles 70g</div><div class="scode">NGS-MC-70C · ₹14 · Nestle</div></div><div class="cm"><div class="cmv" style="color:var(--amber)">54.1%</div><div class="pt"><div class="pf" style="width:54%;background:var(--amber)"></div></div></div></div>
+        <div class="sopt" onclick="pickSKU(this,'Yippee Magic Masala 70g',12)"><div class="srank sr3">3</div><div class="son">🍝</div><div style="flex:1"><div class="sname">Yippee Magic Masala 70g</div><div class="scode">YIP-MM-70 · ₹12 · ITC</div></div><div class="cm"><div class="cmv" style="color:var(--red)">31.7%</div><div class="pt"><div class="pf" style="width:32%;background:var(--red)"></div></div></div></div>
+      </div>
+    </div>
+    <div class="mft"><button class="btn btn-p" onclick="confirmVerify()">Confirm Selection →</button><button class="btn btn-g" onclick="closeOverlay('ov-verify');toast('info','Manual Entry','Barcode entry opened')">Manual Entry</button><div class="mtip">Enter to confirm · Esc to close</div></div>
+  </div>
+</div>
+
+<!-- Shortcuts Modal -->
+<div class="overlay" id="ov-shortcuts">
+  <div class="modal" style="max-width:480px">
+    <div class="mhd"><div class="m-aico" style="background:var(--bdim)">⌨</div><div><div class="mtitle">Keyboard Shortcuts</div><div class="msub">Quick actions for cashier workflow</div></div></div>
+    <div style="padding:18px 22px">
+      <div style="font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">CHECKOUT</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Simulate Scan</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px">Space</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Confirm Verify</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px">Enter</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Close Modal</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px">Esc</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Shortcuts Help</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px">?</span></div>
+      </div>
+      <div style="font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin:12px 0 8px">NAVIGATION</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Live Checkout</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px">Alt+1</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">POS &amp; Device</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px">Alt+2</span></div>
+        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Shift Summary</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px">Alt+3</span></div>
+      </div>
+    </div>
+    <div class="mft"><button class="btn btn-p" onclick="closeOverlay('ov-shortcuts')">Got it</button></div>
+  </div>
+</div>
+
+<div class="tw" id="tw"></div>
+
 <script>
-let selectedRole='Cashier';
-function selRole(el,role,desc){
-  document.querySelectorAll('.role-card').forEach(r=>r.classList.remove('on'));
-  el.classList.add('on');
-  selectedRole=role;
-  document.getElementById('role-desc').innerHTML='<span>'+desc+'</span>';
+/* ══ AUTH CHECK ══ */
+const nxLoggedIn=sessionStorage.getItem('nxLoggedIn');
+const nxRole=sessionStorage.getItem('nxRole');
+if(!nxLoggedIn||nxRole!=='Cashier'){window.location.href='index.html';}
+const opId=sessionStorage.getItem('nxOpId')||'CSH-0041';
+const opStore=sessionStorage.getItem('nxStore')||'Reliance Smart — Ahmedabad Central';
+document.getElementById('rn-user-tip').textContent=opId;
+document.getElementById('store-tag').textContent=opStore.split('—')[0].trim();
+
+/* ══ STATE ══ */
+const S={cart:[],total:0,discount:0,txnCount:214,revenue:184000,verPick:{name:'Maggi Masala Noodles 70g',price:14}};
+
+/* ══ CLOCK ══ */
+function tick(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});}
+setInterval(tick,1000);tick();
+
+/* ══ VIEW NAV ══ */
+const viewTitles={checkout:'Live Checkout · Lane 04',pos:'POS & Device Management',shift:'Shift Summary & EOD Report'};
+function goView(id,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.querySelectorAll('.rn').forEach(r=>r.classList.remove('on'));
+  const vEl=document.getElementById('v-'+id);if(vEl)vEl.classList.add('on');
+  if(btn)btn.classList.add('on');
+  const tb=document.getElementById('tb-title');if(tb)tb.textContent=viewTitles[id]||id;
+  if(id==='pos')renderDevList();
+  if(id==='shift')renderShift();
 }
-function doLogin(){
-  const id=document.getElementById('op-id').value||'CSH-0041';
-  const store=document.getElementById('op-store').value||'Reliance Smart — Ahmedabad Central';
-  sessionStorage.setItem('nxRole',selectedRole);
-  sessionStorage.setItem('nxOpId',id);
-  sessionStorage.setItem('nxStore',store);
-  sessionStorage.setItem('nxLoggedIn','1');
-  if(selectedRole==='Cashier') window.location.href='cashier.html';
-  else if(selectedRole==='Store Manager') window.location.href='manager.html';
-  else window.location.href='board.html';
+
+/* ══ PRODUCT DATA ══ */
+const PRODS=[
+  {n:'Amul Taaza Milk 500ml',e:'🥛',p:26},{n:'Maggi Masala Noodles 70g',e:'🍜',p:14},
+  {n:'Parle-G Biscuits 100g',e:'🍪',p:10},{n:'Haldiram Aloo Bhujia 200g',e:'🥜',p:60},
+  {n:"Kurkure Masala Munch 90g",e:'🌶',p:30},{n:"Lay's Classic Salted 73g",e:'🍟',p:20},
+  {n:'Tata Salt 1kg',e:'🧂',p:22},{n:'Colgate MaxFresh 150g',e:'🦷',p:82},
+  {n:'Surf Excel Matic 1kg',e:'🧺',p:220},{n:'Sunfeast Marie Light 200g',e:'🍞',p:40},
+  {n:'Nestle KitKat 60g',e:'🍫',p:35},{n:'Real Guava Juice 1L',e:'🧃',p:90},
+  {n:'Coca-Cola 750ml',e:'🥤',p:45},{n:'Fortune Sunflower Oil 1L',e:'🫒',p:130},
+];
+
+/* ══ CHECKOUT ══ */
+function scan(){
+  const p=PRODS[Math.floor(Math.random()*PRODS.length)];
+  const conf=62+Math.floor(Math.random()*38);
+  const st=conf>=85?'verified':conf>=70?'ambiguous':'checking';
+  addToCart({...p,conf,st});updateCam(p,conf,st);
+  if(st==='verified')toast('success','Scanned',p.n+' · ₹'+p.p);
+  else if(st==='ambiguous')toast('warning','Low Confidence',conf+'% · Verification suggested');
 }
-document.addEventListener('keydown',e=>{if(e.code==='Enter')doLogin();});
+function bulkScan(){let c=0;for(let i=0;i<5;i++)setTimeout(()=>{scan();c++;if(c===5)toast('success','Bulk Scan Complete','5 products added');},i*280);}
+function addToCart(item){S.cart.unshift(item);S.total+=item.p;S.txnCount++;S.revenue+=item.p;renderCart();updateBill();}
+function renderCart(){
+  const el=document.getElementById('feed');
+  document.getElementById('feed-badge').textContent=S.cart.length+' item'+(S.cart.length!==1?'s':'');
+  el.innerHTML=S.cart.map(it=>{
+    const cc=it.conf>=85?'ctg':it.conf>=70?'cta':'ctr';
+    const vi=it.st==='verified'?'<span style="color:var(--green);font-size:11px;flex-shrink:0">✓</span>':it.st==='ambiguous'?'<span style="color:var(--amber);font-size:11px;flex-shrink:0">!</span>':'<span style="color:var(--blue);font-size:11px;flex-shrink:0">↻</span>';
+    return`<div class="pcard ${it.st}"><div class="pi">${it.e}</div><div style="flex:1;min-width:0"><div class="pname">${it.n}</div><div class="pmeta"><span class="ctag ${cc}">${it.conf}%</span></div></div><div class="pprice">₹${it.p}</div>${vi}</div>`;
+  }).join('');
+}
+function updateBill(){
+  const sub=S.total,tax=+(sub*.18).toFixed(2),disc=S.discount,grand=+(sub+tax-disc).toFixed(2);
+  document.getElementById('tnum').textContent=grand.toFixed(0);
+  document.getElementById('tdet').textContent=S.cart.length+' items · ₹'+tax.toFixed(0)+' GST';
+  document.getElementById('b-sub').textContent='₹'+sub.toFixed(2);
+  document.getElementById('b-tax').textContent='₹'+tax.toFixed(2);
+  document.getElementById('b-disc').textContent='— ₹'+disc.toFixed(2);
+  document.getElementById('b-tot').textContent='₹'+grand.toFixed(2);
+  const stEl=document.getElementById('s-txn');if(stEl)stEl.textContent=S.txnCount;
+  const srEl=document.getElementById('s-rev');if(srEl)srEl.textContent='₹'+(S.revenue/100000).toFixed(2)+'L';
+}
+function updateCam(p,conf,st){
+  document.getElementById('cemoji').textContent=p.e;
+  document.getElementById('camt').textContent=st==='verified'?'Product verified · Billing transmitted':st==='ambiguous'?'Low confidence · Verification suggested':'Analysing…';
+  const lbl=document.getElementById('dlabel');
+  lbl.textContent=conf+'% · '+p.n.split(' ').slice(0,3).join(' ');
+  lbl.style.background=st==='verified'?'var(--green)':st==='ambiguous'?'var(--amber)':'var(--blue)';
+  lbl.style.color='#000';
+  document.getElementById('dbox').style.borderColor=st==='verified'?'var(--green)':st==='ambiguous'?'var(--amber)':'var(--blue)';
+}
+function clearCart(){
+  S.cart=[];S.total=0;S.discount=0;renderCart();updateBill();
+  document.getElementById('cemoji').textContent='🛒';
+  document.getElementById('camt').textContent='Ready · Place product in view';
+  document.getElementById('dlabel').textContent='Detecting…';
+  document.getElementById('dlabel').style.background='';
+  document.getElementById('dbox').style.borderColor='var(--green)';
+}
+function selPay(el){document.querySelectorAll('.pchip').forEach(c=>c.classList.remove('on'));el.classList.add('on');}
+function checkout(){
+  if(!S.cart.length){toast('warning','No Items','Scan at least one product first.');return;}
+  const sub=S.total,tax=+(sub*.18).toFixed(2),grand=(sub+tax-S.discount).toFixed(2);
+  const pm=document.querySelector('.pchip.on')?.textContent?.trim()||'UPI';
+  toast('success','Checkout Complete','₹'+grand+' · '+S.cart.length+' items · '+pm+' · POS synced');
+  addTx(S.cart.length,grand,pm);
+  setTimeout(clearCart,900);
+}
+function applyDiscount(){
+  const code=prompt('Enter discount code or coupon:','SAVE10');if(!code)return;
+  if(code.toUpperCase()==='SAVE10'){S.discount=+(S.total*.10).toFixed(2);updateBill();toast('success','Discount Applied','10% off · ₹'+S.discount+' saved');}
+  else if(code.toUpperCase()==='FLAT50'){S.discount=50;updateBill();toast('success','Discount Applied','₹50 flat discount applied');}
+  else toast('warning','Invalid Code','Coupon code not recognised');
+}
+
+/* ══ VERIFICATION ══ */
+function openVerify(){openOverlay('ov-verify');}
+function pickFrame(el){document.querySelectorAll('.frt').forEach(f=>f.classList.remove('on'));el.classList.add('on');}
+function pickSKU(el,name,price){document.querySelectorAll('.sopt').forEach(o=>o.classList.remove('top'));el.classList.add('top');S.verPick={name,price};}
+function confirmVerify(){
+  closeOverlay('ov-verify');
+  addToCart({n:S.verPick.name,e:'🍜',p:S.verPick.price,conf:89,st:'verified'});
+  toast('success','Verified',S.verPick.name+' confirmed by operator');
+}
+
+/* ══ SHIFT ══ */
+const TXS=[
+  {t:'17:12',items:6,amt:'₹842.00',pay:'UPI',st:'bg',sl:'Verified'},
+  {t:'17:04',items:3,amt:'₹391.00',pay:'Card',st:'bg',sl:'Verified'},
+  {t:'16:51',items:11,amt:'₹1,240.00',pay:'Cash',st:'ba',sl:'Override'},
+  {t:'16:38',items:7,amt:'₹562.00',pay:'UPI',st:'bg',sl:'Verified'},
+  {t:'16:22',items:2,amt:'₹88.00',pay:'Cash',st:'bg',sl:'Verified'},
+  {t:'16:05',items:24,amt:'₹3,410.00',pay:'Card',st:'br',sl:'Flagged'},
+];
+function addTx(items,amt,pay){TXS.unshift({t:new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:false}),items,amt:'₹'+amt,pay,st:'bg',sl:'Verified'});}
+const ACC_CATS=[{n:'Beverages',v:98},{n:'Dairy',v:97},{n:'Biscuits',v:95},{n:'Noodles',v:82},{n:'Snacks',v:91},{n:'Personal Care',v:88}];
+function renderShift(){
+  const tb=document.getElementById('tx-tbody');if(!tb)return;
+  tb.innerHTML=TXS.slice(0,8).map(r=>`<tr onclick="toast('info','Transaction','${r.items} items · ${r.amt} · ${r.pay} · ${r.sl}')"><td style="font-family:var(--fmono);color:var(--tm)">${r.t}</td><td>${r.items}</td><td style="font-family:var(--fmono)">${r.amt}</td><td>${r.pay}</td><td><span class="badge ${r.st}">${r.sl}</span></td></tr>`).join('');
+  const sa=document.getElementById('shift-acc');if(!sa)return;
+  sa.innerHTML=ACC_CATS.map(c=>{const col=c.v>=85?'var(--green)':'var(--amber)';return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div style="width:100px;font-size:11px;color:var(--ts)">${c.n}</div><div style="flex:1"><div class="pt"><div class="pf" style="width:${c.v}%;background:${col}"></div></div></div><div style="font-size:11px;font-family:var(--fmono);color:${col};width:36px;text-align:right">${c.v}%</div></div>`;}).join('');
+}
+function closeShift(){toast('success','Shift Closed','EOD report submitted · Lane 04 released');setTimeout(()=>doLogout(),1500);}
+
+/* ══ POS / DEVICES ══ */
+const DEVS=[
+  {ico:'🖥',name:'POS Terminal · L04',sub:'Tally POS 3.2 · Active',st:'active',ip:'192.168.1.41',fw:'v3.2.1',sync:'Just now',
+   metrics:{'Transactions':'214','Avg Response':'48ms','Sync Errors':'0','Queued':'0'},
+   health:{'CPU Load':28,'Memory':30,'Disk':20,'Uptime':100},
+   logs:[{t:'17:18:02',m:'TXN-2041 synced',c:'ok'},{t:'17:17:55',m:'Billing data ₹842',c:'ok'},{t:'16:51:33',m:'Manual override TXN-2039',c:'wrn'}]},
+  {ico:'📷',name:'AI Dock Camera · L04',sub:'4MP 3-angle · Active',st:'active',ip:'192.168.1.42',fw:'v2.4.0',sync:'Live',
+   metrics:{'Scans':'1,842','Accuracy':'97.4%','Ambiguous':'48','Rejected':'0'},
+   health:{'Frame Rate':100,'Resolution':100,'AI Inference':40,'Uptime':100},
+   logs:[{t:'17:18:01',m:'Product detected 96%',c:'ok'},{t:'17:12:44',m:'Ambiguity alert Maggi',c:'wrn'}]},
+  {ico:'🖨',name:'Receipt Printer · L04',sub:'Epson TM-T82 · Warning',st:'warning',ip:'192.168.1.43',fw:'v1.8.3',sync:'2m ago',
+   metrics:{'Printed':'198','Digital':'16','Print Errors':'2','Paper Jams':'0'},
+   health:{'Paper Level':12,'Head Temp':60,'Cutter':100,'Uptime':100},
+   logs:[{t:'17:10:22',m:'Low paper warning',c:'wrn'},{t:'16:51:00',m:'Print error retried',c:'err'}]},
+  {ico:'⚖',name:'Weigh Scale · L04',sub:'Essae DS-252 · Active',st:'active',ip:'192.168.1.44',fw:'v1.2',sync:'Just now',
+   metrics:{'Weighed':'42','Avg Weight':'1.2kg','Errors':'0','Cal Due':'14d'},
+   health:{'Calibration':100,'Capacity':80,'Display':100,'Uptime':100},
+   logs:[{t:'17:15:00',m:'Item weighed 1.2kg',c:'ok'},{t:'12:00:00',m:'Midshift cal passed',c:'ok'}]},
+];
+let selDev=0;
+function renderDevList(){
+  const list=document.getElementById('dev-list');if(!list)return;
+  list.innerHTML=DEVS.map((d,i)=>{
+    const sc=d.st==='active'?'dg':d.st==='warning'?'da':'db';
+    return`<div class="dev-item${i===selDev?' on':''}" onclick="selDevice(${i})"><div class="dev-ico" style="background:var(--bdim)">${d.ico}</div><div style="flex:1"><div class="dev-name">${d.name}</div><div class="dev-sub">${d.sub}</div></div><div class="dot ${sc}" style="margin-left:auto;flex-shrink:0"></div></div>`;
+  }).join('');
+  renderDev(selDev);
+}
+function selDevice(i){selDev=i;renderDevList();}
+function renderDev(i){
+  const d=DEVS[i],el=document.getElementById('pos-detail');
+  const sb=d.st==='active'?'<span class="badge bg">● Active</span>':d.st==='warning'?'<span class="badge ba">⚠ Warning</span>':'<span class="badge bb">↻ Synced</span>';
+  const mc=Object.entries(d.metrics).map(([k,v])=>`<div class="ic"><div class="ic-l">${k}</div><div class="ic-v mono">${v}</div></div>`).join('');
+  const hi=Object.entries(d.health).map(([k,v])=>{const col=v<30?'var(--red)':v<60?'var(--amber)':'var(--blue)';return`<div class="hi"><div class="hl">${k}</div><div class="hb"><div class="pt"><div class="pf" style="width:${v}%;background:${col}"></div></div></div><div class="hv" style="color:${col}">${v}%</div></div>`;}).join('');
+  const logs=d.logs.map(l=>`<div class="ll"><span class="lt">${l.t}</span><span class="lm ${l.c}">${l.m}</span></div>`).join('');
+  el.innerHTML=`<div class="pos-dhd"><div class="pos-dico">${d.ico}</div><div style="flex:1"><div class="pos-dname">${d.name}</div><div class="pos-dsub">${d.sub} · IP ${d.ip} · FW ${d.fw} · Last sync ${d.sync}</div></div><div style="display:flex;align-items:center;gap:8px;margin-left:auto">${sb}<button class="btn btn-g btn-sm" onclick="toast('info','Restarting','Restart signal sent to device')">↺ Restart</button></div></div>
+  <div class="pos-dbody">
+    <div><div class="sect" style="margin-bottom:12px">Performance Metrics</div><div class="pg4">${mc}</div></div>
+    <div><div class="sect" style="margin-bottom:12px">Device Health</div><div style="background:var(--bg2);border:1px solid var(--b0);border-radius:9px;padding:14px 16px">${hi}</div></div>
+    <div><div class="sect" style="margin-bottom:10px">Event Log</div><div class="log-box">${logs}</div></div>
+    <div><div class="sect" style="margin-bottom:12px">Quick Actions</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-g" onclick="toast('info','Reconnect','Reconnecting ${d.name}…')">↻ Reconnect</button>
+        <button class="btn btn-g" onclick="toast('info','Diagnostics','Running quick diagnostic…')">Run Diagnostic</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ══ OVERLAYS ══ */
+function openOverlay(id){document.getElementById(id).classList.add('open');}
+function closeOverlay(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+
+/* ══ KEYBOARD SHORTCUTS ══ */
+document.addEventListener('keydown',e=>{
+  if(e.code==='Space'&&document.getElementById('v-checkout').classList.contains('on')){e.preventDefault();scan();}
+  if(e.code==='Escape')document.querySelectorAll('.overlay.open').forEach(o=>o.classList.remove('open'));
+  if(e.code==='Enter'&&document.getElementById('ov-verify').classList.contains('open'))confirmVerify();
+  if(e.key==='?')openOverlay('ov-shortcuts');
+  if(e.altKey&&e.key==='1'){e.preventDefault();goView('checkout',document.querySelectorAll('.rn')[0]);}
+  if(e.altKey&&e.key==='2'){e.preventDefault();goView('pos',document.querySelectorAll('.rn')[1]);}
+  if(e.altKey&&e.key==='3'){e.preventDefault();goView('shift',document.querySelectorAll('.rn')[2]);}
+});
+
+/* ══ TOAST ══ */
+function toast(type,title,msg){
+  const w=document.getElementById('tw');
+  const ico={success:'✓',warning:'⚠',error:'✕',info:'ℹ'};
+  const bg={success:'var(--gdim)',warning:'var(--adim)',error:'var(--rdim)',info:'var(--bdim)'};
+  const cl={success:'var(--green)',warning:'var(--amber)',error:'var(--red)',info:'var(--blue)'};
+  const bc={success:'rgba(46,201,144,.2)',warning:'rgba(240,160,52,.2)',error:'rgba(232,85,85,.2)',info:'rgba(68,117,247,.2)'};
+  const el=document.createElement('div');el.className='toast';el.style.borderColor=bc[type]||'var(--b1)';
+  el.innerHTML=`<div class="ti" style="background:${bg[type]};color:${cl[type]}">${ico[type]}</div><div><div class="tt">${title}</div><div class="ts2">${msg}</div></div>`;
+  w.appendChild(el);
+  setTimeout(()=>{el.style.transition='opacity .28s,transform .28s';el.style.opacity='0';el.style.transform='translateY(5px)';setTimeout(()=>el.remove(),300);},3500);
+}
+
+/* ══ LOGOUT ══ */
+function doLogout(){
+  sessionStorage.clear();
+  toast('info','Signed Out','Shift summary saved');
+  setTimeout(()=>window.location.href='index.html',1000);
+}
+
+/* ══ INIT ══ */
+renderShift();
+renderDevList();
+// Printer paper warning after 5s
+setTimeout(()=>{
+  document.getElementById('device-status').innerHTML='<div class="dot da"></div>Printer Low';
+  toast('warning','Printer Warning','Lane 04 receipt printer — paper low · ~30 min remaining');
+},5000);
+// Periodic lane simulation
+setInterval(()=>{
+  if(Math.random()>.65)toast('info','POS Sync','Tally updated · '+(Math.floor(Math.random()*5)+1)+' records pushed');
+},18000);
 </script>
 </body>
 </html>
