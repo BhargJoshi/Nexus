@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus · Board Intelligence Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Outfit:wght@300;400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS — BOARD LAYER
+   Inherits core tokens + elevates with premium accents
+═══════════════════════════════════════════ */
+:root{
+  /* Core palette */
+  --bg:#07080b;--bg1:#0c0e12;--bg2:#131720;--bg3:#1a1f28;--bg4:#222733;--bh:#2c3140;
+  --b0:rgba(255,255,255,.03);--b1:rgba(255,255,255,.06);--b2:rgba(255,255,255,.10);--b3:rgba(255,255,255,.17);
+  --tp:#eceef3;--ts:#7e8896;--tm:#41495a;--tf:#232830;
+
+  /* Brand accents */
+  --blue:#4475f7;--bdim:rgba(68,117,247,.11);--bglow:rgba(68,117,247,.22);
+  --green:#2ec990;--gdim:rgba(46,201,144,.08);
+  --amber:#f0a034;--adim:rgba(240,160,52,.08);
+  --red:#e85555;--rdim:rgba(232,85,85,.08);
+  --violet:#9a70f4;--vdim:rgba(154,112,244,.10);
+
+  /* Board-exclusive premium accents */
+  --gold:#c9a84c;--gold-dim:rgba(201,168,76,.10);--gold-glow:rgba(201,168,76,.22);
+  --teal:#22c4d4;--teal-dim:rgba(34,196,212,.09);
+  --rose:#e86a7a;--rose-dim:rgba(232,106,122,.09);
+
+  /* Board rail is wider for label breathing room */
+  --rail:62px;--top:52px;
+
+  /* Typography */
+  --fui:'Outfit',sans-serif;
+  --fmono:'DM Mono',monospace;
+  --fser:'Fraunces',serif;
+  --fm:'DM Mono',monospace;
+  --fu:'Outfit',sans-serif;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:var(--fui);background:var(--bg);color:var(--tp);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+button{font-family:inherit;cursor:pointer;border:none;}
+input,select{font-family:inherit;}
+::-webkit-scrollbar{width:3px;height:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px;}
+
+/* ═══════════════════════════════════════════
+   SHELL — IDENTICAL TO OTHER DASHBOARDS
+═══════════════════════════════════════════ */
+.shell{display:flex;height:100vh;}
+.rail{
+  width:var(--rail);background:var(--bg1);
+  border-right:1px solid var(--b0);
+  display:flex;flex-direction:column;align-items:center;
+  padding:14px 0;gap:3px;flex-shrink:0;z-index:100;
+}
+.rail-logo{
+  width:34px;height:34px;background:var(--gold);border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;cursor:pointer;transition:opacity .15s;flex-shrink:0;
+}
+.rail-logo:hover{opacity:.85;}
+.rail-logo svg{width:18px;height:18px;}
+
+.rn{
+  width:40px;height:40px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  background:transparent;color:var(--tm);cursor:pointer;
+  transition:all .18s;position:relative;flex-shrink:0;
+}
+.rn:hover{background:var(--bg3);color:var(--ts);}
+.rn.on{background:var(--gold-dim);color:var(--gold);}
+.rn svg{width:18px;height:18px;stroke-width:1.6;}
+.rn-tip{
+  position:absolute;left:48px;
+  background:var(--bg3);border:1px solid var(--b1);border-radius:7px;
+  padding:6px 12px;font-size:11px;font-family:var(--fmono);
+  color:var(--tp);white-space:nowrap;
+  pointer-events:none;opacity:0;transition:opacity .15s;z-index:999;
+}
+.rn:hover .rn-tip{opacity:1;}
+.rsep{width:22px;height:1px;background:var(--b0);margin:6px 0;flex-shrink:0;}
+.rsp{flex:1;}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+
+/* ═══════════════════════════════════════════
+   BOARD TOPBAR
+   Period selector · Store scope · Role badge · Clock
+═══════════════════════════════════════════ */
+.topbar{
+  height:var(--top);background:var(--bg1);
+  border-bottom:1px solid var(--b0);
+  display:flex;align-items:center;padding:0 24px;gap:14px;flex-shrink:0;
+}
+.tb-title{
+  font-family:var(--fser);font-size:15px;font-weight:600;
+  letter-spacing:.01em;flex:1;font-style:italic;
+}
+.tb-meta{display:flex;align-items:center;gap:12px;}
+.period-sel{
+  display:flex;background:var(--bg2);border:1px solid var(--b1);
+  border-radius:8px;overflow:hidden;
+}
+.pchip{
+  padding:5px 13px;font-size:11px;font-family:var(--fmono);
+  color:var(--tm);cursor:pointer;transition:all .15s;border:none;background:transparent;
+}
+.pchip:hover{color:var(--ts);}
+.pchip.on{background:var(--gold-dim);color:var(--gold);}
+.scope-tag{
+  display:flex;align-items:center;gap:6px;
+  background:var(--bg2);border:1px solid var(--b1);
+  border-radius:20px;padding:4px 12px;
+  font-size:11px;font-family:var(--fmono);color:var(--ts);
+}
+.dot{width:5px;height:5px;border-radius:50%;}
+.dg{background:var(--green);animation:blink 2.4s infinite;}
+.da{background:var(--gold);}
+.dr{background:var(--red);}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+.tb-clock{font-family:var(--fmono);font-size:12px;color:var(--tm);}
+
+/* ═══════════════════════════════════════════
+   SHARED ATOMS
+═══════════════════════════════════════════ */
+.view{display:none;flex:1;overflow:hidden;}
+.view.on{display:flex;}
+.sect{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;}
+.badge{font-size:10px;font-family:var(--fmono);padding:2px 8px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;}
+.bg{background:var(--gdim);color:var(--green);}
+.ba{background:var(--adim);color:var(--amber);}
+.br{background:var(--rdim);color:var(--red);}
+.bb{background:var(--bdim);color:var(--blue);}
+.bv{background:var(--vdim);color:var(--violet);}
+.bgold{background:var(--gold-dim);color:var(--gold);}
+.btn{display:inline-flex;align-items:center;gap:6px;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;border:none;}
+.btn-p{background:var(--blue);color:#fff;}.btn-p:hover{opacity:.88;}
+.btn-g{background:transparent;border:1px solid var(--b1);color:var(--ts);}.btn-g:hover{background:var(--bg3);color:var(--tp);border-color:var(--b2);}
+.btn-gold{background:var(--gold-dim);border:1px solid var(--gold-glow);color:var(--gold);}.btn-gold:hover{background:rgba(201,168,76,.18);}
+.btn-sm{padding:5px 12px;font-size:11px;}
+.dh{height:1px;background:var(--b0);}
+.pt{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;}
+.pf{height:100%;border-radius:2px;transition:width .5s ease;}
+.tup{color:var(--green);}
+.tdn{color:var(--red);}
+
+/* ═══════════════════════════════════════════
+   BOARD CARD — premium card variant used across views
+═══════════════════════════════════════════ */
+.bcard{
+  background:var(--bg1);border:1px solid var(--b0);border-radius:14px;
+  transition:border-color .2s;
+}
+.bcard:hover{border-color:var(--b1);}
+/* Hero KPI card with gold top border accent */
+.kpi-hero{
+  background:linear-gradient(160deg,var(--bg2) 0%,var(--bg1) 100%);
+  border:1px solid var(--b1);border-top:2px solid var(--gold);
+  border-radius:14px;padding:22px;
+  transition:all .2s;cursor:default;
+}
+.kpi-hero:hover{border-color:var(--b2);border-top-color:var(--gold);}
+.khi-label{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.09em;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.khi-value{font-family:var(--fser);font-size:38px;font-weight:700;line-height:1;letter-spacing:-.02em;margin-bottom:8px;}
+.khi-trend{font-size:11px;font-family:var(--fmono);color:var(--tm);}
+/* Secondary KPI card */
+.kpi-sec{
+  background:var(--bg1);border:1px solid var(--b0);border-radius:12px;
+  padding:18px;transition:all .2s;cursor:default;
+}
+.kpi-sec:hover{border-color:var(--b1);}
+.ksi-label{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.09em;margin-bottom:8px;}
+.ksi-value{font-family:var(--fui);font-size:28px;font-weight:900;letter-spacing:-.02em;margin-bottom:5px;}
+.ksi-sub{font-size:11px;font-family:var(--fmono);color:var(--tm);}
+/* Section title used throughout board views */
+.view-title{font-family:var(--fser);font-size:22px;font-weight:600;font-style:italic;letter-spacing:-.01em;margin-bottom:4px;}
+.view-sub{font-size:12px;font-family:var(--fmono);color:var(--tm);}
+/* Insight card — AI recommendation style */
+.insight-card{
+  background:linear-gradient(135deg,var(--bg2) 0%,rgba(68,117,247,.04) 100%);
+  border:1px solid rgba(68,117,247,.14);border-radius:12px;padding:16px;
+}
+.insight-card.gold-ins{
+  background:linear-gradient(135deg,var(--bg2) 0%,rgba(201,168,76,.04) 100%);
+  border-color:rgba(201,168,76,.14);
+}
+.insight-card.green-ins{
+  background:linear-gradient(135deg,var(--bg2) 0%,rgba(46,201,144,.04) 100%);
+  border-color:rgba(46,201,144,.14);
+}
+.insight-card.red-ins{
+  background:linear-gradient(135deg,var(--bg2) 0%,rgba(232,85,85,.04) 100%);
+  border-color:rgba(232,85,85,.14);
+}
+/* store comparison row */
+.store-row{
+  display:flex;align-items:center;gap:14px;padding:13px 0;
+  border-bottom:1px solid var(--b0);cursor:pointer;transition:all .15s;
+}
+.store-row:hover{padding:13px 8px;background:var(--bg2);border-radius:8px;margin:0 -8px;}
+.store-row:last-child{border-bottom:none;}
+/* Chart shared */
+.chart-wrap{width:100%;overflow:visible;}
+/* Overlay */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);z-index:800;align-items:center;justify-content:center;}
+.overlay.open{display:flex;}
+.modal{background:var(--bg1);border:1px solid var(--b1);border-radius:16px;width:680px;max-width:92vw;overflow:hidden;animation:mIn .2s ease;}
+@keyframes mIn{from{opacity:0;transform:scale(.96) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.mhd{padding:20px 24px;border-bottom:1px solid var(--b0);display:flex;align-items:center;gap:12px;}
+.mft{padding:16px 24px;border-top:1px solid var(--b0);display:flex;gap:10px;align-items:center;}
+/* Toast */
+.tw{position:fixed;bottom:18px;right:18px;z-index:999;display:flex;flex-direction:column;gap:8px;}
+.toast{background:var(--bg2);border:1px solid var(--b1);border-radius:10px;padding:11px 15px;display:flex;align-items:center;gap:10px;min-width:260px;max-width:340px;animation:tIn .22s ease;box-shadow:0 8px 28px rgba(0,0,0,.5);}
+@keyframes tIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.ti{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
+.tt{font-size:12px;font-weight:500;}
+.ts2{font-size:10px;color:var(--tm);font-family:var(--fmono);margin-top:1px;}
+/* No mobile */
+.nm{display:none;position:fixed;inset:0;background:var(--bg);z-index:9999;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:32px;}
+@media(max-width:860px){.nm{display:flex;}}
+
+/* ═══════════════════════════════════════════
+   VIEW-SPECIFIC LAYOUT HELPERS
+═══════════════════════════════════════════ */
+#v-kpis,#v-regions,#v-roi,#v-risk,#v-intel{flex-direction:column;overflow-y:auto;}
+.view-wrap{display:flex;flex-direction:column;gap:16px;padding:24px 28px;width:100%;max-width:1320px;margin:0 auto;}
+
+/* Region store map grid */
+.region-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.region-card{
+  background:var(--bg2);border:1px solid var(--b0);border-radius:12px;
+  padding:16px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;
+}
+.region-card:hover{border-color:var(--b2);transform:translateY(-2px);}
+.region-card.top-store{border-color:rgba(201,168,76,.35);background:linear-gradient(135deg,var(--bg2),var(--gold-dim));}
+.rc-rank{
+  position:absolute;top:12px;right:12px;
+  font-family:var(--fmono);font-size:10px;color:var(--tm);
+}
+.rc-ico{font-size:28px;margin-bottom:8px;}
+.rc-name{font-size:13px;font-weight:700;margin-bottom:2px;}
+.rc-loc{font-size:10px;font-family:var(--fmono);color:var(--tm);margin-bottom:10px;}
+.rc-kpi-row{display:flex;gap:12px;}
+.rc-kv{flex:1;}
+.rc-kv .rkl{font-size:9px;font-family:var(--fmono);color:var(--tm);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;}
+.rc-kv .rkv{font-size:14px;font-weight:700;}
+/* Heatmap */
+.heatmap-grid{display:grid;gap:3px;}
+.hm-cell{border-radius:4px;cursor:pointer;transition:transform .12s;}
+.hm-cell:hover{transform:scale(1.12);}
+/* ROI waterfall */
+.waterfall-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--b0);}
+.waterfall-row:last-child{border-bottom:none;}
+.wf-bar-track{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;}
+.wf-bar{height:100%;border-radius:3px;transition:width .6s ease;}
+/* Risk matrix */
+.risk-matrix-cell{
+  aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;cursor:pointer;transition:all .15s;
+  font-size:11px;font-family:var(--fmono);text-align:center;padding:8px;
+}
+.risk-matrix-cell:hover{transform:scale(1.06);}
+/* Intelligence timeline */
+.intel-step{display:flex;gap:16px;position:relative;padding-bottom:24px;}
+.intel-step::before{content:'';position:absolute;left:18px;top:40px;bottom:0;width:1px;background:var(--b1);}
+.intel-step:last-child::before{display:none;}
+.intel-step:last-child{padding-bottom:0;}
+.intel-dot{
+  width:38px;height:38px;border-radius:50%;border:2px solid var(--b2);
+  display:flex;align-items:center;justify-content:center;font-size:17px;
+  flex-shrink:0;background:var(--bg2);
+}
+/* Forecast bar */
+.forecast-bar{display:flex;align-items:flex-end;gap:6px;height:80px;}
+.fb-col{flex:1;border-radius:4px 4px 0 0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:5px;font-size:9px;font-family:var(--fmono);transition:height .5s ease;cursor:pointer;}
+/* AI maturity ring */
+.ai-ring{position:relative;display:inline-flex;align-items:center;justify-content:center;}
+/* Scrollable SVG chart areas */
+.svg-wrap{width:100%;overflow:hidden;}
+</style>
+</head>
+<body>
+
+<div class="nm">
+  <div style="font-size:36px">🖥</div>
+  <div style="font-size:18px;font-weight:700">Optimised for desktop</div>
+  <div style="font-size:13px;color:var(--tm);max-width:300px;line-height:1.7">Requires 860px+ viewport.</div>
+</div>
+
+<div class="shell">
+
+  <!-- ═══ BOARD RAIL — 5 strategic modules only ═══ -->
+  <nav class="rail">
+    <div class="rail-logo" onclick="toast('info','Nexus Board','Strategic Intelligence Dashboard')">
+      <svg viewBox="0 0 18 18" fill="none">
+        <rect x="2" y="2" width="6" height="6" rx="1.5" fill="white"/>
+        <rect x="10" y="2" width="6" height="6" rx="1.5" fill="white" opacity=".35"/>
+        <rect x="2" y="10" width="6" height="6" rx="1.5" fill="white" opacity=".35"/>
+        <rect x="10" y="10" width="6" height="6" rx="1.5" fill="white"/>
+      </svg>
+    </div>
+
+    <!-- Module 1: Strategic KPIs (default) -->
+    <button class="rn on" onclick="goView('kpis',this)" id="rnv-kpis">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/>
+        <circle cx="12" cy="7" r="1.5" fill="currentColor" stroke="none"/>
+        <circle cx="18" cy="1.5" r="1.5" fill="currentColor" stroke="none"/>
+        <circle cx="6" cy="13.5" r="1.5" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="rn-tip">Strategic KPIs</span>
+    </button>
+
+    <!-- Module 2: Regional & Multi-Store Intelligence -->
+    <button class="rn" onclick="goView('regions',this)" id="rnv-regions">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <span class="rn-tip">Regional & Multi-Store</span>
+    </button>
+
+    <!-- Module 3: Financial & ROI Analytics -->
+    <button class="rn" onclick="goView('roi',this)" id="rnv-roi">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+      </svg>
+      <span class="rn-tip">Financial & ROI Analytics</span>
+    </button>
+
+    <!-- Module 4: Risk & Stability Overview -->
+    <button class="rn" onclick="goView('risk',this)" id="rnv-risk">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      <span class="rn-tip">Risk & Stability</span>
+    </button>
+
+    <!-- Module 5: Long-Term Intelligence -->
+    <button class="rn" onclick="goView('intel',this)" id="rnv-intel">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+        <path d="M12 12v6"/><circle cx="12" cy="9" r="1.5" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="rn-tip">Long-Term Intelligence</span>
+    </button>
+
+    <div class="rsp"></div>
+
+    <button class="rn" onclick="toast('info',opId,opId+' · Board / Executive')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span class="rn-tip" id="rn-user-tip">Executive</span>
+    </button>
+    <button class="rn" onclick="doLogout()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      <span class="rn-tip">Sign Out</span>
+    </button>
+  </nav>
+
+  <div class="main">
+
+    <!-- ═══ BOARD TOPBAR ═══ -->
+    <header class="topbar">
+      <div class="tb-title" id="tb-title">Strategic KPIs</div>
+      <div class="tb-meta">
+        <!-- Period selector -->
+        <div class="period-sel" id="period-sel">
+          <button class="pchip" onclick="setPeriod(this,'Today')">Today</button>
+          <button class="pchip" onclick="setPeriod(this,'Week')">This Week</button>
+          <button class="pchip on" onclick="setPeriod(this,'Month')">This Month</button>
+          <button class="pchip" onclick="setPeriod(this,'Quarter')">This Quarter</button>
+          <button class="pchip" onclick="setPeriod(this,'Year')">YTD</button>
+        </div>
+        <!-- Network scope -->
+        <div class="scope-tag">
+          <div class="dot dg"></div>
+          <span id="scope-label">4 Stores Active</span>
+        </div>
+        <!-- AI status -->
+        <div class="scope-tag">
+          <span style="color:var(--gold)">◆</span>
+          <span style="color:var(--gold)">AI Engine</span>
+        </div>
+        <!-- Role badge -->
+        <span style="background:var(--gold-dim);border:1px solid var(--gold-glow);border-radius:20px;padding:3px 12px;font-size:10px;font-family:var(--fm);color:var(--gold)">Board / Executive</span>
+        <div class="tb-clock" id="clock">--:--:--</div>
+        <!-- Export button -->
+        <button class="btn btn-gold btn-sm" onclick="toast('success','Report Generated','Board-level PDF report queued for download')">⬇ Export</button>
+      </div>
+    </header>
+
+
+    <!-- ════════════════════════════════════════════════════════
+         VIEW 1 — STRATEGIC KPIs
+         Macro performance · No operational noise
+    ════════════════════════════════════════════════════════ -->
+    <div class="view on" id="v-kpis">
+      <div class="view-wrap">
+
+        <!-- Hero row — 3 flagship KPIs in large serif -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+          <div class="kpi-hero">
+            <div class="khi-label"><div class="dot dg"></div>Network Revenue Impact</div>
+            <div class="khi-value" style="color:var(--green)">₹3.84 Cr</div>
+            <div class="khi-trend"><span class="tup">↑ 22.4%</span> vs same period last year</div>
+            <div style="margin-top:14px">
+              <svg viewBox="0 0 220 44" class="chart-wrap" xmlns="http://www.w3.org/2000/svg">
+                <defs><linearGradient id="gg-rev" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2ec990" stop-opacity=".22"/><stop offset="100%" stop-color="#2ec990" stop-opacity="0"/></linearGradient></defs>
+                <path d="M0,38 C20,34 40,28 60,24 S90,14 110,10 S150,16 170,11 S195,7 220,5 L220,44 L0,44Z" fill="url(#gg-rev)"/>
+                <path d="M0,38 C20,34 40,28 60,24 S90,14 110,10 S150,16 170,11 S195,7 220,5" fill="none" stroke="#2ec990" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="kpi-hero">
+            <div class="khi-label"><div class="dot dg"></div>Total Transactions</div>
+            <div class="khi-value">2.41 L</div>
+            <div class="khi-trend"><span class="tup">↑ 18.2%</span> vs same period last year</div>
+            <div style="margin-top:14px">
+              <svg viewBox="0 0 220 44" class="chart-wrap" xmlns="http://www.w3.org/2000/svg">
+                <defs><linearGradient id="gg-txn" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4475f7" stop-opacity=".22"/><stop offset="100%" stop-color="#4475f7" stop-opacity="0"/></linearGradient></defs>
+                <path d="M0,40 C18,36 36,31 60,26 S88,20 110,14 S148,19 170,13 S196,8 220,6 L220,44 L0,44Z" fill="url(#gg-txn)"/>
+                <path d="M0,40 C18,36 36,31 60,26 S88,20 110,14 S148,19 170,13 S196,8 220,6" fill="none" stroke="#4475f7" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="kpi-hero" style="border-top-color:var(--gold)">
+            <div class="khi-label"><div class="dot da"></div>Deployment ROI</div>
+            <div class="khi-value" style="color:var(--gold)">4.2×</div>
+            <div class="khi-trend"><span class="tup">↑ 0.6×</span> improvement this quarter</div>
+            <div style="margin-top:14px">
+              <svg viewBox="0 0 220 44" class="chart-wrap" xmlns="http://www.w3.org/2000/svg">
+                <defs><linearGradient id="gg-roi" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c9a84c" stop-opacity=".22"/><stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/></linearGradient></defs>
+                <path d="M0,42 C18,40 36,36 60,30 S88,22 110,17 S148,18 170,12 S196,8 220,7 L220,44 L0,44Z" fill="url(#gg-roi)"/>
+                <path d="M0,42 C18,40 36,36 60,30 S88,22 110,17 S148,18 170,12 S196,8 220,7" fill="none" stroke="#c9a84c" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary KPI row — 5 supporting metrics -->
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px">
+          <div class="kpi-sec" onclick="toast('info','AI Scan Accuracy','Network-wide weighted average across all stores and SKU categories')">
+            <div class="ksi-label">AI Scan Accuracy</div>
+            <div class="ksi-value" style="color:var(--blue)">97.1%</div>
+            <div class="ksi-sub"><span class="tup">↑ 2.3%</span> vs pre-deployment</div>
+          </div>
+          <div class="kpi-sec" onclick="toast('info','Deployment Uptime','Platform availability across all stores, excluding scheduled maintenance')">
+            <div class="ksi-label">Platform Uptime</div>
+            <div class="ksi-value" style="color:var(--green)">99.6%</div>
+            <div class="ksi-sub">SLA target: 99.0%</div>
+          </div>
+          <div class="kpi-sec" onclick="toast('info','Store Adoption','All 4 deployed stores are fully operational with no rollback events')">
+            <div class="ksi-label">Store Adoption</div>
+            <div class="ksi-value">4 / 4</div>
+            <div class="ksi-sub"><span class="tup">100%</span> full deployment</div>
+          </div>
+          <div class="kpi-sec" onclick="toast('info','Operational Efficiency','Checkout speed improvement measured against pre-Nexus baseline scan times')">
+            <div class="ksi-label">Efficiency Uplift</div>
+            <div class="ksi-value" style="color:var(--gold)">+34%</div>
+            <div class="ksi-sub">faster checkout vs baseline</div>
+          </div>
+          <div class="kpi-sec" onclick="toast('info','Shrinkage Reduction','Network-level loss reduction attributable to AI detection and fraud alerting')">
+            <div class="ksi-label">Shrinkage Reduction</div>
+            <div class="ksi-value" style="color:var(--violet)">−43%</div>
+            <div class="ksi-sub">vs pre-deployment average</div>
+          </div>
+        </div>
+
+        <!-- Main chart + AI summary side-by-side -->
+        <div style="display:grid;grid-template-columns:1fr 360px;gap:14px">
+          <div class="bcard" style="padding:20px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px">
+              <div>
+                <div style="font-size:14px;font-weight:700;margin-bottom:3px">Network Revenue &amp; Throughput · 6-Month Trend</div>
+                <div style="font-size:11px;font-family:var(--fmono);color:var(--tm)">Aggregated across all 4 active stores</div>
+              </div>
+              <div style="display:flex;gap:10px;font-size:11px;font-family:var(--fmono);color:var(--tm)">
+                <span><span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;margin-right:5px"></span>Revenue</span>
+                <span><span style="width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block;margin-right:5px"></span>Transactions</span>
+                <span><span style="width:8px;height:8px;border-radius:50%;background:var(--gold);display:inline-block;margin-right:5px"></span>Accuracy</span>
+              </div>
+            </div>
+            <svg viewBox="0 0 680 130" style="width:100%;overflow:visible" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="g-rev2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2ec990" stop-opacity=".16"/><stop offset="100%" stop-color="#2ec990" stop-opacity="0"/></linearGradient>
+                <linearGradient id="g-txn2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4475f7" stop-opacity=".12"/><stop offset="100%" stop-color="#4475f7" stop-opacity="0"/></linearGradient>
+                <linearGradient id="g-acc2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c9a84c" stop-opacity=".10"/><stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/></linearGradient>
+              </defs>
+              <!-- Grid lines -->
+              <line x1="0" y1="0" x2="680" y2="0" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="0" y1="26" x2="680" y2="26" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="0" y1="52" x2="680" y2="52" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="0" y1="78" x2="680" y2="78" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="0" y1="104" x2="680" y2="104" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <!-- Revenue area -->
+              <path d="M0,110 C50,100 100,86 170,74 S280,52 340,44 S460,56 510,40 S580,28 680,18 L680,130 L0,130Z" fill="url(#g-rev2)"/>
+              <path d="M0,110 C50,100 100,86 170,74 S280,52 340,44 S460,56 510,40 S580,28 680,18" fill="none" stroke="#2ec990" stroke-width="2" stroke-linecap="round"/>
+              <!-- Txn area -->
+              <path d="M0,118 C50,110 100,98 170,88 S280,70 340,62 S460,72 510,58 S580,46 680,36 L680,130 L0,130Z" fill="url(#g-txn2)"/>
+              <path d="M0,118 C50,110 100,98 170,88 S280,70 340,62 S460,72 510,58 S580,46 680,36" fill="none" stroke="#4475f7" stroke-width="1.8" stroke-linecap="round"/>
+              <!-- Accuracy line -->
+              <path d="M0,108 C50,106 100,104 170,100 S280,96 340,94 S460,95 510,92 S580,89 680,86" fill="none" stroke="#c9a84c" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="5,3"/>
+              <!-- Month labels -->
+              <text x="0" y="128" font-size="9" fill="rgba(255,255,255,.22)" font-family="DM Mono">Dec</text>
+              <text x="112" y="128" font-size="9" fill="rgba(255,255,255,.22)" font-family="DM Mono">Jan</text>
+              <text x="224" y="128" font-size="9" fill="rgba(255,255,255,.22)" font-family="DM Mono">Feb</text>
+              <text x="336" y="128" font-size="9" fill="rgba(255,255,255,.22)" font-family="DM Mono">Mar</text>
+              <text x="448" y="128" font-size="9" fill="rgba(255,255,255,.22)" font-family="DM Mono">Apr</text>
+              <text x="560" y="128" font-size="9" fill="rgba(255,255,255,.22)" font-family="DM Mono">May</text>
+            </svg>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <!-- AI Strategic Summary -->
+            <div class="insight-card gold-ins" style="flex:1">
+              <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px">
+                <div style="width:32px;height:32px;border-radius:8px;background:var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">◆</div>
+                <div style="font-size:13px;font-weight:700">AI Executive Summary</div>
+              </div>
+              <p style="font-size:12px;color:var(--ts);line-height:1.8">Network performing <strong style="color:var(--tp)">above all targets</strong> this month. Revenue impact grew <strong style="color:var(--green)">22.4%</strong> YoY. ROI at <strong style="color:var(--gold)">4.2×</strong> with deployment costs recovered at the 8-month mark.</p>
+              <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:5px">
+                <span class="badge bgold">↑ Target exceeded</span>
+                <span class="badge bg">4 stores stable</span>
+              </div>
+            </div>
+            <!-- Store adoption mini-cards -->
+            <div class="bcard" style="padding:14px">
+              <div style="font-size:12px;font-weight:600;margin-bottom:10px">Adoption Progress</div>
+              <div id="adoption-grid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Month-over-month comparison -->
+        <div class="bcard" style="padding:20px">
+          <div style="font-size:14px;font-weight:700;margin-bottom:16px">Month-over-Month Performance · All Stores</div>
+          <div id="mom-grid"></div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ════════════════════════════════════════════════════════
+         VIEW 2 — REGIONAL & MULTI-STORE INTELLIGENCE
+    ════════════════════════════════════════════════════════ -->
+    <div class="view" id="v-regions">
+      <div class="view-wrap">
+
+        <div style="display:flex;align-items:flex-start;justify-content:space-between">
+          <div>
+            <div class="view-title">Regional Performance</div>
+            <div class="view-sub">4 stores · Ahmedabad network · May 2026</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-g btn-sm" onclick="toast('info','Export','Regional report generating…')">⬇ Regional Report</button>
+            <button class="btn btn-gold btn-sm" onclick="toast('success','Presentation','Board presentation exported')">📊 Board Slide</button>
+          </div>
+        </div>
+
+        <!-- Store cards -->
+        <div class="region-grid" id="region-cards"></div>
+
+        <!-- Store performance comparison table + heatmap -->
+        <div style="display:grid;grid-template-columns:1fr 380px;gap:14px">
+          <div class="bcard" style="padding:20px">
+            <div style="font-size:14px;font-weight:700;margin-bottom:16px">Comparative Performance Ranking</div>
+            <div id="region-table"></div>
+          </div>
+          <div class="bcard" style="padding:20px">
+            <div style="font-size:14px;font-weight:700;margin-bottom:6px">Activity Heatmap · This Month</div>
+            <div style="font-size:11px;font-family:var(--fmono);color:var(--tm);margin-bottom:14px">Throughput density by store and week</div>
+            <div id="region-heatmap"></div>
+            <div style="margin-top:14px;display:flex;align-items:center;gap:8px;font-size:10px;font-family:var(--fmono);color:var(--tm)">
+              <div style="width:12px;height:12px;border-radius:3px;background:rgba(46,201,144,.12)"></div><span>Low</span>
+              <div style="width:12px;height:12px;border-radius:3px;background:rgba(46,201,144,.45)"></div><span>Med</span>
+              <div style="width:12px;height:12px;border-radius:3px;background:rgba(46,201,144,.85)"></div><span>High</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Operational growth trend -->
+        <div class="bcard" style="padding:20px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+            <div style="font-size:14px;font-weight:700">Operational Growth Trends · Store vs Store</div>
+            <div style="display:flex;gap:8px;font-size:11px;font-family:var(--fmono);color:var(--tm)">
+              <span><span style="width:8px;height:8px;border-radius:50%;background:#2ec990;display:inline-block;margin-right:4px"></span>Central</span>
+              <span><span style="width:8px;height:8px;border-radius:50%;background:#4475f7;display:inline-block;margin-right:4px"></span>SG Hwy</span>
+              <span><span style="width:8px;height:8px;border-radius:50%;background:#c9a84c;display:inline-block;margin-right:4px"></span>Satellite</span>
+              <span><span style="width:8px;height:8px;border-radius:50%;background:#9a70f4;display:inline-block;margin-right:4px"></span>Navrangpura</span>
+            </div>
+          </div>
+          <svg viewBox="0 0 880 100" style="width:100%;overflow:visible" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gg-st1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2ec990" stop-opacity=".14"/><stop offset="100%" stop-color="#2ec990" stop-opacity="0"/></linearGradient>
+            </defs>
+            <line x1="0" y1="25" x2="880" y2="25" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+            <line x1="0" y1="50" x2="880" y2="50" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+            <line x1="0" y1="75" x2="880" y2="75" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+            <!-- Store 1 Central -->
+            <path d="M0,80 C80,72 160,60 240,52 S360,42 440,36 S560,42 660,30 S760,22 880,14" fill="none" stroke="#2ec990" stroke-width="2" stroke-linecap="round"/>
+            <!-- Store 2 SG Hwy -->
+            <path d="M0,90 C80,84 160,76 240,70 S360,60 440,54 S560,60 660,48 S760,40 880,32" fill="none" stroke="#4475f7" stroke-width="1.6" stroke-linecap="round"/>
+            <!-- Store 3 Satellite -->
+            <path d="M0,94 C80,90 160,86 240,80 S360,76 440,70 S560,76 660,64 S760,58 880,50" fill="none" stroke="#c9a84c" stroke-width="1.6" stroke-linecap="round"/>
+            <!-- Store 4 Nav -->
+            <path d="M0,98 C80,96 160,93 240,88 S360,85 440,80 S560,84 660,74 S760,68 880,62" fill="none" stroke="#9a70f4" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="5,3"/>
+            <text x="0" y="98" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">Dec</text>
+            <text x="145" y="98" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">Jan</text>
+            <text x="290" y="98" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">Feb</text>
+            <text x="435" y="98" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">Mar</text>
+            <text x="580" y="98" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">Apr</text>
+            <text x="725" y="98" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">May</text>
+          </svg>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ════════════════════════════════════════════════════════
+         VIEW 3 — FINANCIAL & ROI ANALYTICS
+    ════════════════════════════════════════════════════════ -->
+    <div class="view" id="v-roi">
+      <div class="view-wrap">
+
+        <div style="display:flex;align-items:flex-start;justify-content:space-between">
+          <div>
+            <div class="view-title">Financial &amp; ROI Analytics</div>
+            <div class="view-sub">Operational savings · Deployment returns · Cost efficiency</div>
+          </div>
+          <button class="btn btn-gold btn-sm" onclick="toast('success','Report','Financial report generated as PDF')">⬇ CFO Report</button>
+        </div>
+
+        <!-- ROI headline metrics -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+          <div class="kpi-hero" style="border-top-color:var(--gold)">
+            <div class="khi-label">Deployment ROI</div>
+            <div class="khi-value" style="color:var(--gold)">4.2×</div>
+            <div class="khi-trend">Every ₹1 invested returns <strong style="color:var(--gold)">₹4.20</strong></div>
+          </div>
+          <div class="kpi-hero" style="border-top-color:var(--green)">
+            <div class="khi-label">Gross Savings · Month</div>
+            <div class="khi-value" style="color:var(--green)">₹12.4L</div>
+            <div class="khi-trend"><span class="tup">↑ ₹1.8L</span> vs last month</div>
+          </div>
+          <div class="kpi-hero" style="border-top-color:var(--blue)">
+            <div class="khi-label">Checkout Throughput Gain</div>
+            <div class="khi-value" style="color:var(--blue)">+28%</div>
+            <div class="khi-trend">2.1s avg · was 2.9s baseline</div>
+          </div>
+          <div class="kpi-hero" style="border-top-color:var(--violet)">
+            <div class="khi-label">Break-even Achieved</div>
+            <div class="khi-value" style="color:var(--violet)">Month 8</div>
+            <div class="khi-trend">2 months ahead of projection</div>
+          </div>
+        </div>
+
+        <!-- Savings waterfall + cost breakdown -->
+        <div style="display:grid;grid-template-columns:1fr 320px;gap:14px">
+          <div class="bcard" style="padding:22px">
+            <div style="font-size:14px;font-weight:700;margin-bottom:18px">Savings Waterfall · Monthly Breakdown</div>
+            <div id="wf-chart"></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div class="insight-card green-ins">
+              <div style="display:flex;align-items:center;gap:9px;margin-bottom:8px">
+                <div style="width:28px;height:28px;border-radius:7px;background:var(--gdim);display:flex;align-items:center;justify-content:center;font-size:14px">✦</div>
+                <div style="font-size:12px;font-weight:700">Manpower Optimisation</div>
+              </div>
+              <p style="font-size:12px;color:var(--ts);line-height:1.75">Equivalent of <strong style="color:var(--tp)">2.1 FTE saved</strong> per store through AI-assisted checkout. Redeployed to customer service roles with <strong style="color:var(--green)">zero redundancy</strong>.</p>
+            </div>
+            <div class="bcard" style="padding:16px">
+              <div style="font-size:12px;font-weight:600;margin-bottom:12px">Cost Distribution</div>
+              <div id="cost-dist"></div>
+            </div>
+            <div class="bcard" style="padding:16px;background:var(--gold-dim);border-color:var(--gold-glow)">
+              <div style="font-family:var(--fmono);font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Projected · Next Quarter</div>
+              <div style="font-family:var(--fser);font-size:26px;font-weight:600;color:var(--gold);letter-spacing:-.01em">₹38.4 L</div>
+              <div style="font-size:11px;font-family:var(--fmono);color:var(--tm);margin-top:4px">+12% expansion if 2 new stores onboard</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quarterly ROI trend -->
+        <div class="bcard" style="padding:22px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+            <div style="font-size:14px;font-weight:700">Cumulative ROI Curve · Post-Deployment</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:11px;font-family:var(--fmono);color:var(--tm)">
+              <span style="padding:3px 8px;background:var(--gold-dim);border:1px solid var(--gold-glow);border-radius:4px;color:var(--gold)">● Break-even at Month 8</span>
+              <span>12-month projection</span>
+            </div>
+          </div>
+          <svg viewBox="0 0 880 110" style="width:100%;overflow:visible" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gg-roi2" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#c9a84c" stop-opacity=".2"/>
+                <stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <line x1="0" y1="0" x2="880" y2="0" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+            <line x1="0" y1="27" x2="880" y2="27" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+            <line x1="0" y1="54" x2="880" y2="54" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+            <line x1="0" y1="81" x2="880" y2="81" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+            <!-- Break-even vertical -->
+            <line x1="587" y1="0" x2="587" y2="110" stroke="rgba(201,168,76,.25)" stroke-width="1" stroke-dasharray="4,3"/>
+            <rect x="570" y="2" width="68" height="16" rx="3" fill="rgba(201,168,76,.15)"/>
+            <text x="578" y="13" font-size="8" fill="#c9a84c" font-family="DM Mono">Break-even</text>
+            <!-- Negative zone (before break-even) -->
+            <path d="M0,54 C40,60 80,72 160,78 S280,82 360,86 S440,84 520,78 S560,72 587,54" fill="none" stroke="#e85555" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="4,3" opacity=".6"/>
+            <!-- Positive zone (after break-even) -->
+            <path d="M587,54 C620,46 660,38 700,28 S780,16 880,6 L880,110 L587,110Z" fill="url(#gg-roi2)"/>
+            <path d="M587,54 C620,46 660,38 700,28 S780,16 880,6" fill="none" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+            <!-- X-axis -->
+            <text x="0" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">M1</text>
+            <text x="72" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">M2</text>
+            <text x="144" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">M3</text>
+            <text x="216" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">M4</text>
+            <text x="288" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">M5</text>
+            <text x="360" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">M6</text>
+            <text x="432" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">M7</text>
+            <text x="504" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">M8</text>
+            <text x="576" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">M9</text>
+            <text x="648" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">M10</text>
+            <text x="720" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">M11</text>
+            <text x="796" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">M12</text>
+          </svg>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ════════════════════════════════════════════════════════
+         VIEW 4 — RISK & STABILITY OVERVIEW
+    ════════════════════════════════════════════════════════ -->
+    <div class="view" id="v-risk">
+      <div class="view-wrap">
+
+        <div style="display:flex;align-items:flex-start;justify-content:space-between">
+          <div>
+            <div class="view-title">Risk &amp; Stability Overview</div>
+            <div class="view-sub">Failure rates · Fraud trends · Operational risk scoring · Infrastructure stability</div>
+          </div>
+          <button class="btn btn-g btn-sm" onclick="toast('info','Risk Report','Board risk summary generating…')">⬇ Risk Report</button>
+        </div>
+
+        <!-- Risk headline KPIs -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+          <div class="kpi-sec" onclick="toast('info','System Stability','Weighted uptime across all nodes, POS devices, and AI inference engines')">
+            <div class="ksi-label">System Stability Score</div>
+            <div class="ksi-value" style="color:var(--green)">94<span style="font-size:16px;color:var(--tm)">/100</span></div>
+            <div class="ksi-sub"><span class="tup">↑ 3 pts</span> vs last month</div>
+          </div>
+          <div class="kpi-sec" onclick="toast('info','Critical Failure Rate','Unplanned system failures per 10,000 checkout transactions')">
+            <div class="ksi-label">Critical Failure Rate</div>
+            <div class="ksi-value" style="color:var(--green)">0.04%</div>
+            <div class="ksi-sub">Target: below 0.1%</div>
+          </div>
+          <div class="kpi-sec" onclick="toast('info','Fraud Trend','Network-level fraud event frequency vs baseline quarter')">
+            <div class="ksi-label">Fraud Trend (QoQ)</div>
+            <div class="ksi-value" style="color:var(--green)">−18%</div>
+            <div class="ksi-sub"><span class="tup">↓ improvement</span> vs Q1</div>
+          </div>
+          <div class="kpi-sec" onclick="toast('info','Infrastructure Uptime','Hardware fleet availability including POS terminals, cameras, printers, scales')">
+            <div class="ksi-label">Infrastructure Uptime</div>
+            <div class="ksi-value" style="color:var(--blue)">99.6%</div>
+            <div class="ksi-sub">28d rolling average</div>
+          </div>
+        </div>
+
+        <!-- Risk matrix + trend + insights -->
+        <div style="display:grid;grid-template-columns:280px 1fr 280px;gap:14px">
+          <!-- Risk matrix -->
+          <div class="bcard" style="padding:20px">
+            <div style="font-size:13px;font-weight:700;margin-bottom:6px">Risk Matrix</div>
+            <div style="font-size:10px;font-family:var(--fmono);color:var(--tm);margin-bottom:14px">Likelihood × Impact</div>
+            <div id="risk-matrix"></div>
+            <div style="margin-top:14px;display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:center;gap:7px;font-size:10px;font-family:var(--fmono)"><div style="width:10px;height:10px;border-radius:2px;background:rgba(232,85,85,.45)"></div><span style="color:var(--tm)">Critical</span></div>
+              <div style="display:flex;align-items:center;gap:7px;font-size:10px;font-family:var(--fmono)"><div style="width:10px;height:10px;border-radius:2px;background:rgba(240,160,52,.35)"></div><span style="color:var(--tm)">Moderate</span></div>
+              <div style="display:flex;align-items:center;gap:7px;font-size:10px;font-family:var(--fmono)"><div style="width:10px;height:10px;border-radius:2px;background:rgba(46,201,144,.25)"></div><span style="color:var(--tm)">Low</span></div>
+              <div style="display:flex;align-items:center;gap:7px;font-size:10px;font-family:var(--fmono)"><div style="width:10px;height:10px;border-radius:2px;background:rgba(255,255,255,.05)"></div><span style="color:var(--tm)">Negligible</span></div>
+            </div>
+          </div>
+
+          <!-- Fraud trend + stability chart -->
+          <div class="bcard" style="padding:20px">
+            <div style="font-size:13px;font-weight:700;margin-bottom:6px">Fraud &amp; Incident Trend · 6 Months</div>
+            <div style="font-size:11px;font-family:var(--fmono);color:var(--tm);margin-bottom:16px">Network-level aggregation · Operational noise removed</div>
+            <svg viewBox="0 0 480 100" style="width:100%;overflow:visible" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="g-fraud" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e85555" stop-opacity=".14"/><stop offset="100%" stop-color="#e85555" stop-opacity="0"/></linearGradient>
+                <linearGradient id="g-stab" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2ec990" stop-opacity=".10"/><stop offset="100%" stop-color="#2ec990" stop-opacity="0"/></linearGradient>
+              </defs>
+              <line x1="0" y1="0" x2="480" y2="0" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="0" y1="33" x2="480" y2="33" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="0" y1="66" x2="480" y2="66" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <!-- Fraud decreasing -->
+              <path d="M0,22 C40,26 80,30 160,38 S240,46 320,54 S400,64 480,72 L480,100 L0,100Z" fill="url(#g-fraud)"/>
+              <path d="M0,22 C40,26 80,30 160,38 S240,46 320,54 S400,64 480,72" fill="none" stroke="#e85555" stroke-width="1.8" stroke-linecap="round"/>
+              <!-- Stability improving -->
+              <path d="M0,72 C40,68 80,64 160,58 S240,50 320,44 S400,36 480,28 L480,100 L0,100Z" fill="url(#g-stab)"/>
+              <path d="M0,72 C40,68 80,64 160,58 S240,50 320,44 S400,36 480,28" fill="none" stroke="#2ec990" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="5,3"/>
+              <text x="0" y="98" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">Dec</text>
+              <text x="78" y="98" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">Jan</text>
+              <text x="157" y="98" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">Feb</text>
+              <text x="236" y="98" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">Mar</text>
+              <text x="315" y="98" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">Apr</text>
+              <text x="394" y="98" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">May</text>
+            </svg>
+            <div style="display:flex;gap:14px;margin-top:10px;font-size:11px;font-family:var(--fmono);color:var(--tm)">
+              <span><span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;margin-right:4px"></span>Fraud events</span>
+              <span><span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;margin-right:4px"></span>Stability index</span>
+            </div>
+          </div>
+
+          <!-- Infrastructure health -->
+          <div class="bcard" style="padding:20px">
+            <div style="font-size:13px;font-weight:700;margin-bottom:14px">Infrastructure Health</div>
+            <div id="infra-health"></div>
+          </div>
+        </div>
+
+        <!-- Risk items -->
+        <div class="bcard" style="padding:20px">
+          <div style="font-size:14px;font-weight:700;margin-bottom:14px">Active Risk Register</div>
+          <div id="risk-register"></div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ════════════════════════════════════════════════════════
+         VIEW 5 — LONG-TERM INTELLIGENCE LAYER
+    ════════════════════════════════════════════════════════ -->
+    <div class="view" id="v-intel">
+      <div class="view-wrap">
+
+        <div style="display:flex;align-items:flex-start;justify-content:space-between">
+          <div>
+            <div class="view-title">Long-Term Intelligence</div>
+            <div class="view-sub">Adoption trends · AI maturity · Operational forecasting · Strategic recommendations</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-g btn-sm" onclick="toast('info','Forecast','12-month forecast model generating…')">📈 12M Forecast</button>
+            <button class="btn btn-gold btn-sm" onclick="toast('success','Strategy','Strategic roadmap exported')">📋 Strategy Export</button>
+          </div>
+        </div>
+
+        <!-- AI maturity + adoption KPIs -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+          <div class="kpi-sec" onclick="toast('info','AI Maturity','Composite score measuring model accuracy, training depth, packaging coverage, and detection reliability')">
+            <div class="ksi-label">AI System Maturity</div>
+            <div class="ksi-value" style="color:var(--gold)">82/100</div>
+            <div class="ksi-sub"><span class="tup">↑ 14 pts</span> since deployment</div>
+          </div>
+          <div class="kpi-sec">
+            <div class="ksi-label">SKUs Trained</div>
+            <div class="ksi-value">12,841</div>
+            <div class="ksi-sub"><span class="tup">+1,240</span> added this quarter</div>
+          </div>
+          <div class="kpi-sec">
+            <div class="ksi-label">Loyalty Capture Rate</div>
+            <div class="ksi-value" style="color:var(--violet)">66%</div>
+            <div class="ksi-sub"><span class="tup">↑ 8%</span> vs Q3 2025</div>
+          </div>
+          <div class="kpi-sec">
+            <div class="ksi-label">Expansion Readiness</div>
+            <div class="ksi-value" style="color:var(--green)">Ready</div>
+            <div class="ksi-sub">2 new stores viable Q3 2026</div>
+          </div>
+        </div>
+
+        <!-- Adoption timeline + forecasting -->
+        <div style="display:grid;grid-template-columns:1fr 360px;gap:14px">
+          <div class="bcard" style="padding:22px">
+            <div style="font-size:14px;font-weight:700;margin-bottom:6px">Platform Adoption Curve · Post-Deployment</div>
+            <div style="font-size:11px;font-family:var(--fmono);color:var(--tm);margin-bottom:18px">Transaction volume, AI confidence, and operator adoption index over time</div>
+            <svg viewBox="0 0 620 110" style="width:100%;overflow:visible" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="g-adp" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#9a70f4" stop-opacity=".18"/><stop offset="100%" stop-color="#9a70f4" stop-opacity="0"/></linearGradient>
+              </defs>
+              <line x1="0" y1="0" x2="620" y2="0" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="0" y1="27" x2="620" y2="27" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="0" y1="54" x2="620" y2="54" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="0" y1="81" x2="620" y2="81" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <!-- Adoption curve (S-curve) -->
+              <path d="M0,100 C30,98 60,95 100,88 S150,74 200,60 S260,42 310,32 S380,22 430,18 S510,14 620,11 L620,110 L0,110Z" fill="url(#g-adp)"/>
+              <path d="M0,100 C30,98 60,95 100,88 S150,74 200,60 S260,42 310,32 S380,22 430,18 S510,14 620,11" fill="none" stroke="#9a70f4" stroke-width="2" stroke-linecap="round"/>
+              <!-- AI accuracy trend -->
+              <path d="M0,90 C30,84 60,76 100,68 S150,58 200,50 S260,40 310,34 S380,28 430,24 S510,20 620,18" fill="none" stroke="#4475f7" stroke-width="1.5" stroke-linecap="round"/>
+              <!-- Forecast region shading -->
+              <rect x="516" y="0" width="104" height="110" fill="rgba(255,255,255,.02)" rx="2"/>
+              <text x="532" y="12" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">▶ Forecast</text>
+              <!-- Month labels -->
+              <text x="0" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">Aug'25</text>
+              <text x="90" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">Sep</text>
+              <text x="176" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">Oct</text>
+              <text x="262" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">Nov</text>
+              <text x="348" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">Dec</text>
+              <text x="434" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">Jan'26</text>
+              <text x="520" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">→ Jun'26</text>
+            </svg>
+            <div style="display:flex;gap:16px;margin-top:10px;font-size:11px;font-family:var(--fmono);color:var(--tm)">
+              <span><span style="width:8px;height:8px;border-radius:50%;background:var(--violet);display:inline-block;margin-right:4px"></span>Adoption index</span>
+              <span><span style="width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block;margin-right:4px"></span>AI confidence</span>
+            </div>
+          </div>
+
+          <!-- AI Maturity + forecast -->
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div class="bcard" style="padding:18px;text-align:center">
+              <div style="font-size:11px;font-family:var(--fmono);color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px">AI System Maturity Score</div>
+              <svg viewBox="0 0 100 100" width="100" height="100" style="display:block;margin:0 auto">
+                <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="8"/>
+                <circle cx="50" cy="50" r="40" fill="none" stroke="url(#gold-ring)" stroke-width="8" stroke-dasharray="251.2" stroke-dashoffset="45.2" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+                <defs><linearGradient id="gold-ring" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#f0c060"/></linearGradient></defs>
+                <text x="50" y="46" text-anchor="middle" font-size="18" font-family="Fraunces" font-weight="700" fill="#c9a84c">82</text>
+                <text x="50" y="60" text-anchor="middle" font-size="8" font-family="DM Mono" fill="rgba(255,255,255,.3)">/100</text>
+              </svg>
+              <div style="margin-top:12px;font-size:12px;color:var(--ts);line-height:1.6">Maturing — 18 pts to elite tier. Key gap: packaging variant coverage for regional SKUs.</div>
+            </div>
+            <div class="bcard" style="padding:16px">
+              <div style="font-size:12px;font-weight:600;margin-bottom:10px">3-Quarter Forecast</div>
+              <div id="forecast-bars"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Strategic Recommendations -->
+        <div class="bcard" style="padding:22px">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+            <div style="width:36px;height:36px;border-radius:9px;background:var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">◆</div>
+            <div>
+              <div style="font-size:14px;font-weight:700">AI Strategic Recommendations</div>
+              <div style="font-size:11px;font-family:var(--fmono);color:var(--tm);margin-top:2px">Generated from 6-month operational intelligence · Updated daily</div>
+            </div>
+          </div>
+          <div id="ai-recs"></div>
+        </div>
+
+        <!-- Intelligence milestones timeline -->
+        <div class="bcard" style="padding:22px">
+          <div style="font-size:14px;font-weight:700;margin-bottom:18px">Deployment Intelligence Timeline</div>
+          <div id="intel-timeline"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<!-- Drill-down modal -->
+<div class="overlay" id="ov-detail">
+  <div class="modal">
+    <div class="mhd">
+      <div style="width:36px;height:36px;border-radius:9px;background:var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0">◆</div>
+      <div><div style="font-size:14px;font-weight:700" id="detail-title">Detail View</div><div style="font-size:11px;font-family:var(--fmono);color:var(--tm);margin-top:2px" id="detail-sub">Strategic breakdown</div></div>
+    </div>
+    <div style="padding:22px;font-size:13px;color:var(--ts);line-height:1.8" id="detail-body"></div>
+    <div class="mft">
+      <button class="btn btn-gold" onclick="closeOverlay('ov-detail')">Close</button>
+      <button class="btn btn-g" onclick="toast('success','Export','Drill-down data exported as CSV');closeOverlay('ov-detail')">Export Data</button>
+    </div>
+  </div>
+</div>
+
+<div class="tw" id="tw"></div>
+
+<script>
+/* ══ AUTH CHECK ══ */
+const nxLoggedIn=sessionStorage.getItem('nxLoggedIn');
+const nxRole=sessionStorage.getItem('nxRole');
+if(!nxLoggedIn||nxRole!=='Board / Executive'){window.location.href='index.html';}
+const opId=sessionStorage.getItem('nxOpId')||'EXEC-001';
+const opStore=sessionStorage.getItem('nxStore')||'Reliance Smart — Ahmedabad';
+document.getElementById('rn-user-tip').textContent=opId;
+
+/* ══ CLOCK ══ */
+function tick(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});}
+setInterval(tick,1000);tick();
+
+/* ══ PERIOD SELECTOR ══ */
+let activePeriod='Month';
+function setPeriod(el,p){
+  document.querySelectorAll('.pchip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');activePeriod=p;
+  toast('info','Period Changed',p+' · Board data refreshed');
+}
+
+/* ══ VIEW NAV ══ */
+const VIEW_TITLES={
+  kpis:'Strategic KPIs',
+  regions:'Regional & Multi-Store Intelligence',
+  roi:'Financial & ROI Analytics',
+  risk:'Risk & Stability Overview',
+  intel:'Long-Term Intelligence Layer'
+};
+function goView(id,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
+  document.querySelectorAll('.rn').forEach(r=>r.classList.remove('on'));
+  const vEl=document.getElementById('v-'+id);if(vEl)vEl.classList.add('on');
+  if(btn)btn.classList.add('on');
+  document.getElementById('tb-title').textContent=VIEW_TITLES[id]||id;
+  if(id==='regions')renderRegions();
+  if(id==='roi')renderROI();
+  if(id==='risk')renderRisk();
+  if(id==='intel')renderIntel();
+}
+
+/* ══ STORE DATA ══ */
+const STORES=[
+  {ico:'🏪',name:'Ahmedabad Central',loc:'CG Road',rank:1,rev:'₹4.82L',acc:'97.4%',throughput:'1,842',uptime:'99.8%',score:92,trend:'up',color:'var(--green)'},
+  {ico:'🏬',name:'SG Highway',loc:'Prahlad Nagar',rank:2,rev:'₹6.10L',acc:'98.2%',throughput:'2,241',uptime:'99.9%',score:96,trend:'up',color:'var(--green)'},
+  {ico:'🛒',name:'Satellite',loc:'Satellite Road',rank:3,rev:'₹3.90L',acc:'96.1%',throughput:'1,540',uptime:'99.4%',score:82,trend:'stable',color:'var(--amber)'},
+  {ico:'🏢',name:'Navrangpura',loc:'Navrangpura',rank:4,rev:'₹3.20L',acc:'95.8%',throughput:'1,280',uptime:'99.1%',score:76,trend:'up',color:'var(--amber)'},
+];
+
+/* ══ STRATEGIC KPIs INIT ══ */
+(function initKPIs(){
+  const ag=document.getElementById('adoption-grid');
+  if(ag)ag.innerHTML=STORES.map(s=>`<div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--b0);cursor:pointer" onclick="toast('info','${s.name}','Score ${s.score}/100 · Accuracy ${s.acc} · Revenue ${s.rev}')">
+    <div style="width:26px;height:26px;border-radius:6px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">${s.ico}</div>
+    <div style="flex:1;font-size:11px;color:var(--ts)">${s.name}</div>
+    <div style="flex:1;max-width:80px"><div class="pt"><div class="pf" style="width:${s.score}%;background:${s.score>=90?'var(--green)':'var(--amber)'}"></div></div></div>
+    <div style="font-size:11px;font-family:var(--fmono);color:${s.score>=90?'var(--green)':'var(--amber)'};">${s.score}</div>
+  </div>`).join('');
+
+  const mom=document.getElementById('mom-grid');
+  if(mom){
+    const metrics=[
+      {label:'Transactions',current:'2,41,210',prev:'2,04,050',chg:'+18.2%',col:'var(--green)',up:true},
+      {label:'Revenue Impact',current:'₹3.84 Cr',prev:'₹3.14 Cr',chg:'+22.3%',col:'var(--green)',up:true},
+      {label:'AI Accuracy',current:'97.1%',prev:'96.4%',chg:'+0.7%',col:'var(--blue)',up:true},
+      {label:'Shrinkage Loss',current:'₹14,240',prev:'₹25,100',chg:'−43.3%',col:'var(--green)',up:true},
+      {label:'Avg Checkout Speed',current:'2.1s',prev:'2.4s',chg:'−12.5%',col:'var(--green)',up:true},
+      {label:'Fraud Events',current:'84',prev:'102',chg:'−17.6%',col:'var(--green)',up:true},
+    ];
+    mom.innerHTML=`<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px">${metrics.map(m=>`<div class="kpi-sec" style="cursor:pointer" onclick="openDetail('${m.label}','Current: ${m.current}\\nPrevious Month: ${m.prev}\\nChange: ${m.chg}')"><div class="ksi-label">${m.label}</div><div style="font-size:20px;font-weight:800;font-family:var(--fui);letter-spacing:-.02em;margin-bottom:5px;color:${m.col}">${m.current}</div><div style="font-size:11px;font-family:var(--fmono);color:${m.up?'var(--green)':'var(--red)'}">${m.chg} vs last month</div></div>`).join('')}</div>`;
+  }
+})();
+
+/* ══ REGIONS ══ */
+function renderRegions(){
+  const rc=document.getElementById('region-cards');
+  if(!rc)return;
+  rc.innerHTML=STORES.map(s=>`<div class="region-card${s.rank===2?' top-store':''}" onclick="openDetail('${s.name} · ${s.loc}','Revenue: ${s.rev}\\nAI Accuracy: ${s.acc}\\nThroughput: ${s.throughput} transactions\\nUptime: ${s.uptime}\\nPerformance Score: ${s.score}/100')">
+    <div class="rc-rank">#${s.rank}</div>
+    <div class="rc-ico">${s.ico}</div>
+    <div class="rc-name">${s.name}</div>
+    <div class="rc-loc">${s.loc} · Ahmedabad</div>
+    <div class="rc-kpi-row">
+      <div class="rc-kv"><div class="rkl">Revenue</div><div class="rkv" style="color:var(--green)">${s.rev}</div></div>
+      <div class="rc-kv"><div class="rkl">Accuracy</div><div class="rkv" style="color:var(--blue)">${s.acc}</div></div>
+    </div>
+    <div style="margin-top:10px">
+      <div style="height:4px;background:var(--bg3);border-radius:2px;overflow:hidden">
+        <div style="width:${s.score}%;height:100%;background:${s.score>=90?'var(--green)':'var(--amber)'};border-radius:2px"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:4px;font-size:9px;font-family:var(--fmono);color:var(--tm)"><span>Score</span><span style="color:${s.score>=90?'var(--green)':'var(--amber)'}">${s.score}/100</span></div>
+    </div>
+  </div>`).join('');
+
+  const rt=document.getElementById('region-table');
+  if(rt)rt.innerHTML=STORES.map((s,i)=>`<div class="store-row" onclick="openDetail('${s.name}','Revenue: ${s.rev} | Accuracy: ${s.acc} | Throughput: ${s.throughput} | Uptime: ${s.uptime} | Score: ${s.score}/100')">
+    <div style="font-size:16px;font-weight:800;width:28px;color:${i===0?'var(--gold)':i===1?'var(--ts)':'var(--tm)'}">${i+1}</div>
+    <div style="font-size:20px;width:30px">${s.ico}</div>
+    <div style="flex:1">
+      <div style="font-size:13px;font-weight:600">${s.name}</div>
+      <div style="font-size:10px;font-family:var(--fmono);color:var(--tm)">${s.loc}</div>
+    </div>
+    <div style="text-align:right;margin-right:12px"><div style="font-size:12px;font-weight:700;color:var(--green)">${s.rev}</div><div style="font-size:10px;font-family:var(--fmono);color:var(--tm)">${s.throughput} txns</div></div>
+    <div style="text-align:right;margin-right:12px"><div style="font-size:12px;font-weight:700;color:var(--blue)">${s.acc}</div><div style="font-size:10px;font-family:var(--fmono);color:var(--tm)">accuracy</div></div>
+    <div style="width:52px;text-align:right"><div style="font-size:14px;font-weight:800;color:${s.score>=90?'var(--green)':'var(--amber)'}">${s.score}</div><div style="font-size:9px;font-family:var(--fmono);color:var(--tm)">/100</div></div>
+  </div>`).join('');
+
+  const rh=document.getElementById('region-heatmap');
+  if(!rh)return;
+  const weeks=['W1','W2','W3','W4'];
+  const storeNames=['Central','SG Hwy','Satellite','Navrang'];
+  const vals=[[0.6,0.7,0.8,0.75],[0.8,0.9,0.95,0.85],[0.5,0.55,0.6,0.65],[0.4,0.5,0.55,0.6]];
+  const getHeatColor=v=>v<0.45?'rgba(46,201,144,.12)':v<0.65?'rgba(46,201,144,.38)':v<0.80?'rgba(68,117,247,.44)':'rgba(46,201,144,.86)';
+  rh.innerHTML=`<div style="display:grid;grid-template-columns:58px repeat(4,1fr);gap:4px;font-size:9px;font-family:var(--fmono)">
+    <div></div>${weeks.map(w=>`<div style="text-align:center;color:var(--tm);padding-bottom:5px">${w}</div>`).join('')}
+    ${vals.map((row,ri)=>`<div style="display:flex;align-items:center;color:var(--tm);font-size:9px;height:36px;padding-right:6px">${storeNames[ri]}</div>
+    ${row.map((v,wi)=>`<div style="height:36px;border-radius:6px;background:${getHeatColor(v)};cursor:pointer;transition:transform .12s" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" onclick="toast('info','${storeNames[ri]} · ${weeks[wi]}','Throughput density: ${Math.round(v*100)}%')"></div>`).join('')}`).join('')}
+  </div>`;
+}
+
+/* ══ ROI ══ */
+function renderROI(){
+  const wf=document.getElementById('wf-chart');
+  if(!wf)return;
+  const items=[
+    {label:'Manpower savings',val:560000,pct:45,col:'var(--green)'},
+    {label:'Shrinkage reduction',val:284000,pct:23,col:'var(--blue)'},
+    {label:'Checkout throughput',val:186000,pct:15,col:'var(--violet)'},
+    {label:'Billing error reduction',val:124000,pct:10,col:'var(--amber)'},
+    {label:'Fraud loss prevention',val:86000,pct:7,col:'var(--gold)'},
+  ];
+  wf.innerHTML=items.map(it=>`<div class="waterfall-row" onclick="openDetail(it.label,'Monthly savings: ₹${(it.val/100000).toFixed(2)}L · ${it.pct}% of total savings')">
+    <div style="width:170px;font-size:12px;color:var(--ts)">${it.label}</div>
+    <div class="wf-bar-track" style="flex:1"><div class="wf-bar" style="width:${it.pct*2}%;background:${it.col}"></div></div>
+    <div style="width:80px;text-align:right;font-family:var(--fmono);font-size:12px;font-weight:500;color:${it.col}">₹${(it.val/100000).toFixed(2)}L</div>
+    <div style="width:36px;text-align:right;font-family:var(--fmono);font-size:11px;color:var(--tm)">${it.pct}%</div>
+  </div>`).join('');
+
+  const cd=document.getElementById('cost-dist');
+  if(cd)cd.innerHTML=[
+    {n:'Platform licence',v:24,c:'var(--blue)'},
+    {n:'AI inference',v:18,c:'var(--violet)'},
+    {n:'Hardware & maintenance',v:32,c:'var(--amber)'},
+    {n:'Training & support',v:26,c:'var(--ts)'},
+  ].map(d=>`<div style="display:flex;align-items:center;gap:9px;margin-bottom:9px"><div style="width:100px;font-size:11px;color:var(--ts)">${d.n}</div><div style="flex:1"><div class="pt"><div class="pf" style="width:${d.v*2}%;background:${d.c}"></div></div></div><div style="font-size:11px;font-family:var(--fmono);color:${d.c};width:30px;text-align:right">${d.v}%</div></div>`).join('');
+}
+
+/* ══ RISK ══ */
+function renderRisk(){
+  const rm=document.getElementById('risk-matrix');
+  if(!rm)return;
+  const matrixLabels=['SKU drift','POS fail','Fraud spike','Data breach','Power outage','Model bias','Staff error','Net outage','Competitor','Scale err'];
+  const cells=[
+    {bg:'rgba(232,85,85,.45)',label:'Barcode sub.'},
+    {bg:'rgba(240,160,52,.3)',label:'Queue surge'},
+    {bg:'rgba(240,160,52,.25)',label:'AI drift'},
+    {bg:'rgba(46,201,144,.18)',label:'Staff error'},
+    {bg:'rgba(232,85,85,.35)',label:'Data breach'},
+    {bg:'rgba(240,160,52,.28)',label:'POS failure'},
+    {bg:'rgba(46,201,144,.2)',label:'Net outage'},
+    {bg:'rgba(46,201,144,.15)',label:'Power loss'},
+    {bg:'rgba(255,255,255,.04)',label:'Competitor'},
+    {bg:'rgba(255,255,255,.04)',label:'Scale drift'},
+    {bg:'rgba(46,201,144,.16)',label:'SKU drift'},
+    {bg:'rgba(255,255,255,.04)',label:'Vendor risk'},
+  ];
+  const rows=['High','Med','Low'];
+  const cols=['High','Med','Low','Min'];
+  rm.innerHTML=`<div style="margin-bottom:8px;display:flex;gap:4px"><div style="width:36px"></div>${cols.map(c=>`<div style="flex:1;text-align:center;font-size:9px;font-family:var(--fmono);color:var(--tm)">${c} Impact</div>`).join('')}</div>
+  ${rows.map((r,ri)=>`<div style="display:flex;gap:4px;margin-bottom:4px">
+    <div style="width:36px;font-size:9px;font-family:var(--fmono);color:var(--tm);display:flex;align-items:center">${r}</div>
+    ${cols.map((c,ci)=>{const cell=cells[ri*4+ci];return`<div class="risk-matrix-cell" style="flex:1;background:${cell.bg}" onclick="toast('info','Risk: ${cell.label}','${r} likelihood · ${c} impact — click for mitigation strategy')"><div style="font-size:9px;line-height:1.3">${cell.label}</div></div>`;}).join('')}
+  </div>`).join('')}
+  <div style="display:flex;gap:4px;margin-top:2px"><div style="width:36px"></div>${cols.map(c=>`<div style="flex:1;text-align:center;font-size:8px;font-family:var(--fmono);color:var(--tm)">${c}</div>`).join('')}</div>`;
+
+  const ih=document.getElementById('infra-health');
+  if(ih)ih.innerHTML=[
+    {n:'AI Engine',v:99,c:'var(--green)'},
+    {n:'POS Fleet',v:97,c:'var(--green)'},
+    {n:'Camera Network',v:94,c:'var(--green)'},
+    {n:'Network Layer',v:99,c:'var(--green)'},
+    {n:'Printer Fleet',v:88,c:'var(--amber)'},
+    {n:'Data Backup',v:100,c:'var(--green)'},
+  ].map(item=>`<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+    <div style="width:90px;font-size:11px;color:var(--ts)">${item.n}</div>
+    <div style="flex:1"><div class="pt"><div class="pf" style="width:${item.v}%;background:${item.c}"></div></div></div>
+    <div style="font-size:11px;font-family:var(--fmono);color:${item.c};width:34px;text-align:right">${item.v}%</div>
+  </div>`).join('');
+
+  const rr=document.getElementById('risk-register');
+  if(!rr)return;
+  const risks=[
+    {level:'high',ico:'🔄',title:'Packaging variant coverage gap',desc:'8 SKUs across detergent and dairy categories have not been retrained for 2025 rebrands. Risk: increased override frequency and potential shrinkage.',action:'Queue retraining',col:'var(--red)',bcol:'var(--rdim)'},
+    {level:'medium',ico:'🖨',title:'Printer fleet aging — 2 units critical',desc:'Printers at SG Highway (L02) and Satellite (L04) have exceeded 80% of lifecycle. Replacement recommended before Q3 peak season.',action:'Procurement order',col:'var(--amber)',bcol:'var(--adim)'},
+    {level:'medium',ico:'⚡',title:'Network redundancy not tested this quarter',desc:'4G failover systems at Navrangpura and Satellite have not been tested since Q4 2025. Recommend scheduled test before monsoon.',action:'Schedule test',col:'var(--amber)',bcol:'var(--adim)'},
+    {level:'low',ico:'📊',title:'Loyalty capture below 70% target',desc:'Current 66% capture rate. 4% gap attributable to POS prompt timing. UX adjustment can close this gap within 2 weeks.',action:'Deploy fix',col:'var(--blue)',bcol:'var(--bdim)'},
+  ];
+  rr.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${risks.map(r=>`<div style="background:${r.bcol};border:1px solid ${r.col.replace(')',', .22)')};border-radius:11px;padding:16px;cursor:pointer;transition:all .15s" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'" onclick="openDetail('${r.title}','${r.desc}')">
+    <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:9px">
+      <div style="font-size:19px">${r.ico}</div>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:700;margin-bottom:3px;color:${r.col}">${r.title}</div>
+        <div style="font-size:11px;color:var(--ts);line-height:1.65">${r.desc}</div>
+      </div>
+    </div>
+    <button class="btn btn-sm" style="background:transparent;border:1px solid ${r.col.replace(')',', .3)')};color:${r.col}" onclick="event.stopPropagation();toast('info','Action','${r.action} initiated…')">→ ${r.action}</button>
+  </div>`).join('')}</div>`;
+}
+
+/* ══ LONG-TERM INTELLIGENCE ══ */
+function renderIntel(){
+  const fb=document.getElementById('forecast-bars');
+  if(fb){
+    const qdata=[
+      {q:'Q2 2026',rev:'₹4.2 Cr',idx:72,col:'var(--green)'},
+      {q:'Q3 2026',rev:'₹5.1 Cr',idx:86,col:'var(--blue)'},
+      {q:'Q4 2026',rev:'₹6.8 Cr',idx:100,col:'var(--gold)'},
+    ];
+    fb.innerHTML=`<div style="display:flex;gap:9px;align-items:flex-end;height:72px;margin-bottom:6px">${qdata.map(d=>`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+      <div style="font-size:10px;font-family:var(--fmono);color:var(--ts)">${d.rev}</div>
+      <div style="width:100%;background:${d.col};border-radius:4px 4px 0 0;flex:${d.idx}" onclick="toast('info','${d.q}','Forecast revenue ${d.rev} · Confidence ${d.idx}%')"></div>
+    </div>`).join('')}</div>
+    <div style="display:flex;gap:9px">${qdata.map(d=>`<div style="flex:1;text-align:center;font-size:9px;font-family:var(--fmono);color:var(--tm)">${d.q}</div>`).join('')}</div>`;
+  }
+
+  const ar=document.getElementById('ai-recs');
+  if(ar)ar.innerHTML=[
+    {pri:1,ico:'🚀',title:'Expand to 2 new stores — Q3 2026',desc:'Current network capacity supports 6 stores. SG Highway\'s 98.2% accuracy benchmark makes it an ideal template. Recommended targets: Bopal and Vastrapur based on footfall and demographic overlap.',tag:'High Priority',col:'var(--gold)',bc:'var(--gold-dim)',btag:'bgold'},
+    {pri:2,ico:'🧠',title:'Close AI maturity gap — 18 pts to elite tier',desc:'Accelerate training on regional SKU variants (Gujarat-specific packaging). Focus on dairy (Amul regional), staples (Tata regional packs), and snacks (regional brand coverage). Projected timeline: 3–4 months.',tag:'Strategic',col:'var(--blue)',bc:'var(--bdim)',btag:'bb'},
+    {pri:3,ico:'💛',title:'Loyalty capture — close 4% gap to 70% target',desc:'POS prompt timing adjustment at checkout completion can drive passive loyalty enrollment. A/B test shows +6% capture with revised prompt UX. Low effort, high return.',tag:'Quick Win',col:'var(--green)',bc:'var(--gdim)',btag:'bg'},
+    {pri:4,ico:'🛡',title:'Harden infrastructure before Q3 peak season',desc:'Monsoon-season footfall surge (Jul–Sep) historically stresses network and POS. Recommend: printer fleet refresh, 4G failover testing, and pre-peak model retrain across all stores.',tag:'Risk Mitigation',col:'var(--amber)',bc:'var(--adim)',btag:'ba'},
+  ].map(r=>`<div class="insight-card" style="margin-bottom:10px;cursor:pointer;background:${r.bc};border-color:${r.col.replace(')',', .18)')}" onmouseover="this.style.transform='translateY(-1px)'" onmouseout="this.style.transform='translateY(0)'" onclick="openDetail('${r.title}','${r.desc}')">
+    <div style="display:flex;align-items:flex-start;gap:12px">
+      <div style="width:38px;height:38px;border-radius:9px;background:${r.bc};border:1px solid ${r.col.replace(')',', .22)')};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">${r.ico}</div>
+      <div style="flex:1">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          <div style="font-size:13px;font-weight:700">${r.title}</div>
+          <span class="badge ${r.btag}">${r.tag}</span>
+        </div>
+        <div style="font-size:12px;color:var(--ts);line-height:1.75">${r.desc}</div>
+      </div>
+    </div>
+  </div>`).join('');
+
+  const it=document.getElementById('intel-timeline');
+  if(!it)return;
+  const events=[
+    {ico:'🏁',dot:'var(--blue)',date:'Aug 2025',title:'Platform Deployed · First Store',desc:'Ahmedabad Central went live with 4,200 SKUs trained. Initial accuracy 88%. 6 lanes operational.',tags:['Milestone','v1.0']},
+    {ico:'📈',dot:'var(--green)',date:'Oct 2025',title:'Accuracy Crosses 95% Threshold',desc:'Model retrained on 2,800 additional SKUs after packaging drift events in Q4. Accuracy stabilized at 95.4%.',tags:['Accuracy','Model Update']},
+    {ico:'🏪',dot:'var(--violet)',date:'Dec 2025',title:'Multi-Store Expansion · 4 Stores Live',desc:'SG Highway, Satellite, and Navrangpura deployments completed. Network revenue impact crossed ₹2 Cr/month milestone.',tags:['Expansion','Network']},
+    {ico:'⚖',dot:'var(--gold)',date:'Mar 2026',title:'ROI Break-Even Achieved',desc:'Cumulative operational savings offset deployment cost at Month 8 — 2 months ahead of projection. Board milestone unlocked.',tags:['ROI','Break-even ✓']},
+    {ico:'◆',dot:'var(--gold)',date:'May 2026',title:'Current State · Maturity Score 82/100',desc:'Network performing at 97.1% AI accuracy, 4.2× ROI. 12,841 SKUs trained. Strategic expansion to 6 stores recommended.',tags:['Live','4.2× ROI']},
+    {ico:'🔭',dot:'var(--tm)',date:'Q3 2026',title:'Projected · 6-Store Network Operational',desc:'Bopal and Vastrapur stores forecast to deploy. Network revenue impact target: ₹6.8 Cr/quarter.',tags:['Forecast','Expansion Target']},
+  ];
+  it.innerHTML=events.map((ev,i)=>`<div class="intel-step" ${i===events.length-1?'style="padding-bottom:0"':''}>
+    <div class="intel-dot" style="border-color:${ev.dot};background:linear-gradient(135deg,var(--bg2),var(--bg3))">${ev.ico}</div>
+    <div style="flex:1;padding-top:5px">
+      <div style="font-family:var(--fmono);font-size:10px;color:var(--tm);margin-bottom:4px">${ev.date}</div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:5px">${ev.title}</div>
+      <div style="font-size:12px;color:var(--ts);line-height:1.7;margin-bottom:8px">${ev.desc}</div>
+      <div style="display:flex;gap:6px">${ev.tags.map(t=>`<span style="font-size:10px;font-family:var(--fmono);padding:2px 8px;border-radius:20px;background:var(--bg3);color:var(--tm)">${t}</span>`).join('')}</div>
+    </div>
+  </div>`).join('');
+}
+
+/* ══ OVERLAYS ══ */
+function openOverlay(id){document.getElementById(id).classList.add('open');}
+function closeOverlay(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+document.addEventListener('keydown',e=>{if(e.code==='Escape')document.querySelectorAll('.overlay.open').forEach(o=>o.classList.remove('open'));});
+
+function openDetail(title,body){
+  document.getElementById('detail-title').textContent=title;
+  document.getElementById('detail-sub').textContent='Strategic drill-down · '+activePeriod;
+  document.getElementById('detail-body').innerHTML=body.replace(/\n/g,'<br>');
+  openOverlay('ov-detail');
+}
+
+/* ══ TOAST ══ */
+function toast(type,title,msg){
+  const w=document.getElementById('tw');
+  const ico={success:'✓',warning:'⚠',error:'✕',info:'ℹ'};
+  const bg={success:'var(--gdim)',warning:'var(--adim)',error:'var(--rdim)',info:'var(--gold-dim)'};
+  const cl={success:'var(--green)',warning:'var(--amber)',error:'var(--red)',info:'var(--gold)'};
+  const bc={success:'rgba(46,201,144,.2)',warning:'rgba(240,160,52,.2)',error:'rgba(232,85,85,.2)',info:'rgba(201,168,76,.2)'};
+  const el=document.createElement('div');el.className='toast';el.style.borderColor=bc[type]||'var(--b1)';
+  el.innerHTML=`<div class="ti" style="background:${bg[type]};color:${cl[type]}">${ico[type]}</div><div><div class="tt">${title}</div><div class="ts2">${msg}</div></div>`;
+  w.appendChild(el);
+  setTimeout(()=>{el.style.transition='opacity .28s,transform .28s';el.style.opacity='0';el.style.transform='translateY(5px)';setTimeout(()=>el.remove(),300);},4000);
+}
+
+/* ══ LOGOUT ══ */
+function doLogout(){
+  sessionStorage.clear();
+  toast('info','Session Ended','Board session closed securely');
+  setTimeout(()=>window.location.href='index.html',1000);
+}
+
+/* ══ INIT ══ */
+// Staggered entry animation for KPI heroes
+setTimeout(()=>{
+  document.querySelectorAll('.kpi-hero').forEach((el,i)=>{
+    el.style.opacity='0';el.style.transform='translateY(10px)';
+    setTimeout(()=>{el.style.transition='opacity .4s ease, transform .4s ease';el.style.opacity='1';el.style.transform='translateY(0)';},i*80);
+  });
+},100);
+
+// Simulate live intelligence update
+setTimeout(()=>{
+  toast('info','Intelligence Update','AI maturity score revised to 82/100 · Packaging model improved');
+},7000);
+setTimeout(()=>{
+  toast('success','Quarterly Target','Revenue impact on track to exceed Q2 target by 6.4%');
+},14000);
+</script>
+</body>
+</html>
