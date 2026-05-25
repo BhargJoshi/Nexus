@@ -5,23 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nexus · Cashier Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Outfit:wght@300;400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════════
-   DESIGN TOKENS
-═══════════════════════════════════════════════ */
+/* ── TOKENS ─────────────────────────────────────────── */
 :root{
-  --bg:#0a0b0e;--bg1:#0f1115;--bg2:#161920;--bg3:#1d2028;--bg4:#242830;--bh:#2a2f38;
-  --b0:rgba(255,255,255,.035);--b1:rgba(255,255,255,.065);--b2:rgba(255,255,255,.11);--b3:rgba(255,255,255,.18);
-  --tp:#eceef3;--ts:#878f9c;--tm:#4a5260;--tf:#272c35;
-  --blue:#4475f7;--bdim:rgba(68,117,247,.12);--bglow:rgba(68,117,247,.22);
-  --green:#2ec990;--gdim:rgba(46,201,144,.09);
-  --amber:#f0a034;--adim:rgba(240,160,52,.09);
-  --red:#e85555;--rdim:rgba(232,85,85,.09);
-  --violet:#9a70f4;--vdim:rgba(154,112,244,.10);
-  --rail:52px;--top:50px;
-  --fui:'Outfit',sans-serif;--fmono:'DM Mono',monospace;--fser:'Fraunces',serif;
-  --fm:'DM Mono',monospace;--fu:'Outfit',sans-serif;
+  --bg:#0b0e17;--bg1:#10141f;--bg2:#161c2c;--bg3:#1c2336;--bg4:#222c42;
+  --b0:rgba(255,255,255,.045);--b1:rgba(255,255,255,.08);
+  --b2:rgba(255,255,255,.13);--b3:rgba(255,255,255,.20);
+  --tp:#f1f5f9;--ts:#8494a8;--tm:#425166;--tf:#252e3e;
+  --blue:#4b7bff;--bdim:rgba(75,123,255,.09);
+  --green:#2dd4a0;--gdim:rgba(45,212,160,.08);
+  --amber:#f0a523;--adim:rgba(240,165,35,.08);
+  --red:#f04e4e;--rdim:rgba(240,78,78,.08);
+  --violet:#9b6ff4;--vdim:rgba(155,111,244,.09);
+  --rail:52px;--top:52px;
+  --fui:'Plus Jakarta Sans',sans-serif;
+  --fmono:'DM Mono',monospace;
+  --fm:'DM Mono',monospace;--fu:'Plus Jakarta Sans',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;}
@@ -32,276 +32,383 @@ input,select,textarea{font-family:inherit;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px;}
 
-/* ═══════════════════════════════════════════════
-   LAYOUT
-═══════════════════════════════════════════════ */
+/* ── LAYOUT ──────────────────────────────────────────── */
 .shell{display:flex;height:100vh;}
 .rail{
-  width:var(--rail);background:var(--bg1);border-right:1px solid var(--b0);
+  width:var(--rail);background:var(--bg1);border-right:1px solid var(--b1);
   display:flex;flex-direction:column;align-items:center;
-  padding:14px 0;gap:2px;flex-shrink:0;z-index:100;
+  padding:14px 0;gap:3px;flex-shrink:0;z-index:100;
 }
-.rail-logo{width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;cursor:pointer;transition:opacity .15s;flex-shrink:0;}
-.rail-logo:hover{opacity:.85;}
+.rail-logo{
+  width:32px;height:32px;background:var(--blue);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:16px;cursor:pointer;transition:opacity .15s;flex-shrink:0;
+}
+.rail-logo:hover{opacity:.82;}
 .rail-logo svg{width:17px;height:17px;}
-.rn{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:transparent;color:var(--tm);cursor:pointer;transition:all .15s;position:relative;flex-shrink:0;}
+.rn{
+  width:36px;height:36px;border-radius:9px;display:flex;align-items:center;
+  justify-content:center;background:transparent;color:var(--tm);cursor:pointer;
+  transition:background .15s,color .15s;position:relative;flex-shrink:0;
+}
 .rn:hover{background:var(--bg3);color:var(--ts);}
 .rn.on{background:var(--bdim);color:var(--blue);}
-.rn svg{width:17px;height:17px;stroke-width:1.65;}
-.rn-tip{position:absolute;left:44px;background:var(--bg3);border:1px solid var(--b1);border-radius:6px;padding:5px 10px;font-size:11px;font-family:var(--fmono);color:var(--tp);white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;z-index:999;}
+.rn svg{width:17px;height:17px;stroke-width:1.7;}
+.rn-tip{
+  position:absolute;left:44px;white-space:nowrap;
+  background:var(--bg3);border:1px solid var(--b1);border-radius:7px;
+  padding:5px 11px;font-size:11px;font-family:var(--fmono);color:var(--tp);
+  pointer-events:none;opacity:0;transition:opacity .15s;z-index:999;
+  letter-spacing:.02em;
+}
 .rn:hover .rn-tip{opacity:1;}
-.rsep{width:20px;height:1px;background:var(--b0);margin:6px 0;flex-shrink:0;}
+.rsep{width:22px;height:1px;background:var(--b0);margin:5px 0;flex-shrink:0;}
 .rsp{flex:1;}
-
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
 
-/* Cashier Topbar — checkout status, cashier identity, device, time */
-.topbar{height:var(--top);background:var(--bg1);border-bottom:1px solid var(--b0);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0;}
-.tb-title{font-size:13px;font-weight:600;flex:1;letter-spacing:.01em;}
-.tb-meta{display:flex;align-items:center;gap:12px;}
-.pill-stat{display:flex;align-items:center;gap:6px;font-size:11px;font-family:var(--fmono);color:var(--tm);}
-.dot{width:5px;height:5px;border-radius:50%;}
+/* ── TOPBAR ──────────────────────────────────────────── */
+.topbar{
+  height:var(--top);background:var(--bg1);border-bottom:1px solid var(--b1);
+  display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0;
+}
+.tb-title{font-size:14px;font-weight:700;flex:1;letter-spacing:-.01em;color:var(--tp);}
+.tb-meta{display:flex;align-items:center;gap:10px;}
+.pill-stat{
+  display:flex;align-items:center;gap:6px;
+  font-size:11px;font-family:var(--fmono);color:var(--tm);letter-spacing:.02em;
+}
+.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
 .dg{background:var(--green);animation:blink 2.4s infinite;}
 .db{background:var(--blue);}
 .da{background:var(--amber);}
 .dr{background:var(--red);}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
-.tb-tag{background:var(--bg2);border:1px solid var(--b1);border-radius:20px;padding:3px 12px;font-size:11px;font-family:var(--fmono);color:var(--ts);}
+.tb-tag{
+  background:var(--bg2);border:1px solid var(--b1);border-radius:6px;
+  padding:4px 12px;font-size:11px;font-family:var(--fmono);color:var(--ts);
+  letter-spacing:.02em;
+}
 .tb-clock{font-family:var(--fmono);font-size:12px;color:var(--tm);}
+.tb-role-badge{
+  background:var(--bdim);border:1px solid rgba(75,123,255,.18);
+  border-radius:6px;padding:4px 10px;font-size:10px;
+  font-family:var(--fmono);color:var(--blue);letter-spacing:.04em;
+  text-transform:uppercase;
+}
 
+/* ── VIEWS ───────────────────────────────────────────── */
 .view{display:none;flex:1;overflow:hidden;}
 .view.on{display:flex;}
 
-/* ═══════════════════════════════════════════════
-   SHARED UI ATOMS
-═══════════════════════════════════════════════ */
-.sect{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;}
-.card{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;}
-.dh{height:1px;background:var(--b0);}
-.dv{width:1px;background:var(--b0);flex-shrink:0;}
-.badge{font-size:10px;font-family:var(--fmono);padding:2px 8px;border-radius:20px;display:inline-flex;align-items:center;gap:4px;}
+/* ── SHARED ATOMS ────────────────────────────────────── */
+/* Section label — metric header style */
+.sect{
+  font-family:var(--fmono);font-size:10px;color:var(--tm);
+  text-transform:uppercase;letter-spacing:.12em;font-weight:500;
+}
+/* Card base */
+.card{background:var(--bg1);border:1px solid var(--b1);border-radius:12px;}
+.dh{height:1px;background:var(--b1);}
+.dv{width:1px;background:var(--b1);flex-shrink:0;}
+
+/* Badges */
+.badge{
+  font-size:10px;font-family:var(--fmono);padding:3px 8px;
+  border-radius:5px;display:inline-flex;align-items:center;gap:4px;
+  font-weight:500;letter-spacing:.03em;
+}
 .bg{background:var(--gdim);color:var(--green);}
 .ba{background:var(--adim);color:var(--amber);}
 .br{background:var(--rdim);color:var(--red);}
 .bb{background:var(--bdim);color:var(--blue);}
 .bv{background:var(--vdim);color:var(--violet);}
 .bn{background:var(--bg3);color:var(--tm);}
-.btn{display:inline-flex;align-items:center;gap:6px;border-radius:8px;padding:8px 16px;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;border:none;}
-.btn-p{background:var(--blue);color:#fff;}
-.btn-p:hover{opacity:.88;}
-.btn-g{background:transparent;border:1px solid var(--b1);color:var(--ts);}
-.btn-g:hover{background:var(--bg3);color:var(--tp);border-color:var(--b2);}
-.btn-d{background:var(--rdim);border:1px solid rgba(232,85,85,.2);color:var(--red);}
-.btn-d:hover{background:rgba(232,85,85,.16);}
-.btn-s{background:var(--gdim);border:1px solid rgba(46,201,144,.2);color:var(--green);}
-.btn-s:hover{background:rgba(46,201,144,.14);}
-.btn-a{background:var(--adim);border:1px solid rgba(240,160,52,.2);color:var(--amber);}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;border-radius:8px;
+  padding:8px 16px;font-size:12px;font-weight:600;cursor:pointer;
+  transition:opacity .15s,background .15s;border:none;
+  font-family:var(--fui);
+}
+.btn-p{background:var(--blue);color:#fff;}.btn-p:hover{opacity:.87;}
+.btn-g{
+  background:transparent;border:1px solid var(--b1);color:var(--ts);
+}.btn-g:hover{background:var(--bg3);color:var(--tp);border-color:var(--b2);}
+.btn-d{
+  background:var(--rdim);border:1px solid rgba(240,78,78,.18);color:var(--red);
+}.btn-d:hover{background:rgba(240,78,78,.14);}
+.btn-s{
+  background:var(--gdim);border:1px solid rgba(45,212,160,.18);color:var(--green);
+}.btn-s:hover{background:rgba(45,212,160,.12);}
+.btn-a{background:var(--adim);border:1px solid rgba(240,165,35,.18);color:var(--amber);}
 .btn-sm{padding:5px 12px;font-size:11px;}
 .btn-lg{padding:13px 22px;font-size:14px;font-weight:700;}
-.fi label{display:block;font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;}
-.fi input,.fi select,.fi textarea{width:100%;background:var(--bg2);border:1px solid var(--b1);border-radius:8px;padding:10px 13px;color:var(--tp);font-size:13px;outline:none;transition:border-color .2s;appearance:none;}
+
+/* Form inputs */
+.fi label{
+  display:block;font-family:var(--fmono);font-size:10px;color:var(--tm);
+  text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px;font-weight:500;
+}
+.fi input,.fi select,.fi textarea{
+  width:100%;background:var(--bg2);border:1px solid var(--b1);border-radius:8px;
+  padding:10px 13px;color:var(--tp);font-size:13px;font-weight:500;outline:none;
+  transition:border-color .2s;appearance:none;
+}
 .fi input:focus,.fi select:focus,.fi textarea:focus{border-color:var(--blue);}
 .fi input::placeholder,.fi textarea::placeholder{color:var(--tm);}
 .fi textarea{resize:vertical;min-height:76px;line-height:1.6;}
+
+/* Progress */
 .pt{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden;}
 .pf{height:100%;border-radius:2px;transition:width .45s ease;}
+
+/* Toggle */
 .tog label{position:relative;width:34px;height:18px;cursor:pointer;display:block;}
 .tog input{opacity:0;width:0;height:0;}
 .tog-sl{position:absolute;inset:0;background:var(--bg3);border:1px solid var(--b2);border-radius:20px;transition:all .2s;}
 .tog-sl::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;background:var(--tm);border-radius:50%;transition:all .2s;}
 .tog input:checked~.tog-sl{background:var(--bdim);border-color:var(--blue);}
 .tog input:checked~.tog-sl::after{transform:translateX(16px);background:var(--blue);}
-.phd{padding:13px 16px;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 
-/* ═══════════════════════════════════════════════
-   1. LIVE CHECKOUT
-═══════════════════════════════════════════════ */
+/* Panel header */
+.phd{
+  padding:14px 18px;border-bottom:1px solid var(--b1);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.phd-title{font-size:13px;font-weight:700;color:var(--tp);letter-spacing:-.01em;}
+
+/* ════════════════════════════════════════════
+   VIEW 1 — LIVE CHECKOUT
+════════════════════════════════════════════ */
 #v-checkout{flex-direction:row;}
-.co-left{width:268px;border-right:1px solid var(--b0);display:flex;flex-direction:column;flex-shrink:0;}
+.co-left{width:268px;border-right:1px solid var(--b1);display:flex;flex-direction:column;flex-shrink:0;}
 .feed{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:6px;}
-.pcard{background:var(--bg2);border:1px solid var(--b0);border-left:2px solid transparent;border-radius:9px;padding:10px;display:flex;align-items:center;gap:9px;animation:fadeUp .22s ease;cursor:default;transition:border-color .2s;}
-.pcard:hover{border-color:var(--b1);}
+
+/* Product detection cards — cleaner, less gamey */
+.pcard{
+  background:var(--bg2);border:1px solid var(--b1);border-left:3px solid transparent;
+  border-radius:9px;padding:10px;display:flex;align-items:center;gap:9px;
+  animation:fadeUp .2s ease;cursor:default;transition:border-color .2s;
+}
 .pcard.verified{border-left-color:var(--green);}
 .pcard.ambiguous{border-left-color:var(--amber);}
 .pcard.checking{border-left-color:var(--blue);}
-@keyframes fadeUp{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
-.pi{width:36px;height:36px;background:var(--bg3);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-.pname{font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:translateY(0);}}
+.pi{width:36px;height:36px;background:var(--bg3);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.pname{font-size:12px;font-weight:600;color:var(--tp);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;letter-spacing:-.01em;}
 .pmeta{display:flex;align-items:center;gap:5px;}
-.pprice{font-family:var(--fmono);font-size:11px;color:var(--ts);margin-left:auto;white-space:nowrap;}
-.ctag{font-family:var(--fmono);font-size:9px;padding:1px 5px;border-radius:3px;}
+.pprice{font-family:var(--fmono);font-size:12px;color:var(--ts);margin-left:auto;white-space:nowrap;font-weight:500;}
+.ctag{font-family:var(--fmono);font-size:9px;padding:2px 6px;border-radius:4px;font-weight:500;}
 .ctg{background:var(--gdim);color:var(--green);}
 .cta{background:var(--adim);color:var(--amber);}
 .ctr{background:var(--rdim);color:var(--red);}
 .ctb{background:var(--bdim);color:var(--blue);}
+
+/* Camera area */
 .co-ctr{flex:1;display:flex;flex-direction:column;}
-.cam{flex:1;position:relative;background:#060709;display:flex;align-items:center;justify-content:center;overflow:hidden;}
-.cam-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(68,117,247,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(68,117,247,.03) 1px,transparent 1px);background-size:50px 50px;}
-.cc{position:absolute;width:20px;height:20px;border-color:rgba(68,117,247,.38);border-style:solid;}
-.cc.tl{top:26px;left:26px;border-width:2px 0 0 2px;}
-.cc.tr{top:26px;right:26px;border-width:2px 2px 0 0;}
-.cc.bl{bottom:26px;left:26px;border-width:0 0 2px 2px;}
-.cc.br{bottom:26px;right:26px;border-width:0 2px 2px 0;}
-.sbeam{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(46,201,144,.55),transparent);animation:scanB 2.8s linear infinite;pointer-events:none;}
-@keyframes scanB{from{top:12%;}to{top:88%;}}
-.dbox{position:absolute;width:130px;height:130px;border:1.5px solid var(--green);border-radius:5px;animation:dPulse 1.8s ease-in-out infinite;}
-@keyframes dPulse{0%,100%{box-shadow:0 0 0 0 rgba(46,201,144,.1);}50%{box-shadow:0 0 18px rgba(46,201,144,.1);}}
-.dlabel{position:absolute;top:-22px;left:0;background:var(--green);color:#000;font-size:9px;font-family:var(--fmono);font-weight:600;padding:2px 7px;border-radius:3px;white-space:nowrap;}
+.cam{
+  flex:1;position:relative;background:#080b14;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.cam-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(75,123,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(75,123,255,.025) 1px,transparent 1px);
+  background-size:50px 50px;
+}
+.cc{position:absolute;width:18px;height:18px;border-color:rgba(75,123,255,.35);border-style:solid;}
+.cc.tl{top:24px;left:24px;border-width:2px 0 0 2px;}.cc.tr{top:24px;right:24px;border-width:2px 2px 0 0;}
+.cc.bl{bottom:24px;left:24px;border-width:0 0 2px 2px;}.cc.br{bottom:24px;right:24px;border-width:0 2px 2px 0;}
+.sbeam{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(45,212,160,.5),transparent);animation:scanB 2.8s linear infinite;pointer-events:none;}
+@keyframes scanB{from{top:10%;}to{top:90%;}}
+.dbox{position:absolute;width:130px;height:130px;border:1.5px solid var(--green);border-radius:4px;}
+.dlabel{position:absolute;top:-22px;left:0;background:var(--green);color:#000;font-size:9px;font-family:var(--fmono);font-weight:600;padding:2px 8px;border-radius:3px;white-space:nowrap;letter-spacing:.03em;}
 .cemoji{font-size:72px;animation:flt 3.2s ease-in-out infinite;position:relative;z-index:2;user-select:none;}
 @keyframes flt{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
-.cstatus{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:rgba(10,11,14,.88);border:1px solid var(--b1);backdrop-filter:blur(10px);border-radius:20px;padding:6px 18px;font-size:11px;font-family:var(--fmono);display:flex;align-items:center;gap:8px;white-space:nowrap;}
-.co-bar{height:52px;border-top:1px solid var(--b0);background:var(--bg1);display:flex;align-items:center;padding:0 14px;gap:10px;}
-.kbhint{font-family:var(--fmono);font-size:10px;color:var(--tf);background:var(--bg2);border:1px solid var(--b1);border-radius:4px;padding:1px 6px;}
-.co-right{width:252px;border-left:1px solid var(--b0);display:flex;flex-direction:column;flex-shrink:0;}
-.total-blk{padding:22px 18px;text-align:center;border-bottom:1px solid var(--b0);}
-.total-lbl{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;}
-.total-num{font-family:var(--fui);font-size:46px;font-weight:900;line-height:1;letter-spacing:-.03em;}
-.total-num .cur{font-size:22px;color:var(--ts);vertical-align:top;margin-top:9px;display:inline-block;}
-.total-det{font-size:11px;font-family:var(--fmono);color:var(--tm);margin-top:8px;}
-.bill-rows{padding:14px 18px;border-bottom:1px solid var(--b0);}
+.cstatus{
+  position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+  background:rgba(11,14,23,.9);border:1px solid var(--b2);
+  backdrop-filter:blur(8px);border-radius:20px;padding:6px 18px;
+  font-size:11px;font-family:var(--fmono);display:flex;align-items:center;
+  gap:8px;white-space:nowrap;letter-spacing:.03em;
+}
+.co-bar{
+  height:52px;border-top:1px solid var(--b1);background:var(--bg1);
+  display:flex;align-items:center;padding:0 14px;gap:8px;
+}
+.kbhint{
+  font-family:var(--fmono);font-size:10px;color:var(--tf);
+  background:var(--bg2);border:1px solid var(--b1);border-radius:4px;
+  padding:2px 6px;letter-spacing:.03em;
+}
+
+/* Bill panel */
+.co-right{width:252px;border-left:1px solid var(--b1);display:flex;flex-direction:column;flex-shrink:0;}
+.total-blk{padding:24px 20px;text-align:center;border-bottom:1px solid var(--b1);}
+.total-lbl{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px;}
+.total-num{font-family:var(--fui);font-size:46px;font-weight:800;line-height:1;letter-spacing:-.03em;color:var(--tp);}
+.total-num .cur{font-size:22px;color:var(--ts);vertical-align:top;margin-top:9px;display:inline-block;font-weight:600;}
+.total-det{font-size:11px;font-family:var(--fmono);color:var(--tm);margin-top:8px;letter-spacing:.02em;}
+.bill-rows{padding:14px 20px;border-bottom:1px solid var(--b1);}
 .brow{display:flex;justify-content:space-between;padding:5px 0;font-size:12px;}
-.brow .l{color:var(--tm);}
-.brow .r{font-family:var(--fmono);color:var(--ts);}
-.brow.tot .l{color:var(--tp);font-weight:600;}
-.brow.tot .r{color:var(--tp);font-weight:600;}
-.pchips{display:flex;gap:7px;padding:12px 14px;border-bottom:1px solid var(--b0);}
-.pchip{flex:1;background:var(--bg2);border:1px solid var(--b1);border-radius:8px;padding:8px 5px;text-align:center;font-size:10px;color:var(--tm);cursor:pointer;transition:all .15s;font-family:var(--fmono);}
+.brow .l{color:var(--tm);}.brow .r{font-family:var(--fmono);color:var(--ts);font-weight:500;}
+.brow.tot .l{color:var(--tp);font-weight:700;}.brow.tot .r{color:var(--tp);font-weight:700;}
+.pchips{display:flex;gap:7px;padding:12px 14px;border-bottom:1px solid var(--b1);}
+.pchip{
+  flex:1;background:var(--bg2);border:1px solid var(--b1);border-radius:8px;
+  padding:9px 5px;text-align:center;font-size:10px;color:var(--tm);
+  cursor:pointer;transition:border-color .15s,color .15s;font-family:var(--fmono);
+  font-weight:500;letter-spacing:.02em;
+}
 .pchip:hover{border-color:var(--blue);color:var(--blue);}
 .pchip.on{border-color:var(--blue);background:var(--bdim);color:var(--blue);}
-.pchip .pci{font-size:16px;display:block;margin-bottom:3px;}
-.pos-sync{display:flex;align-items:center;gap:8px;padding:10px 18px;border-bottom:1px solid var(--b0);}
-.pos-sync .sl{font-size:10px;font-family:var(--fmono);color:var(--tm);}
-.pos-sync .sr{font-size:10px;font-family:var(--fmono);color:var(--green);margin-left:auto;}
-.co-acts{padding:12px 14px;display:flex;flex-direction:column;gap:8px;margin-top:auto;}
-.btn-co{width:100%;background:var(--green);color:#000;border-radius:8px;padding:14px;font-family:var(--fui);font-size:13px;font-weight:800;cursor:pointer;transition:opacity .15s;letter-spacing:.01em;}
+.pchip .pci{font-size:16px;display:block;margin-bottom:4px;}
+.pos-sync{
+  display:flex;align-items:center;gap:8px;padding:10px 20px;border-bottom:1px solid var(--b1);
+}
+.pos-sync .sl{font-size:10px;font-family:var(--fmono);color:var(--tm);text-transform:uppercase;letter-spacing:.08em;}
+.pos-sync .sr{font-size:10px;font-family:var(--fmono);color:var(--green);margin-left:auto;font-weight:500;}
+.co-acts{padding:14px;display:flex;flex-direction:column;gap:8px;margin-top:auto;}
+.btn-co{
+  width:100%;background:var(--green);color:#000;border-radius:8px;padding:14px;
+  font-family:var(--fui);font-size:13px;font-weight:800;cursor:pointer;
+  transition:opacity .15s;letter-spacing:.01em;
+}
 .btn-co:hover{opacity:.88;}
 
-/* Ambiguity banner */
-.amb-banner{background:var(--adim);border:1px solid rgba(239,160,48,.22);border-radius:9px;padding:10px 12px;display:none;margin:0 8px 8px;}
-
-/* ═══════════════════════════════════════════════
-   2. POS & DEVICE MANAGEMENT (Cashier-level)
-═══════════════════════════════════════════════ */
+/* ════════════════════════════════════════════
+   VIEW 2 — POS & DEVICE MANAGEMENT
+════════════════════════════════════════════ */
 #v-pos{flex-direction:row;}
-.pos-sb{width:276px;border-right:1px solid var(--b0);display:flex;flex-direction:column;flex-shrink:0;}
-.pos-sb-hd{padding:16px;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between;}
+.pos-sb{width:276px;border-right:1px solid var(--b1);display:flex;flex-direction:column;flex-shrink:0;}
+.pos-sb-hd{padding:16px 18px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;}
 .dev-list{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:6px;}
-.dev-item{background:var(--bg2);border:1px solid var(--b0);border-radius:9px;padding:12px 13px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .15s;}
+.dev-item{
+  background:var(--bg2);border:1px solid var(--b1);border-radius:9px;
+  padding:12px 13px;display:flex;align-items:center;gap:10px;
+  cursor:pointer;transition:border-color .15s;
+}
 .dev-item:hover{border-color:var(--b2);}
 .dev-item.on{border-color:var(--blue);background:var(--bdim);}
-.dev-ico{width:36px;height:36px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
-.dev-name{font-size:12px;font-weight:500;margin-bottom:2px;}
-.dev-sub{font-size:10px;color:var(--tm);font-family:var(--fmono);}
+.dev-ico{width:36px;height:36px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;background:var(--bg3);}
+.dev-name{font-size:12px;font-weight:600;margin-bottom:2px;color:var(--tp);letter-spacing:-.01em;}
+.dev-sub{font-size:10px;color:var(--tm);font-family:var(--fmono);letter-spacing:.02em;}
 .pos-detail{flex:1;display:flex;flex-direction:column;overflow:hidden;}
-.pos-dhd{padding:18px 22px;border-bottom:1px solid var(--b0);display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.pos-dhd{padding:18px 22px;border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:14px;flex-shrink:0;}
 .pos-dico{width:48px;height:48px;background:var(--bg2);border:1px solid var(--b1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
-.pos-dname{font-size:16px;font-weight:700;margin-bottom:3px;}
-.pos-dsub{font-size:11px;font-family:var(--fmono);color:var(--tm);}
-.pos-dbody{flex:1;overflow-y:auto;padding:22px;display:flex;flex-direction:column;gap:22px;}
-.pg2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.pg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.pos-dname{font-size:16px;font-weight:700;margin-bottom:3px;color:var(--tp);letter-spacing:-.02em;}
+.pos-dsub{font-size:11px;font-family:var(--fmono);color:var(--tm);letter-spacing:.02em;}
+.pos-dbody{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:20px;}
 .pg4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;}
-.ic{background:var(--bg2);border:1px solid var(--b0);border-radius:9px;padding:13px 15px;}
-.ic-l{font-size:10px;font-family:var(--fmono);color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;}
-.ic-v{font-size:13px;font-weight:500;}
-.ic-v.mono{font-family:var(--fmono);font-size:12px;}
-.ic-v.big{font-size:26px;font-weight:800;font-family:var(--fui);}
+.ic{background:var(--bg2);border:1px solid var(--b1);border-radius:9px;padding:13px 15px;}
+.ic-l{font-size:10px;font-family:var(--fmono);color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;font-weight:500;}
+.ic-v{font-size:14px;font-weight:700;color:var(--tp);}
+.ic-v.mono{font-family:var(--fmono);font-size:13px;font-weight:500;}
 .hi{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
 .hl{width:110px;font-size:11px;color:var(--ts);flex-shrink:0;}
 .hb{flex:1;}
-.hv{width:42px;font-size:11px;font-family:var(--fmono);text-align:right;flex-shrink:0;}
-.log-box{background:var(--bg);border:1px solid var(--b0);border-radius:9px;padding:14px;font-family:var(--fmono);font-size:11px;height:170px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;}
+.hv{width:42px;font-size:11px;font-family:var(--fmono);text-align:right;flex-shrink:0;font-weight:500;}
+.log-box{
+  background:var(--bg);border:1px solid var(--b1);border-radius:9px;
+  padding:14px;font-family:var(--fmono);font-size:11px;
+  height:170px;overflow-y:auto;display:flex;flex-direction:column;gap:4px;
+}
 .ll{display:flex;gap:14px;}
 .lt{color:var(--tm);flex-shrink:0;}
-.lm.ok{color:var(--green);}
-.lm.err{color:var(--red);}
-.lm.inf{color:var(--ts);}
-.lm.wrn{color:var(--amber);}
-.cfrow{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--b0);}
-.cfrow:last-child{border-bottom:none;}
-.cf-l{font-size:12px;font-weight:500;}
-.cf-s{font-size:11px;color:var(--tm);margin-top:2px;}
+.lm.ok{color:var(--green);}.lm.err{color:var(--red);}.lm.inf{color:var(--ts);}.lm.wrn{color:var(--amber);}
 
-/* ═══════════════════════════════════════════════
-   3. SHIFT SUMMARY & EOD
-═══════════════════════════════════════════════ */
+/* ════════════════════════════════════════════
+   VIEW 3 — SHIFT SUMMARY & EOD
+════════════════════════════════════════════ */
 #v-shift{flex-direction:column;overflow-y:auto;}
-.shift-wrap{display:flex;flex-direction:column;gap:20px;padding:28px 36px;max-width:1140px;width:100%;margin:0 auto;}
-.shift-hero{display:flex;align-items:flex-start;justify-content:space-between;padding-bottom:22px;border-bottom:1px solid var(--b0);}
-.sh-l h1{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-bottom:5px;}
-.sh-l p{font-size:12px;color:var(--tm);font-family:var(--fmono);}
+.shift-wrap{display:flex;flex-direction:column;gap:20px;padding:28px 32px;max-width:1140px;width:100%;margin:0 auto;}
+.shift-hero{display:flex;align-items:flex-start;justify-content:space-between;padding-bottom:24px;border-bottom:1px solid var(--b1);}
+.sh-l h1{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;color:var(--tp);}
+.sh-l p{font-size:11px;color:var(--tm);font-family:var(--fmono);letter-spacing:.03em;}
 .sh-r{display:flex;gap:10px;align-items:center;}
 .shift-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
-.skpi{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:18px;}
-.skpi-l{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}
-.skpi-v{font-family:var(--fui);font-size:30px;font-weight:900;line-height:1;margin-bottom:6px;letter-spacing:-.02em;}
-.skpi-t{font-size:11px;font-family:var(--fmono);color:var(--tm);}
-.tx-card{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;overflow:hidden;}
-.tx-hd{padding:16px 20px;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between;}
+.skpi{background:var(--bg1);border:1px solid var(--b1);border-radius:12px;padding:20px;}
+.skpi-l{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px;font-weight:500;}
+.skpi-v{font-family:var(--fui);font-size:30px;font-weight:800;line-height:1;margin-bottom:7px;letter-spacing:-.02em;}
+.skpi-t{font-size:11px;font-family:var(--fmono);color:var(--tm);letter-spacing:.02em;}
+.tx-card{background:var(--bg1);border:1px solid var(--b1);border-radius:12px;overflow:hidden;}
+.tx-hd{padding:16px 20px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;}
+.tx-hd-title{font-size:14px;font-weight:700;color:var(--tp);letter-spacing:-.01em;}
 .tx-table{width:100%;border-collapse:collapse;}
-.tx-table th{text-align:left;padding:10px 20px;font-size:10px;font-family:var(--fmono);color:var(--tm);text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--b0);}
-.tx-table td{padding:11px 20px;border-bottom:1px solid var(--b0);font-size:12px;}
+.tx-table th{
+  text-align:left;padding:10px 20px;font-size:10px;
+  font-family:var(--fmono);color:var(--tm);text-transform:uppercase;
+  letter-spacing:.1em;border-bottom:1px solid var(--b1);font-weight:500;
+}
+.tx-table td{padding:11px 20px;border-bottom:1px solid var(--b0);font-size:12px;color:var(--ts);}
+.tx-table td:first-child{font-family:var(--fmono);color:var(--tm);}
 .tx-table tr:last-child td{border-bottom:none;}
 .tx-table tr:hover td{background:var(--bg2);cursor:pointer;}
-.ai-box{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:20px;display:flex;gap:18px;}
+.ai-box{background:var(--bg1);border:1px solid var(--b1);border-radius:12px;padding:20px;display:flex;gap:18px;}
 .ai-ico{width:48px;height:48px;background:var(--bdim);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-.ai-c h3{font-size:14px;font-weight:700;margin-bottom:8px;}
+.ai-c h3{font-size:14px;font-weight:700;margin-bottom:8px;color:var(--tp);letter-spacing:-.01em;}
 .ai-c p{font-size:12px;color:var(--ts);line-height:1.75;}
-.tup{color:var(--green);}
-.tdn{color:var(--red);}
+.chart-card{background:var(--bg1);border:1px solid var(--b1);border-radius:12px;padding:20px;}
+.chart-title{font-size:14px;font-weight:700;color:var(--tp);letter-spacing:-.01em;}
+.tup{color:var(--green);font-weight:600;}.tdn{color:var(--red);font-weight:600;}
 
-/* ═══════════════════════════════════════════════
+/* ════════════════════════════════════════════
    MODALS & OVERLAYS
-═══════════════════════════════════════════════ */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.74);backdrop-filter:blur(6px);z-index:800;align-items:center;justify-content:center;}
+════════════════════════════════════════════ */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);z-index:800;align-items:center;justify-content:center;}
 .overlay.open{display:flex;}
-.modal{background:var(--bg1);border:1px solid var(--b1);border-radius:14px;width:730px;max-width:92vw;overflow:hidden;animation:mIn .18s ease;}
+.modal{
+  background:var(--bg1);border:1px solid var(--b2);border-radius:14px;
+  width:730px;max-width:92vw;overflow:hidden;animation:mIn .18s ease;
+}
 @keyframes mIn{from{opacity:0;transform:scale(.97) translateY(8px);}to{opacity:1;transform:scale(1) translateY(0);}}
-.mhd{padding:18px 22px;border-bottom:1px solid var(--b0);display:flex;align-items:center;gap:12px;}
-.m-aico{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;}
-.mtitle{font-size:14px;font-weight:700;}
-.msub{font-size:11px;color:var(--tm);font-family:var(--fmono);margin-top:2px;}
+.mhd{padding:18px 22px;border-bottom:1px solid var(--b1);display:flex;align-items:center;gap:12px;}
+.m-aico{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.mtitle{font-size:14px;font-weight:700;color:var(--tp);letter-spacing:-.01em;}
+.msub{font-size:11px;color:var(--tm);font-family:var(--fmono);margin-top:2px;letter-spacing:.02em;}
 .mbody{padding:18px 22px;display:flex;gap:18px;}
 .mframes{width:128px;flex-shrink:0;}
 .frgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px;}
-.frt{aspect-ratio:1;background:var(--bg2);border:1px solid var(--b1);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;transition:border-color .15s;}
+.frt{
+  aspect-ratio:1;background:var(--bg2);border:1px solid var(--b1);
+  border-radius:6px;display:flex;align-items:center;justify-content:center;
+  font-size:22px;cursor:pointer;transition:border-color .15s;
+}
 .frt.on{border-color:var(--blue);}
 .sopts{flex:1;}
-.sopt{background:var(--bg2);border:1px solid var(--b0);border-radius:9px;padding:11px 13px;display:flex;align-items:center;gap:11px;margin-bottom:8px;cursor:pointer;transition:all .15s;}
+.sopt{
+  background:var(--bg2);border:1px solid var(--b1);border-radius:9px;
+  padding:11px 13px;display:flex;align-items:center;gap:11px;
+  margin-bottom:8px;cursor:pointer;transition:border-color .15s;
+}
 .sopt:hover{border-color:var(--b2);}
 .sopt.top{border-color:var(--blue);background:var(--bdim);}
-.srank{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--fmono);flex-shrink:0;}
-.sr1{background:var(--bdim);color:var(--blue);}
-.sr2,.sr3{background:var(--bg3);color:var(--tm);}
-.son{font-size:27px;}
-.sname{font-size:12px;font-weight:500;margin-bottom:2px;}
-.scode{font-size:10px;color:var(--tm);font-family:var(--fmono);}
+.srank{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-family:var(--fmono);flex-shrink:0;font-weight:600;}
+.sr1{background:var(--bdim);color:var(--blue);}.sr2,.sr3{background:var(--bg3);color:var(--tm);}
+.son{font-size:26px;}
+.sname{font-size:12px;font-weight:600;margin-bottom:2px;color:var(--tp);}
+.scode{font-size:10px;color:var(--tm);font-family:var(--fmono);letter-spacing:.02em;}
 .cm{width:72px;flex-shrink:0;}
-.cmv{font-size:10px;font-family:var(--fmono);text-align:right;margin-bottom:4px;}
-.mft{padding:14px 22px;border-top:1px solid var(--b0);display:flex;gap:10px;align-items:center;}
-.mtip{margin-left:auto;font-size:11px;font-family:var(--fmono);color:var(--tm);}
+.cmv{font-size:10px;font-family:var(--fmono);text-align:right;margin-bottom:4px;font-weight:500;}
+.mft{padding:14px 22px;border-top:1px solid var(--b1);display:flex;gap:10px;align-items:center;}
+.mtip{margin-left:auto;font-size:11px;font-family:var(--fmono);color:var(--tm);letter-spacing:.02em;}
 
-/* ── TOAST ── */
+/* ── TOAST ───────────────────────────────────────────── */
 .tw{position:fixed;bottom:18px;right:18px;z-index:999;display:flex;flex-direction:column;gap:8px;}
-.toast{background:var(--bg2);border:1px solid var(--b1);border-radius:10px;padding:11px 15px;display:flex;align-items:center;gap:10px;min-width:260px;max-width:340px;animation:tIn .22s ease;box-shadow:0 8px 28px rgba(0,0,0,.42);}
+.toast{
+  background:var(--bg2);border:1px solid var(--b2);border-radius:10px;
+  padding:11px 15px;display:flex;align-items:center;gap:10px;
+  min-width:260px;max-width:340px;animation:tIn .22s ease;
+  box-shadow:0 4px 20px rgba(0,0,0,.35);
+}
 @keyframes tIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
-.ti{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
-.tt{font-size:12px;font-weight:500;}
-.ts2{font-size:10px;color:var(--tm);font-family:var(--fmono);margin-top:1px;}
+.ti{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;font-weight:700;}
+.tt{font-size:12px;font-weight:700;color:var(--tp);letter-spacing:-.01em;}
+.ts2{font-size:10px;color:var(--tm);font-family:var(--fmono);margin-top:2px;letter-spacing:.02em;}
 
-/* ── NO MOBILE ── */
+/* ── NO MOBILE ───────────────────────────────────────── */
 .nm{display:none;position:fixed;inset:0;background:var(--bg);z-index:9999;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:32px;}
 @media(max-width:860px){.nm{display:flex;}}
-
-/* Loyalty points colour */
-#b-pts{color:var(--violet);}
-
-/* chart-card (used in shift) */
-.chart-card{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:18px;}
-.chart-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-.chart-title{font-size:13px;font-weight:600;}
-.cleg{display:flex;gap:14px;font-size:11px;font-family:var(--fmono);color:var(--tm);}
-.cldot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;}
 </style>
 </head>
 <body>
@@ -309,32 +416,28 @@ input,select,textarea{font-family:inherit;}
 <div class="nm">
   <div style="font-size:36px">🖥</div>
   <div style="font-size:18px;font-weight:700">Optimised for desktop</div>
-  <div style="font-size:13px;color:var(--tm);max-width:300px;line-height:1.7">Requires 860px+ viewport to render correctly.</div>
+  <div style="font-size:13px;color:var(--tm);max-width:300px;line-height:1.7">Requires 860px+ viewport.</div>
 </div>
 
 <div class="shell">
-  <!-- Cashier Rail — 3 modules only, per SRS Section 3 -->
+  <!-- Cashier Rail — 3 modules only -->
   <nav class="rail">
     <div class="rail-logo" onclick="toast('info','Nexus','Cashier Dashboard · Lane 04')">
       <svg viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="6" height="6" rx="1.5" fill="white"/><rect x="10" y="2" width="6" height="6" rx="1.5" fill="white" opacity=".4"/><rect x="2" y="10" width="6" height="6" rx="1.5" fill="white" opacity=".4"/><rect x="10" y="10" width="6" height="6" rx="1.5" fill="white"/></svg>
     </div>
-    <!-- Module 1: Live Checkout -->
     <button class="rn on" onclick="goView('checkout',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 10h8M8 14h5"/><circle cx="17" cy="14" r="1" fill="currentColor" stroke="none"/></svg>
       <span class="rn-tip">Live Checkout</span>
     </button>
-    <!-- Module 2: POS & Device Management -->
     <button class="rn" onclick="goView('pos',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2M12 12v4M10 14h4"/></svg>
       <span class="rn-tip">POS &amp; Device</span>
     </button>
-    <!-- Module 3: Shift Summary & EOD -->
     <button class="rn" onclick="goView('shift',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
       <span class="rn-tip">Shift Summary &amp; EOD</span>
     </button>
     <div class="rsp"></div>
-    <!-- User identity & logout -->
     <button class="rn" onclick="toast('info',opId,opId+' · Lane 04 · Cashier')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
       <span class="rn-tip" id="rn-user-tip">CSH-0041</span>
@@ -346,7 +449,7 @@ input,select,textarea{font-family:inherit;}
   </nav>
 
   <div class="main">
-    <!-- Cashier Topbar: checkout status, cashier identity, device connectivity, time -->
+    <!-- Cashier Topbar -->
     <header class="topbar">
       <div class="tb-title" id="tb-title">Live Checkout · Lane 04</div>
       <div class="tb-meta">
@@ -354,22 +457,26 @@ input,select,textarea{font-family:inherit;}
         <div class="pill-stat"><div class="dot db"></div>POS Synced</div>
         <div class="pill-stat" id="device-status"><div class="dot dg"></div>Devices OK</div>
         <div class="tb-tag" id="store-tag">Reliance Smart · Ahmedabad</div>
-        <span style="background:var(--bdim);border:1px solid rgba(68,117,247,.2);border-radius:20px;padding:3px 10px;font-size:10px;font-family:var(--fm);color:var(--blue)" id="role-badge">Cashier</span>
+        <div class="tb-role-badge">Cashier</div>
         <div class="tb-clock" id="clock">--:--:--</div>
-        <button class="btn btn-g btn-sm" onclick="openOverlay('ov-shortcuts')" style="font-family:var(--fmono);padding:4px 10px;font-size:11px">?</button>
+        <button class="btn btn-g btn-sm" onclick="openOverlay('ov-shortcuts')" style="font-family:var(--fmono);font-size:11px">?</button>
       </div>
     </header>
 
-    <!-- ── VIEW 1: LIVE CHECKOUT ── -->
+    <!-- VIEW 1: LIVE CHECKOUT -->
     <div class="view on" id="v-checkout">
       <div class="co-left">
-        <div class="phd"><span class="sect">Detected Products</span><span class="badge bb" id="feed-badge">0 items</span></div>
+        <div class="phd">
+          <span class="phd-title">Detected Products</span>
+          <span class="badge bb" id="feed-badge">0 items</span>
+        </div>
         <div class="feed" id="feed"></div>
       </div>
       <div class="co-ctr">
         <div class="cam">
           <div class="cam-grid"></div>
-          <div class="cc tl"></div><div class="cc tr"></div><div class="cc bl"></div><div class="cc br"></div>
+          <div class="cc tl"></div><div class="cc tr"></div>
+          <div class="cc bl"></div><div class="cc br"></div>
           <div class="sbeam"></div>
           <div class="dbox" id="dbox"><span class="dlabel" id="dlabel">Detecting…</span></div>
           <div class="cemoji" id="cemoji">🛒</div>
@@ -382,7 +489,7 @@ input,select,textarea{font-family:inherit;}
           <button class="btn btn-d btn-sm" onclick="clearCart()">✕ Clear</button>
           <div style="flex:1"></div>
           <button class="btn btn-g btn-sm" onclick="toast('info','Manual Override','Barcode fallback mode activated')">Manual Override</button>
-          <button class="btn btn-a btn-sm" onclick="bulkScan()">Bulk Scan (×5)</button>
+          <button class="btn btn-a btn-sm" onclick="bulkScan()">Bulk Scan ×5</button>
         </div>
       </div>
       <div class="co-right">
@@ -412,20 +519,26 @@ input,select,textarea{font-family:inherit;}
       </div>
     </div>
 
-    <!-- ── VIEW 2: POS & DEVICE MANAGEMENT ── -->
+    <!-- VIEW 2: POS & DEVICE MANAGEMENT -->
     <div class="view" id="v-pos">
       <div class="pos-sb">
-        <div class="pos-sb-hd"><span class="sect">Devices</span><button class="btn btn-p btn-sm" onclick="toast('success','Device Added','Opening device pairing wizard…')">+ Add</button></div>
+        <div class="pos-sb-hd">
+          <span class="phd-title">Devices</span>
+          <button class="btn btn-p btn-sm" onclick="toast('success','Device Added','Opening device pairing wizard…')">+ Add</button>
+        </div>
         <div class="dev-list" id="dev-list"></div>
       </div>
       <div class="pos-detail" id="pos-detail"></div>
     </div>
 
-    <!-- ── VIEW 3: SHIFT SUMMARY & EOD ── -->
+    <!-- VIEW 3: SHIFT SUMMARY & EOD -->
     <div class="view" id="v-shift">
       <div class="shift-wrap">
         <div class="shift-hero">
-          <div class="sh-l"><h1>Shift Summary &amp; EOD Report</h1><p id="shift-meta">CSH-0041 · Priya S. · Lane 04 · Thu 14 May 2026 · 09:00 – 17:30</p></div>
+          <div class="sh-l">
+            <h1>Shift Summary &amp; EOD Report</h1>
+            <p id="shift-meta">CSH-0041 · Priya S. · Lane 04 · Thu 14 May 2026 · 09:00 – 17:30</p>
+          </div>
           <div class="sh-r">
             <button class="btn btn-g" onclick="toast('info','Export PDF','Generating PDF report…')">⬇ Export PDF</button>
             <button class="btn btn-g" onclick="toast('info','Share','Sending to floor manager…')">↗ Share</button>
@@ -437,26 +550,38 @@ input,select,textarea{font-family:inherit;}
           <div class="skpi"><div class="skpi-l">Revenue Handled</div><div class="skpi-v" style="color:var(--green)" id="s-rev">₹1.84L</div><div class="skpi-t"><span class="tup">↑ 8.3%</span> vs yesterday</div></div>
           <div class="skpi"><div class="skpi-l">AI Accuracy</div><div class="skpi-v" style="color:var(--blue)">97.4%</div><div class="skpi-t"><span class="tup">↑ 0.3%</span> last shift</div></div>
           <div class="skpi"><div class="skpi-l">Manual Overrides</div><div class="skpi-v" style="color:var(--amber)">6</div><div class="skpi-t"><span class="tdn">↑ 2</span> needs review</div></div>
-          <div class="skpi"><div class="skpi-l">Flagged Transactions</div><div class="skpi-v" style="color:var(--red)">3</div><div class="skpi-t">Requires supervisor review</div></div>
+          <div class="skpi"><div class="skpi-l">Flagged Transactions</div><div class="skpi-v" style="color:var(--red)">3</div><div class="skpi-t">Supervisor review needed</div></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 350px;gap:14px">
           <div class="chart-card">
-            <div class="chart-hd"><div class="chart-title">Throughput Over Shift</div><div class="cleg"><span><span class="cldot" style="background:var(--blue)"></span>Transactions</span><span><span class="cldot" style="background:var(--green)"></span>Revenue ÷ 1000</span></div></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+              <div class="chart-title">Throughput Over Shift</div>
+              <div style="display:flex;gap:12px;font-size:11px;font-family:var(--fmono);color:var(--tm)">
+                <span><span style="width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block;margin-right:4px"></span>Transactions</span>
+                <span><span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;margin-right:4px"></span>Revenue ÷ 1000</span>
+              </div>
+            </div>
             <svg viewBox="0 0 620 110" style="width:100%;overflow:visible" xmlns="http://www.w3.org/2000/svg">
-              <defs><linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4475f7" stop-opacity=".18"/><stop offset="100%" stop-color="#4475f7" stop-opacity="0"/></linearGradient><linearGradient id="gg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2ec990" stop-opacity=".14"/><stop offset="100%" stop-color="#2ec990" stop-opacity="0"/></linearGradient></defs>
-              <line x1="0" y1="0" x2="620" y2="0" stroke="rgba(255,255,255,.035)" stroke-width="1"/><line x1="0" y1="28" x2="620" y2="28" stroke="rgba(255,255,255,.035)" stroke-width="1"/><line x1="0" y1="56" x2="620" y2="56" stroke="rgba(255,255,255,.035)" stroke-width="1"/><line x1="0" y1="84" x2="620" y2="84" stroke="rgba(255,255,255,.035)" stroke-width="1"/>
+              <defs>
+                <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4b7bff" stop-opacity=".14"/><stop offset="100%" stop-color="#4b7bff" stop-opacity="0"/></linearGradient>
+                <linearGradient id="gg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2dd4a0" stop-opacity=".11"/><stop offset="100%" stop-color="#2dd4a0" stop-opacity="0"/></linearGradient>
+              </defs>
+              <line x1="0" y1="0" x2="620" y2="0" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="0" y1="28" x2="620" y2="28" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="0" y1="56" x2="620" y2="56" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
+              <line x1="0" y1="84" x2="620" y2="84" stroke="rgba(255,255,255,.03)" stroke-width="1"/>
               <path d="M0,96 C55,80 100,55 155,46 S250,16 310,14 S410,38 480,32 S550,58 620,74 L620,110 L0,110Z" fill="url(#bg2)"/>
               <path d="M0,104 C55,92 100,72 155,60 S250,30 310,26 S410,50 480,44 S550,68 620,84 L620,110 L0,110Z" fill="url(#gg2)"/>
-              <path d="M0,96 C55,80 100,55 155,46 S250,16 310,14 S410,38 480,32 S550,58 620,74" fill="none" stroke="#4475f7" stroke-width="1.8" stroke-linecap="round"/>
-              <path d="M0,104 C55,92 100,72 155,60 S250,30 310,26 S410,50 480,44 S550,68 620,84" fill="none" stroke="#2ec990" stroke-width="1.8" stroke-linecap="round"/>
-              <text x="0" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">9AM</text><text x="76" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">10AM</text><text x="154" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">11AM</text><text x="232" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">12PM</text><text x="310" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">1PM</text><text x="388" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">2PM</text><text x="466" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">3PM</text><text x="544" y="108" font-size="8" fill="rgba(255,255,255,.22)" font-family="DM Mono">4PM</text>
+              <path d="M0,96 C55,80 100,55 155,46 S250,16 310,14 S410,38 480,32 S550,58 620,74" fill="none" stroke="#4b7bff" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M0,104 C55,92 100,72 155,60 S250,30 310,26 S410,50 480,44 S550,68 620,84" fill="none" stroke="#2dd4a0" stroke-width="1.8" stroke-linecap="round"/>
+              <text x="0" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">9AM</text><text x="76" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">10AM</text><text x="154" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">11AM</text><text x="232" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">12PM</text><text x="310" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">1PM</text><text x="388" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">2PM</text><text x="466" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">3PM</text><text x="544" y="108" font-size="8" fill="rgba(255,255,255,.2)" font-family="DM Mono">4PM</text>
             </svg>
           </div>
           <div class="ai-box">
             <div class="ai-ico">🤖</div>
             <div class="ai-c">
               <h3>AI Shift Insights</h3>
-              <p>Peak 12–1PM with 44 transactions. 6 manual overrides — 4 were Maggi variant confusion (retrain queued). Accuracy <strong>97.4%</strong>, above store average of 96.1%.</p>
+              <p>Peak 12–1PM with 44 transactions. 6 manual overrides — 4 were Maggi variant confusion (retrain queued). Accuracy <strong style="color:var(--tp)">97.4%</strong>, above store average of 96.1%.</p>
               <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:6px">
                 <span class="badge bg">✓ Target met</span>
                 <span class="badge ba">⚠ 2 SKUs flagged</span>
@@ -467,25 +592,23 @@ input,select,textarea{font-family:inherit;}
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
           <div class="tx-card">
-            <div class="tx-hd"><div style="font-size:13px;font-weight:600">Transactions</div><button class="btn btn-g btn-sm" onclick="toast('info','Export','Exporting transaction log as CSV…')">Export CSV</button></div>
-            <table class="tx-table"><thead><tr><th>Time</th><th>Items</th><th>Amount</th><th>Payment</th><th>Status</th></tr></thead>
-            <tbody id="tx-tbody"></tbody></table>
+            <div class="tx-hd"><div class="tx-hd-title">Transactions</div><button class="btn btn-g btn-sm" onclick="toast('info','Export','Exporting transaction log as CSV…')">Export CSV</button></div>
+            <table class="tx-table"><thead><tr><th>Time</th><th>Items</th><th>Amount</th><th>Payment</th><th>Status</th></tr></thead><tbody id="tx-tbody"></tbody></table>
           </div>
-          <div class="card" style="padding:18px">
-            <div style="font-size:13px;font-weight:600;margin-bottom:12px">Payment Split</div>
-            <div style="display:flex;gap:16px;text-align:center;margin-bottom:18px">
-              <div style="flex:1"><div style="font-size:22px;font-weight:800;color:var(--blue)">48%</div><div style="font-size:10px;font-family:var(--fmono);color:var(--tm);margin-top:3px">UPI</div></div>
-              <div style="flex:1"><div style="font-size:22px;font-weight:800;color:var(--green)">33%</div><div style="font-size:10px;font-family:var(--fmono);color:var(--tm);margin-top:3px">Card</div></div>
-              <div style="flex:1"><div style="font-size:22px;font-weight:800;color:var(--amber)">19%</div><div style="font-size:10px;font-family:var(--fmono);color:var(--tm);margin-top:3px">Cash</div></div>
+          <div class="card" style="padding:20px">
+            <div style="font-size:14px;font-weight:700;color:var(--tp);letter-spacing:-.01em;margin-bottom:14px">Payment Split</div>
+            <div style="display:flex;gap:16px;text-align:center;margin-bottom:20px">
+              <div style="flex:1"><div style="font-size:24px;font-weight:800;color:var(--blue)">48%</div><div style="font-size:10px;font-family:var(--fmono);color:var(--tm);margin-top:4px;text-transform:uppercase;letter-spacing:.08em">UPI</div></div>
+              <div style="flex:1"><div style="font-size:24px;font-weight:800;color:var(--green)">33%</div><div style="font-size:10px;font-family:var(--fmono);color:var(--tm);margin-top:4px;text-transform:uppercase;letter-spacing:.08em">Card</div></div>
+              <div style="flex:1"><div style="font-size:24px;font-weight:800;color:var(--amber)">19%</div><div style="font-size:10px;font-family:var(--fmono);color:var(--tm);margin-top:4px;text-transform:uppercase;letter-spacing:.08em">Cash</div></div>
             </div>
-            <div class="dh" style="margin-bottom:14px"></div>
-            <div style="font-size:13px;font-weight:600;margin-bottom:12px">Accuracy · By Category</div>
+            <div class="dh" style="margin-bottom:16px"></div>
+            <div style="font-size:14px;font-weight:700;color:var(--tp);letter-spacing:-.01em;margin-bottom:12px">Accuracy · By Category</div>
             <div id="shift-acc"></div>
           </div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -510,19 +633,19 @@ input,select,textarea{font-family:inherit;}
 <div class="overlay" id="ov-shortcuts">
   <div class="modal" style="max-width:480px">
     <div class="mhd"><div class="m-aico" style="background:var(--bdim)">⌨</div><div><div class="mtitle">Keyboard Shortcuts</div><div class="msub">Quick actions for cashier workflow</div></div></div>
-    <div style="padding:18px 22px">
-      <div style="font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">CHECKOUT</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Simulate Scan</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px">Space</span></div>
-        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Confirm Verify</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px">Enter</span></div>
-        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Close Modal</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px">Esc</span></div>
-        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Shortcuts Help</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px">?</span></div>
+    <div style="padding:20px 22px">
+      <div style="font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;font-weight:500">Checkout</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Simulate Scan</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px;font-size:11px">Space</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Confirm Verify</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px;font-size:11px">Enter</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Close Modal</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px;font-size:11px">Esc</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Shortcuts Help</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px;font-size:11px">?</span></div>
       </div>
-      <div style="font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin:12px 0 8px">NAVIGATION</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
-        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Live Checkout</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px">Alt+1</span></div>
-        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">POS &amp; Device</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px">Alt+2</span></div>
-        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Shift Summary</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px">Alt+3</span></div>
+      <div style="font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;font-weight:500">Navigation</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">Live Checkout</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px;font-size:11px">Alt+1</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--b0);font-size:12px"><span style="color:var(--ts)">POS &amp; Device</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px;font-size:11px">Alt+2</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;font-size:12px"><span style="color:var(--ts)">Shift Summary</span><span style="font-family:var(--fmono);background:var(--bg3);border:1px solid var(--b2);padding:2px 8px;border-radius:4px;font-size:11px">Alt+3</span></div>
       </div>
     </div>
     <div class="mft"><button class="btn btn-p" onclick="closeOverlay('ov-shortcuts')">Got it</button></div>
@@ -532,7 +655,7 @@ input,select,textarea{font-family:inherit;}
 <div class="tw" id="tw"></div>
 
 <script>
-/* ══ AUTH CHECK ══ */
+/* AUTH */
 const nxLoggedIn=sessionStorage.getItem('nxLoggedIn');
 const nxRole=sessionStorage.getItem('nxRole');
 if(!nxLoggedIn||nxRole!=='Cashier'){window.location.href='index.html';}
@@ -541,14 +664,14 @@ const opStore=sessionStorage.getItem('nxStore')||'Reliance Smart — Ahmedabad C
 document.getElementById('rn-user-tip').textContent=opId;
 document.getElementById('store-tag').textContent=opStore.split('—')[0].trim();
 
-/* ══ STATE ══ */
+/* STATE */
 const S={cart:[],total:0,discount:0,txnCount:214,revenue:184000,verPick:{name:'Maggi Masala Noodles 70g',price:14}};
 
-/* ══ CLOCK ══ */
+/* CLOCK */
 function tick(){document.getElementById('clock').textContent=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});}
 setInterval(tick,1000);tick();
 
-/* ══ VIEW NAV ══ */
+/* VIEW NAV */
 const viewTitles={checkout:'Live Checkout · Lane 04',pos:'POS & Device Management',shift:'Shift Summary & EOD Report'};
 function goView(id,btn){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('on'));
@@ -560,7 +683,7 @@ function goView(id,btn){
   if(id==='shift')renderShift();
 }
 
-/* ══ PRODUCT DATA ══ */
+/* PRODUCTS */
 const PRODS=[
   {n:'Amul Taaza Milk 500ml',e:'🥛',p:26},{n:'Maggi Masala Noodles 70g',e:'🍜',p:14},
   {n:'Parle-G Biscuits 100g',e:'🍪',p:10},{n:'Haldiram Aloo Bhujia 200g',e:'🥜',p:60},
@@ -571,7 +694,7 @@ const PRODS=[
   {n:'Coca-Cola 750ml',e:'🥤',p:45},{n:'Fortune Sunflower Oil 1L',e:'🫒',p:130},
 ];
 
-/* ══ CHECKOUT ══ */
+/* CHECKOUT */
 function scan(){
   const p=PRODS[Math.floor(Math.random()*PRODS.length)];
   const conf=62+Math.floor(Math.random()*38);
@@ -580,14 +703,14 @@ function scan(){
   if(st==='verified')toast('success','Scanned',p.n+' · ₹'+p.p);
   else if(st==='ambiguous')toast('warning','Low Confidence',conf+'% · Verification suggested');
 }
-function bulkScan(){let c=0;for(let i=0;i<5;i++)setTimeout(()=>{scan();c++;if(c===5)toast('success','Bulk Scan Complete','5 products added');},i*280);}
-function addToCart(item){S.cart.unshift(item);S.total+=item.p;S.txnCount++;S.revenue+=item.p;renderCart();updateBill();}
+function bulkScan(){for(let i=0;i<5;i++)setTimeout(()=>scan(),i*280);}
+function addToCart(item){S.cart.unshift(item);S.total+=item.p;renderCart();updateBill();}
 function renderCart(){
   const el=document.getElementById('feed');
   document.getElementById('feed-badge').textContent=S.cart.length+' item'+(S.cart.length!==1?'s':'');
   el.innerHTML=S.cart.map(it=>{
     const cc=it.conf>=85?'ctg':it.conf>=70?'cta':'ctr';
-    const vi=it.st==='verified'?'<span style="color:var(--green);font-size:11px;flex-shrink:0">✓</span>':it.st==='ambiguous'?'<span style="color:var(--amber);font-size:11px;flex-shrink:0">!</span>':'<span style="color:var(--blue);font-size:11px;flex-shrink:0">↻</span>';
+    const vi=it.st==='verified'?'<span style="color:var(--green);font-size:11px;flex-shrink:0;font-weight:700">✓</span>':it.st==='ambiguous'?'<span style="color:var(--amber);font-size:11px;flex-shrink:0;font-weight:700">!</span>':'<span style="color:var(--blue);font-size:11px;flex-shrink:0">↻</span>';
     return`<div class="pcard ${it.st}"><div class="pi">${it.e}</div><div style="flex:1;min-width:0"><div class="pname">${it.n}</div><div class="pmeta"><span class="ctag ${cc}">${it.conf}%</span></div></div><div class="pprice">₹${it.p}</div>${vi}</div>`;
   }).join('');
 }
@@ -599,8 +722,7 @@ function updateBill(){
   document.getElementById('b-tax').textContent='₹'+tax.toFixed(2);
   document.getElementById('b-disc').textContent='— ₹'+disc.toFixed(2);
   document.getElementById('b-tot').textContent='₹'+grand.toFixed(2);
-  const stEl=document.getElementById('s-txn');if(stEl)stEl.textContent=S.txnCount;
-  const srEl=document.getElementById('s-rev');if(srEl)srEl.textContent='₹'+(S.revenue/100000).toFixed(2)+'L';
+  const stEl=document.getElementById('s-txn');if(stEl)stEl.textContent=S.txnCount+S.cart.length;
 }
 function updateCam(p,conf,st){
   document.getElementById('cemoji').textContent=p.e;
@@ -635,7 +757,7 @@ function applyDiscount(){
   else toast('warning','Invalid Code','Coupon code not recognised');
 }
 
-/* ══ VERIFICATION ══ */
+/* VERIFICATION */
 function openVerify(){openOverlay('ov-verify');}
 function pickFrame(el){document.querySelectorAll('.frt').forEach(f=>f.classList.remove('on'));el.classList.add('on');}
 function pickSKU(el,name,price){document.querySelectorAll('.sopt').forEach(o=>o.classList.remove('top'));el.classList.add('top');S.verPick={name,price};}
@@ -645,7 +767,7 @@ function confirmVerify(){
   toast('success','Verified',S.verPick.name+' confirmed by operator');
 }
 
-/* ══ SHIFT ══ */
+/* SHIFT */
 const TXS=[
   {t:'17:12',items:6,amt:'₹842.00',pay:'UPI',st:'bg',sl:'Verified'},
   {t:'17:04',items:3,amt:'₹391.00',pay:'Card',st:'bg',sl:'Verified'},
@@ -658,13 +780,13 @@ function addTx(items,amt,pay){TXS.unshift({t:new Date().toLocaleTimeString('en-I
 const ACC_CATS=[{n:'Beverages',v:98},{n:'Dairy',v:97},{n:'Biscuits',v:95},{n:'Noodles',v:82},{n:'Snacks',v:91},{n:'Personal Care',v:88}];
 function renderShift(){
   const tb=document.getElementById('tx-tbody');if(!tb)return;
-  tb.innerHTML=TXS.slice(0,8).map(r=>`<tr onclick="toast('info','Transaction','${r.items} items · ${r.amt} · ${r.pay} · ${r.sl}')"><td style="font-family:var(--fmono);color:var(--tm)">${r.t}</td><td>${r.items}</td><td style="font-family:var(--fmono)">${r.amt}</td><td>${r.pay}</td><td><span class="badge ${r.st}">${r.sl}</span></td></tr>`).join('');
+  tb.innerHTML=TXS.slice(0,8).map(r=>`<tr onclick="toast('info','Transaction','${r.items} items · ${r.amt} · ${r.pay} · ${r.sl}')"><td>${r.t}</td><td style="color:var(--tp)">${r.items}</td><td>${r.amt}</td><td>${r.pay}</td><td><span class="badge ${r.st}">${r.sl}</span></td></tr>`).join('');
   const sa=document.getElementById('shift-acc');if(!sa)return;
-  sa.innerHTML=ACC_CATS.map(c=>{const col=c.v>=85?'var(--green)':'var(--amber)';return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div style="width:100px;font-size:11px;color:var(--ts)">${c.n}</div><div style="flex:1"><div class="pt"><div class="pf" style="width:${c.v}%;background:${col}"></div></div></div><div style="font-size:11px;font-family:var(--fmono);color:${col};width:36px;text-align:right">${c.v}%</div></div>`;}).join('');
+  sa.innerHTML=ACC_CATS.map(c=>{const col=c.v>=85?'var(--green)':'var(--amber)';return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:9px"><div style="width:100px;font-size:11px;color:var(--ts)">${c.n}</div><div style="flex:1"><div class="pt"><div class="pf" style="width:${c.v}%;background:${col}"></div></div></div><div style="font-size:11px;font-family:var(--fmono);color:${col};width:36px;text-align:right;font-weight:500">${c.v}%</div></div>`;}).join('');
 }
 function closeShift(){toast('success','Shift Closed','EOD report submitted · Lane 04 released');setTimeout(()=>doLogout(),1500);}
 
-/* ══ POS / DEVICES ══ */
+/* DEVICES */
 const DEVS=[
   {ico:'🖥',name:'POS Terminal · L04',sub:'Tally POS 3.2 · Active',st:'active',ip:'192.168.1.41',fw:'v3.2.1',sync:'Just now',
    metrics:{'Transactions':'214','Avg Response':'48ms','Sync Errors':'0','Queued':'0'},
@@ -688,21 +810,21 @@ function renderDevList(){
   const list=document.getElementById('dev-list');if(!list)return;
   list.innerHTML=DEVS.map((d,i)=>{
     const sc=d.st==='active'?'dg':d.st==='warning'?'da':'db';
-    return`<div class="dev-item${i===selDev?' on':''}" onclick="selDevice(${i})"><div class="dev-ico" style="background:var(--bdim)">${d.ico}</div><div style="flex:1"><div class="dev-name">${d.name}</div><div class="dev-sub">${d.sub}</div></div><div class="dot ${sc}" style="margin-left:auto;flex-shrink:0"></div></div>`;
+    return`<div class="dev-item${i===selDev?' on':''}" onclick="selDevice(${i})"><div class="dev-ico">${d.ico}</div><div style="flex:1"><div class="dev-name">${d.name}</div><div class="dev-sub">${d.sub}</div></div><div class="dot ${sc}" style="margin-left:auto;flex-shrink:0"></div></div>`;
   }).join('');
   renderDev(selDev);
 }
 function selDevice(i){selDev=i;renderDevList();}
 function renderDev(i){
   const d=DEVS[i],el=document.getElementById('pos-detail');
-  const sb=d.st==='active'?'<span class="badge bg">● Active</span>':d.st==='warning'?'<span class="badge ba">⚠ Warning</span>':'<span class="badge bb">↻ Synced</span>';
+  const sb=d.st==='active'?'<span class="badge bg">Active</span>':d.st==='warning'?'<span class="badge ba">Warning</span>':'<span class="badge bb">Synced</span>';
   const mc=Object.entries(d.metrics).map(([k,v])=>`<div class="ic"><div class="ic-l">${k}</div><div class="ic-v mono">${v}</div></div>`).join('');
   const hi=Object.entries(d.health).map(([k,v])=>{const col=v<30?'var(--red)':v<60?'var(--amber)':'var(--blue)';return`<div class="hi"><div class="hl">${k}</div><div class="hb"><div class="pt"><div class="pf" style="width:${v}%;background:${col}"></div></div></div><div class="hv" style="color:${col}">${v}%</div></div>`;}).join('');
   const logs=d.logs.map(l=>`<div class="ll"><span class="lt">${l.t}</span><span class="lm ${l.c}">${l.m}</span></div>`).join('');
   el.innerHTML=`<div class="pos-dhd"><div class="pos-dico">${d.ico}</div><div style="flex:1"><div class="pos-dname">${d.name}</div><div class="pos-dsub">${d.sub} · IP ${d.ip} · FW ${d.fw} · Last sync ${d.sync}</div></div><div style="display:flex;align-items:center;gap:8px;margin-left:auto">${sb}<button class="btn btn-g btn-sm" onclick="toast('info','Restarting','Restart signal sent to device')">↺ Restart</button></div></div>
   <div class="pos-dbody">
     <div><div class="sect" style="margin-bottom:12px">Performance Metrics</div><div class="pg4">${mc}</div></div>
-    <div><div class="sect" style="margin-bottom:12px">Device Health</div><div style="background:var(--bg2);border:1px solid var(--b0);border-radius:9px;padding:14px 16px">${hi}</div></div>
+    <div><div class="sect" style="margin-bottom:12px">Device Health</div><div style="background:var(--bg2);border:1px solid var(--b1);border-radius:9px;padding:14px 16px">${hi}</div></div>
     <div><div class="sect" style="margin-bottom:10px">Event Log</div><div class="log-box">${logs}</div></div>
     <div><div class="sect" style="margin-bottom:12px">Quick Actions</div>
       <div style="display:flex;gap:8px">
@@ -713,12 +835,12 @@ function renderDev(i){
   </div>`;
 }
 
-/* ══ OVERLAYS ══ */
+/* OVERLAYS */
 function openOverlay(id){document.getElementById(id).classList.add('open');}
 function closeOverlay(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
 
-/* ══ KEYBOARD SHORTCUTS ══ */
+/* KEYBOARD */
 document.addEventListener('keydown',e=>{
   if(e.code==='Space'&&document.getElementById('v-checkout').classList.contains('on')){e.preventDefault();scan();}
   if(e.code==='Escape')document.querySelectorAll('.overlay.open').forEach(o=>o.classList.remove('open'));
@@ -729,38 +851,30 @@ document.addEventListener('keydown',e=>{
   if(e.altKey&&e.key==='3'){e.preventDefault();goView('shift',document.querySelectorAll('.rn')[2]);}
 });
 
-/* ══ TOAST ══ */
+/* TOAST */
 function toast(type,title,msg){
   const w=document.getElementById('tw');
   const ico={success:'✓',warning:'⚠',error:'✕',info:'ℹ'};
   const bg={success:'var(--gdim)',warning:'var(--adim)',error:'var(--rdim)',info:'var(--bdim)'};
   const cl={success:'var(--green)',warning:'var(--amber)',error:'var(--red)',info:'var(--blue)'};
-  const bc={success:'rgba(46,201,144,.2)',warning:'rgba(240,160,52,.2)',error:'rgba(232,85,85,.2)',info:'rgba(68,117,247,.2)'};
-  const el=document.createElement('div');el.className='toast';el.style.borderColor=bc[type]||'var(--b1)';
+  const bc={success:'rgba(45,212,160,.18)',warning:'rgba(240,165,35,.18)',error:'rgba(240,78,78,.18)',info:'rgba(75,123,255,.18)'};
+  const el=document.createElement('div');el.className='toast';el.style.borderColor=bc[type]||'var(--b2)';
   el.innerHTML=`<div class="ti" style="background:${bg[type]};color:${cl[type]}">${ico[type]}</div><div><div class="tt">${title}</div><div class="ts2">${msg}</div></div>`;
   w.appendChild(el);
   setTimeout(()=>{el.style.transition='opacity .28s,transform .28s';el.style.opacity='0';el.style.transform='translateY(5px)';setTimeout(()=>el.remove(),300);},3500);
 }
 
-/* ══ LOGOUT ══ */
-function doLogout(){
-  sessionStorage.clear();
-  toast('info','Signed Out','Shift summary saved');
-  setTimeout(()=>window.location.href='index.html',1000);
-}
+/* LOGOUT */
+function doLogout(){sessionStorage.clear();toast('info','Signed Out','Shift summary saved');setTimeout(()=>window.location.href='index.html',1000);}
 
-/* ══ INIT ══ */
+/* INIT */
 renderShift();
 renderDevList();
-// Printer paper warning after 5s
 setTimeout(()=>{
   document.getElementById('device-status').innerHTML='<div class="dot da"></div>Printer Low';
   toast('warning','Printer Warning','Lane 04 receipt printer — paper low · ~30 min remaining');
 },5000);
-// Periodic lane simulation
-setInterval(()=>{
-  if(Math.random()>.65)toast('info','POS Sync','Tally updated · '+(Math.floor(Math.random()*5)+1)+' records pushed');
-},18000);
+setInterval(()=>{if(Math.random()>.65)toast('info','POS Sync','Tally updated · '+(Math.floor(Math.random()*5)+1)+' records pushed');},18000);
 </script>
 </body>
 </html>
