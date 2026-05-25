@@ -5,25 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nexus · Store Manager Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Outfit:wght@300;400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ═══ TOKENS ═══ */
 :root{
-  --bg:#0a0b0e;--bg1:#0f1115;--bg2:#161920;--bg3:#1d2028;--bg4:#242830;--bh:#2a2f38;
-  --b0:rgba(255,255,255,.035);--b1:rgba(255,255,255,.065);--b2:rgba(255,255,255,.11);--b3:rgba(255,255,255,.18);
-  --tp:#eceef3;--ts:#878f9c;--tm:#4a5260;--tf:#272c35;
-  --blue:#4475f7;--bdim:rgba(68,117,247,.12);--bglow:rgba(68,117,247,.22);
-  --green:#2ec990;--gdim:rgba(46,201,144,.09);
-  --amber:#f0a034;--adim:rgba(240,160,52,.09);
-  --red:#e85555;--rdim:rgba(232,85,85,.09);
-  --violet:#9a70f4;--vdim:rgba(154,112,244,.10);
-  --rail:58px;--top:50px;
-  --fui:'Outfit',sans-serif;--fmono:'DM Mono',monospace;--fser:'Fraunces',serif;
-  --fm:'DM Mono',monospace;--fu:'Outfit',sans-serif;
+  --bg:#0b0e17;--bg1:#10141f;--bg2:#161c2c;--bg3:#1c2336;--bg4:#222c42;--bh:#2a3450;
+  --b0:rgba(255,255,255,.045);--b1:rgba(255,255,255,.08);
+  --b2:rgba(255,255,255,.13);--b3:rgba(255,255,255,.20);
+  --tp:#f1f5f9;--ts:#8494a8;--tm:#425166;--tf:#252e3e;
+  --blue:#4b7bff;--bdim:rgba(75,123,255,.09);
+  --green:#2dd4a0;--gdim:rgba(45,212,160,.08);
+  --amber:#f0a523;--adim:rgba(240,165,35,.08);
+  --red:#f04e4e;--rdim:rgba(240,78,78,.08);
+  --violet:#9b6ff4;--vdim:rgba(155,111,244,.09);
+  --rail:58px;--top:52px;
+  --fui:'Plus Jakarta Sans',sans-serif;--fmono:'DM Mono',monospace;
+  --fm:'DM Mono',monospace;--fu:'Plus Jakarta Sans',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;}
-body{font-family:var(--fui);background:var(--bg);color:var(--tp);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+body{font-family:var(--fui);background:var(--bg);color:var(--tp);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;letter-spacing:-.01em;}
 button{font-family:inherit;cursor:pointer;border:none;}
 input,select,textarea{font-family:inherit;}
 ::-webkit-scrollbar{width:3px;height:3px;}
@@ -44,12 +45,12 @@ input,select,textarea{font-family:inherit;}
 .rn:hover .rn-tip{opacity:1;}
 .rsep{width:20px;height:1px;background:var(--b0);margin:5px 0;flex-shrink:0;}
 .rsp{flex:1;}
-.rail-section-label{font-family:var(--fm);font-size:8px;color:var(--tf);text-transform:uppercase;letter-spacing:.1em;margin:4px 0 2px;text-align:center;width:100%;line-height:1.2;flex-shrink:0;}
+.rail-section-label{display:none;}
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
 
 /* ═══ MANAGER TOPBAR — alerts, store selector, quick metrics, notifications ═══ */
 .topbar{height:var(--top);background:var(--bg1);border-bottom:1px solid var(--b0);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0;}
-.tb-title{font-size:13px;font-weight:600;letter-spacing:.01em;flex:1;}
+.tb-title{font-size:14px;font-weight:700;letter-spacing:-.01em;flex:1;color:var(--tp);}
 .tb-meta{display:flex;align-items:center;gap:10px;}
 .pill-stat{display:flex;align-items:center;gap:6px;font-size:11px;font-family:var(--fmono);color:var(--tm);}
 .dot{width:5px;height:5px;border-radius:50%;}
@@ -67,12 +68,13 @@ input,select,textarea{font-family:inherit;}
 .nc{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9px;font-family:var(--fm);width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--bg1);}
 .store-sel{background:var(--bg2);border:1px solid var(--b1);border-radius:8px;padding:4px 10px;color:var(--ts);font-size:11px;font-family:var(--fmono);outline:none;cursor:pointer;appearance:none;}
 .store-sel:focus{border-color:var(--blue);}
+.tb-role-badge{background:var(--vdim);border:1px solid rgba(155,111,244,.18);border-radius:6px;padding:4px 10px;font-size:10px;font-family:var(--fmono);color:var(--violet);letter-spacing:.04em;text-transform:uppercase;}
 
 .view{display:none;flex:1;overflow:hidden;}
 .view.on{display:flex;}
 
 /* ═══ SHARED UI ATOMS ═══ */
-.sect{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.1em;}
+.sect{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.12em;font-weight:500;}
 .card{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;}
 .dh{height:1px;background:var(--b0);}
 .dv{width:1px;background:var(--b0);flex-shrink:0;}
@@ -102,12 +104,13 @@ input,select,textarea{font-family:inherit;}
 .tog-sl::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;background:var(--tm);border-radius:50%;transition:all .2s;}
 .tog input:checked~.tog-sl{background:var(--bdim);border-color:var(--blue);}
 .tog input:checked~.tog-sl::after{transform:translateX(16px);background:var(--blue);}
-.phd{padding:13px 16px;border-bottom:1px solid var(--b0);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.phd{padding:14px 18px;border-bottom:1px solid var(--b1);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.phd-title{font-size:14px;font-weight:700;color:var(--tp);letter-spacing:-.01em;}
 .tup{color:var(--green);}
 .tdn{color:var(--red);}
 .chart-card{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:18px;}
 .chart-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
-.chart-title{font-size:13px;font-weight:600;}
+.chart-title{font-size:14px;font-weight:700;color:var(--tp);letter-spacing:-.01em;}
 .cleg{display:flex;gap:14px;font-size:11px;font-family:var(--fmono);color:var(--tm);}
 .cldot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;}
 .fchip{background:var(--bg2);border:1px solid var(--b1);border-radius:20px;padding:4px 11px;font-size:11px;font-family:var(--fm);color:var(--tm);cursor:pointer;transition:all .15s;}
@@ -119,8 +122,8 @@ input,select,textarea{font-family:inherit;}
 .dash-wrap{display:flex;flex-direction:column;gap:14px;padding:20px;}
 .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
 .kpi{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:18px;}
-.kpi-l{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
-.kpi-v{font-family:var(--fui);font-size:32px;font-weight:900;line-height:1;margin-bottom:6px;letter-spacing:-.02em;}
+.kpi-l{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px;display:flex;align-items:center;gap:6px;font-weight:500;}
+.kpi-v{font-family:var(--fui);font-size:32px;font-weight:800;line-height:1;margin-bottom:7px;letter-spacing:-.02em;}
 .kpi-s{font-size:11px;font-family:var(--fmono);color:var(--tm);}
 .dash-row{display:grid;gap:12px;}
 .lane-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px;}
@@ -139,7 +142,7 @@ input,select,textarea{font-family:inherit;}
 .aitem.aw{border-left:2px solid var(--amber);}
 .aitem.ai{border-left:2px solid var(--blue);}
 .aico{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
-.at{font-size:12px;font-weight:500;margin-bottom:2px;}
+.at{font-size:12px;font-weight:700;margin-bottom:2px;color:var(--tp);letter-spacing:-.01em;}
 .as{font-size:11px;color:var(--tm);font-family:var(--fmono);}
 .atime{font-size:10px;color:var(--tm);font-family:var(--fmono);}
 
@@ -155,7 +158,7 @@ input,select,textarea{font-family:inherit;}
 .mon-lane.ok{border-color:rgba(46,201,144,.22);}
 .mon-lane-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .mon-lane-num{font-size:18px;font-weight:800;}
-.mon-cashier{font-size:13px;font-weight:600;margin-bottom:4px;}
+.mon-cashier{font-size:14px;font-weight:700;margin-bottom:4px;color:var(--tp);letter-spacing:-.01em;}
 .mon-status{font-size:11px;font-family:var(--fmono);color:var(--tm);}
 .mon-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;}
 .mon-m{background:var(--bg2);border:1px solid var(--b0);border-radius:7px;padding:8px 10px;}
@@ -174,7 +177,7 @@ input,select,textarea{font-family:inherit;}
 .fraud-top{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
 .fkpi{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;padding:18px;}
 .fkpi.alert-kpi{border-color:rgba(232,85,85,.25);background:var(--rdim);}
-.fkpi-l{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}
+.fkpi-l{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px;font-weight:500;}
 .fkpi-v{font-family:var(--fui);font-size:32px;font-weight:900;line-height:1;margin-bottom:5px;}
 .fkpi-s{font-size:11px;font-family:var(--fmono);color:var(--tm);}
 .risk-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
@@ -184,7 +187,7 @@ input,select,textarea{font-family:inherit;}
 .risk-item.med{border-left:3px solid var(--amber);}
 .risk-item.low{border-left:3px solid var(--green);}
 .risk-ico{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
-.risk-name{font-size:12px;font-weight:600;margin-bottom:3px;}
+.risk-name{font-size:12px;font-weight:700;margin-bottom:3px;color:var(--tp);letter-spacing:-.01em;}
 .risk-det{font-size:11px;color:var(--tm);font-family:var(--fmono);}
 .risk-score{font-family:var(--fui);font-size:20px;font-weight:800;margin-left:auto;flex-shrink:0;}
 .skip-list{display:flex;flex-direction:column;gap:8px;}
@@ -279,7 +282,7 @@ input,select,textarea{font-family:inherit;}
 .admin-card{background:var(--bg1);border:1px solid var(--b0);border-radius:12px;overflow:hidden;}
 .admin-card-hd{padding:16px 18px;border-bottom:1px solid var(--b0);display:flex;align-items:center;gap:10px;}
 .admin-card-ico{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
-.admin-card-title{font-size:13px;font-weight:600;}
+.admin-card-title{font-size:14px;font-weight:700;color:var(--tp);letter-spacing:-.01em;}
 .admin-card-body{padding:16px 18px;}
 .store-metric{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--b0);font-size:12px;}
 .store-metric:last-child{border-bottom:none;}
@@ -343,7 +346,7 @@ input,select,textarea{font-family:inherit;}
 .toast{background:var(--bg2);border:1px solid var(--b1);border-radius:10px;padding:11px 15px;display:flex;align-items:center;gap:10px;min-width:260px;max-width:340px;animation:tIn .22s ease;box-shadow:0 8px 28px rgba(0,0,0,.42);}
 @keyframes tIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 .ti{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
-.tt{font-size:12px;font-weight:500;}
+.tt{font-size:12px;font-weight:700;color:var(--tp);letter-spacing:-.01em;}
 .ts2{font-size:10px;color:var(--tm);font-family:var(--fmono);margin-top:1px;}
 
 /* ═══ ADDON CSS ═══ */
@@ -429,7 +432,7 @@ input,select,textarea{font-family:inherit;}
         <div class="pill-stat"><div class="dot dg"></div>AI 97.4%</div>
         <div class="pill-stat"><div class="dot db"></div>1,842 txns</div>
         <button class="notif-btn" onclick="toggleNotif()">🔔<span class="nc" id="nc">5</span></button>
-        <span style="background:var(--vdim);border:1px solid rgba(154,112,244,.2);border-radius:20px;padding:3px 10px;font-size:10px;font-family:var(--fm);color:var(--violet)">Store Manager</span>
+        <div class="tb-role-badge">Store Manager</div>
         <div class="tb-clock" id="clock">--:--:--</div>
       </div>
     </header>
