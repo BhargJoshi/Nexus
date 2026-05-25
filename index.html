@@ -5,17 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nexus Retail Intelligence · Sign In</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Outfit:wght@300;400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,300;1,9..144,600&display=swap" rel="stylesheet">
 <style>
+/* ── TOKENS ─────────────────────────────────────────── */
 :root{
-  --bg:#0a0b0e;--bg1:#0f1115;--bg2:#161920;--bg3:#1d2028;
-  --b0:rgba(255,255,255,.035);--b1:rgba(255,255,255,.065);--b2:rgba(255,255,255,.11);
-  --tp:#eceef3;--ts:#878f9c;--tm:#4a5260;
-  --blue:#4475f7;--bdim:rgba(68,117,247,.12);
-  --green:#2ec990;--gdim:rgba(46,201,144,.09);
-  --amber:#f0a034;--red:#e85555;--violet:#9a70f4;
-  --fui:'Outfit',sans-serif;--fmono:'DM Mono',monospace;--fser:'Fraunces',serif;
-  --fm:'DM Mono',monospace;--fu:'Outfit',sans-serif;
+  --bg:#0b0e17;--bg1:#10141f;--bg2:#161c2c;--bg3:#1c2336;
+  --b0:rgba(255,255,255,.045);--b1:rgba(255,255,255,.08);
+  --b2:rgba(255,255,255,.13);--b3:rgba(255,255,255,.20);
+  --tp:#f1f5f9;--ts:#8494a8;--tm:#425166;--tf:#252e3e;
+  --blue:#4b7bff;--bdim:rgba(75,123,255,.09);
+  --green:#2dd4a0;--gdim:rgba(45,212,160,.08);
+  --amber:#f0a523;--adim:rgba(240,165,35,.08);
+  --red:#f04e4e;--rdim:rgba(240,78,78,.08);
+  --violet:#9b6ff4;--vdim:rgba(155,111,244,.09);
+  --fui:'Plus Jakarta Sans',sans-serif;
+  --fmono:'DM Mono',monospace;
+  --fser:'Fraunces',serif;
+  --fm:'DM Mono',monospace;--fu:'Plus Jakarta Sans',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:var(--fui);background:var(--bg);color:var(--tp);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;}
@@ -24,70 +30,128 @@ input,select{font-family:inherit;}
 ::-webkit-scrollbar{width:3px;}
 ::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px;}
 
+/* ── LAYOUT ──────────────────────────────────────────── */
 .login-wrap{display:flex;height:100vh;}
+
+/* Left panel */
 .login-l{
-  width:50%;background:var(--bg1);border-right:1px solid var(--b1);
-  display:flex;flex-direction:column;justify-content:space-between;padding:48px;
-  position:relative;overflow:hidden;
+  width:48%;background:var(--bg1);border-right:1px solid var(--b1);
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:48px;position:relative;overflow:hidden;
 }
-.login-l::before{content:'';position:absolute;top:-100px;left:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(68,117,247,.14) 0%,transparent 70%);pointer-events:none;}
-.login-l::after{content:'';position:absolute;bottom:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(46,201,144,.07) 0%,transparent 70%);pointer-events:none;}
+/* Single subtle ambient light — not gaming glow */
+.login-l::before{
+  content:'';position:absolute;top:-80px;left:-80px;
+  width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(75,123,255,.07) 0%,transparent 68%);
+  pointer-events:none;
+}
 .brand{display:flex;align-items:center;gap:12px;position:relative;z-index:1;}
-.brand-logo{width:36px;height:36px;background:var(--blue);border-radius:9px;display:flex;align-items:center;justify-content:center;}
-.brand-logo svg{width:19px;height:19px;}
-.brand-name{font-size:14px;font-weight:700;letter-spacing:.01em;}
-.brand-tag{font-family:var(--fmono);font-size:10px;color:var(--tm);letter-spacing:.08em;text-transform:uppercase;margin-top:1px;}
+.brand-logo{
+  width:36px;height:36px;background:var(--blue);border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+}
+.brand-logo svg{width:18px;height:18px;}
+.brand-name{font-size:14px;font-weight:700;letter-spacing:-.01em;}
+.brand-tag{
+  font-family:var(--fmono);font-size:10px;color:var(--tm);
+  letter-spacing:.08em;text-transform:uppercase;margin-top:2px;
+}
 .login-hero{position:relative;z-index:1;}
-.login-hero h1{font-family:var(--fser);font-size:46px;font-weight:600;line-height:1.08;margin-bottom:18px;font-style:italic;}
+.login-hero h1{
+  font-family:var(--fser);font-size:48px;font-weight:600;
+  line-height:1.06;margin-bottom:20px;font-style:italic;
+  color:var(--tp);
+}
 .login-hero h1 em{font-style:normal;color:var(--blue);}
-.login-hero p{font-size:14px;color:var(--ts);line-height:1.75;max-width:340px;}
-.login-stats{display:flex;gap:36px;position:relative;z-index:1;}
-.lstat-v{font-size:26px;font-weight:800;letter-spacing:-.02em;}
-.lstat-l{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.07em;margin-top:2px;}
+.login-hero p{
+  font-size:14px;color:var(--ts);line-height:1.8;
+  max-width:340px;font-weight:400;
+}
+.login-stats{display:flex;gap:40px;position:relative;z-index:1;}
+.lstat-v{font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1;}
+.lstat-l{
+  font-family:var(--fmono);font-size:10px;color:var(--tm);
+  text-transform:uppercase;letter-spacing:.09em;margin-top:4px;
+}
 
-.login-r{flex:1;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:48px;}
-.login-form{width:100%;max-width:420px;}
-.login-form h2{font-size:22px;font-weight:700;margin-bottom:5px;}
-.login-form>p{color:var(--ts);font-size:13px;margin-bottom:28px;}
+/* Right panel */
+.login-r{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  background:var(--bg);padding:48px;
+}
+.login-form{width:100%;max-width:400px;}
+.login-form h2{
+  font-size:22px;font-weight:800;margin-bottom:6px;
+  letter-spacing:-.02em;color:var(--tp);
+}
+.login-form>p{color:var(--ts);font-size:13px;margin-bottom:28px;line-height:1.6;}
 
-/* 3-column role grid */
-.role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px;}
-.role-card{background:var(--bg2);border:1px solid var(--b1);border-radius:10px;padding:14px 10px;cursor:pointer;transition:all .15s;text-align:left;}
+/* Role selection */
+.role-section-label{
+  font-family:var(--fmono);font-size:10px;color:var(--tm);
+  text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;
+}
+.role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px;}
+.role-card{
+  background:var(--bg2);border:1px solid var(--b1);border-radius:10px;
+  padding:16px 12px;cursor:pointer;transition:border-color .15s,background .15s;
+  text-align:left;
+}
 .role-card:hover{border-color:var(--b2);}
 .role-card.on{border-color:var(--blue);background:var(--bdim);}
-.role-card .ri{font-size:20px;display:block;margin-bottom:6px;}
-.role-card .rl{
-  display:block;
-  font-size:12px;
-  font-weight:600;
-  color:#fff;
-}
+.role-card .ri{font-size:20px;display:block;margin-bottom:8px;}
+.role-card .rl{font-size:12px;font-weight:700;color:var(--tp);display:block;}
 .role-card .rs{
-  display:block;
-  font-size:10px;
-  color:var(--blue);
-  font-family:var(--fmono);
-  margin-top:2px;
+  font-size:10px;color:var(--tm);font-family:var(--fmono);
+  margin-top:3px;display:block;letter-spacing:.03em;
 }
+.role-card.on .rl{color:var(--blue);}
+.role-desc{
+  padding:10px 14px;background:var(--bg2);border:1px solid var(--b0);
+  border-radius:8px;font-size:11px;font-family:var(--fmono);
+  color:var(--ts);min-height:34px;margin-bottom:20px;letter-spacing:.01em;
+  transition:color .2s;
+}
+
+/* Form fields */
 .fl{margin-bottom:16px;}
-.fl label{display:block;font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;}
-.fl input,.fl select{width:100%;background:var(--bg2);border:1px solid var(--b1);border-radius:8px;padding:11px 13px;color:var(--tp);font-size:13px;outline:none;transition:border-color .2s;appearance:none;}
+.fl label{
+  display:block;font-family:var(--fmono);font-size:10px;color:var(--tm);
+  text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;font-weight:500;
+}
+.fl input,.fl select{
+  width:100%;background:var(--bg2);border:1px solid var(--b1);
+  border-radius:8px;padding:11px 14px;color:var(--tp);font-size:13px;
+  font-weight:500;outline:none;transition:border-color .2s;appearance:none;
+}
 .fl input:focus,.fl select:focus{border-color:var(--blue);}
 .fl input::placeholder{color:var(--tm);}
 
-.btn-login{width:100%;background:var(--blue);color:#fff;border-radius:8px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;transition:opacity .15s;letter-spacing:.01em;}
+.btn-login{
+  width:100%;background:var(--blue);color:#fff;border-radius:8px;
+  padding:14px;font-size:14px;font-weight:700;cursor:pointer;
+  transition:opacity .15s;letter-spacing:.01em;font-family:var(--fui);
+}
 .btn-login:hover{opacity:.88;}
-.sys-ok{display:flex;align-items:center;gap:8px;margin-top:16px;padding:10px 14px;background:var(--gdim);border:1px solid rgba(46,201,144,.18);border-radius:8px;}
-.sys-ok span{font-family:var(--fmono);font-size:11px;color:var(--green);}
-.dot{width:5px;height:5px;border-radius:50%;}
+.sys-ok{
+  display:flex;align-items:center;gap:9px;margin-top:16px;
+  padding:11px 14px;background:var(--gdim);
+  border:1px solid rgba(45,212,160,.15);border-radius:8px;
+}
+.sys-ok span{
+  font-family:var(--fmono);font-size:11px;color:var(--green);letter-spacing:.02em;
+}
+.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
 .dg{background:var(--green);animation:blink 2.4s infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
 
-/* role description footer */
-.role-desc{margin-top:10px;padding:10px 12px;background:var(--bg2);border:1px solid var(--b0);border-radius:8px;font-size:11px;color:var(--#fff);font-family:var(--fmono);min-height:36px;transition:all .2s;}
-.role-desc span{color:var(--#fff);}
-
-.nm{display:none;position:fixed;inset:0;background:var(--bg);z-index:9999;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:32px;}
+/* No mobile */
+.nm{
+  display:none;position:fixed;inset:0;background:var(--bg);z-index:9999;
+  flex-direction:column;align-items:center;justify-content:center;
+  gap:16px;text-align:center;padding:32px;
+}
 @media(max-width:860px){.nm{display:flex;}}
 </style>
 </head>
@@ -100,36 +164,68 @@ input,select{font-family:inherit;}
 </div>
 
 <div class="login-wrap">
+  <!-- Left: brand + hero -->
   <div class="login-l">
     <div class="brand">
-      <div class="brand-logo"><svg viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="6" height="6" rx="1.5" fill="white"/><rect x="10" y="2" width="6" height="6" rx="1.5" fill="white" opacity=".4"/><rect x="2" y="10" width="6" height="6" rx="1.5" fill="white" opacity=".4"/><rect x="10" y="10" width="6" height="6" rx="1.5" fill="white"/></svg></div>
-      <div><div class="brand-name">Nexus Retail Intelligence</div><div class="brand-tag">Platform · Enterprise Build</div></div>
+      <div class="brand-logo">
+        <svg viewBox="0 0 18 18" fill="none">
+          <rect x="2" y="2" width="6" height="6" rx="1.5" fill="white"/>
+          <rect x="10" y="2" width="6" height="6" rx="1.5" fill="white" opacity=".4"/>
+          <rect x="2" y="10" width="6" height="6" rx="1.5" fill="white" opacity=".4"/>
+          <rect x="10" y="10" width="6" height="6" rx="1.5" fill="white"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">Nexus Retail Intelligence</div>
+        <div class="brand-tag">Platform · Enterprise Build</div>
+      </div>
     </div>
     <div class="login-hero">
       <h1>Smarter<br>checkout.<br><em>Zero friction.</em></h1>
       <p>AI-assisted product recognition, real-time billing intelligence, fraud detection and operational analytics — embedded into your existing retail infrastructure.</p>
     </div>
     <div class="login-stats">
-      <div><div class="lstat-v" style="color:var(--green)">97.4%</div><div class="lstat-l">Recognition Accuracy</div></div>
-      <div><div class="lstat-v">2.1s</div><div class="lstat-l">Avg Scan Time</div></div>
-      <div><div class="lstat-v" style="color:var(--blue)">12K+</div><div class="lstat-l">SKUs Trained</div></div>
+      <div>
+        <div class="lstat-v" style="color:var(--green)">97.4%</div>
+        <div class="lstat-l">Recognition Accuracy</div>
+      </div>
+      <div>
+        <div class="lstat-v">2.1s</div>
+        <div class="lstat-l">Avg Scan Time</div>
+      </div>
+      <div>
+        <div class="lstat-v" style="color:var(--blue)">12K+</div>
+        <div class="lstat-l">SKUs Trained</div>
+      </div>
     </div>
   </div>
 
+  <!-- Right: form -->
   <div class="login-r">
     <div class="login-form">
       <h2>Operator Sign In</h2>
-      <p>Select your role — you will be routed to your dedicated dashboard.</p>
+      <p>Select your access role — you will be routed to your dedicated dashboard.</p>
 
+      <div class="role-section-label">Access Role</div>
       <div class="role-grid">
-        <button class="role-card on" onclick="selRole(this,'Cashier','Checkout execution · POS & device · Shift closure')"><span class="ri">🧾</span><span class="rl">Cashier</span><span class="rs">Lane-level access</span></button>
-        <button class="role-card" onclick="selRole(this,'Store Manager','Operational intel · Workforce · Inventory · Fraud · Reports')"><span class="ri">📊</span><span class="rl">Store Manager</span><span class="rs">Operational intel</span></button>
-        <button class="role-card" onclick="selRole(this,'Board / Executive','Strategic KPIs · ROI analytics · Regional intelligence')"><span class="ri">🏢</span><span class="rl">Board / Executive</span><span class="rs">Strategic overview</span></button>
+        <button class="role-card on" onclick="selRole(this,'Cashier','Checkout execution · POS & device · Shift closure')">
+          <span class="ri">🧾</span>
+          <span class="rl">Cashier</span>
+          <span class="rs">Lane-level access</span>
+        </button>
+        <button class="role-card" onclick="selRole(this,'Store Manager','Operational intel · Workforce · Inventory · Fraud · Reports')">
+          <span class="ri">📊</span>
+          <span class="rl">Store Manager</span>
+          <span class="rs">Operational intel</span>
+        </button>
+        <button class="role-card" onclick="selRole(this,'Board / Executive','Strategic KPIs · ROI analytics · Regional intelligence')">
+          <span class="ri">🏢</span>
+          <span class="rl">Board / Executive</span>
+          <span class="rs">Strategic overview</span>
+        </button>
       </div>
+      <div class="role-desc" id="role-desc">Checkout execution · POS &amp; device management · Shift closure</div>
 
-      <div class="role-desc" id="role-desc"><span>Checkout execution · POS &amp; device management · Shift closure</span></div>
-
-      <div style="height:14px"></div>
       <div class="fl"><label>Operator ID</label><input type="text" id="op-id" value="CSH-0041" placeholder="Enter operator ID"></div>
       <div class="fl"><label>PIN / Password</label><input type="password" id="op-pin" value="123456" placeholder="••••••"></div>
       <div class="fl">
@@ -140,8 +236,12 @@ input,select{font-family:inherit;}
           <option>BigBazaar — Satellite</option>
         </select>
       </div>
+
       <button class="btn-login" onclick="doLogin()">Initialize Session →</button>
-      <div class="sys-ok"><div class="dot dg"></div><span>All systems operational · POS connected · AI engine ready</span></div>
+      <div class="sys-ok">
+        <div class="dot dg"></div>
+        <span>All systems operational · POS connected · AI engine ready</span>
+      </div>
     </div>
   </div>
 </div>
@@ -152,7 +252,7 @@ function selRole(el,role,desc){
   document.querySelectorAll('.role-card').forEach(r=>r.classList.remove('on'));
   el.classList.add('on');
   selectedRole=role;
-  document.getElementById('role-desc').innerHTML='<span>'+desc+'</span>';
+  document.getElementById('role-desc').textContent=desc;
 }
 function doLogin(){
   const id=document.getElementById('op-id').value||'CSH-0041';
