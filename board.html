@@ -5,44 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nexus · Board Intelligence Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Outfit:wght@300;400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,600&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════
    DESIGN TOKENS — BOARD LAYER
    Inherits core tokens + elevates with premium accents
 ═══════════════════════════════════════════ */
 :root{
-  /* Core palette */
-  --bg:#07080b;--bg1:#0c0e12;--bg2:#131720;--bg3:#1a1f28;--bg4:#222733;--bh:#2c3140;
-  --b0:rgba(255,255,255,.03);--b1:rgba(255,255,255,.06);--b2:rgba(255,255,255,.10);--b3:rgba(255,255,255,.17);
-  --tp:#eceef3;--ts:#7e8896;--tm:#41495a;--tf:#232830;
+  /* Core — professional navy-dark palette */
+  --bg:#0b0e17;--bg1:#10141f;--bg2:#161c2c;--bg3:#1c2336;--bg4:#222c42;--bh:#2a3450;
+  --b0:rgba(255,255,255,.045);--b1:rgba(255,255,255,.08);
+  --b2:rgba(255,255,255,.13);--b3:rgba(255,255,255,.20);
+  --tp:#f1f5f9;--ts:#8494a8;--tm:#425166;--tf:#252e3e;
 
-  /* Brand accents */
-  --blue:#4475f7;--bdim:rgba(68,117,247,.11);--bglow:rgba(68,117,247,.22);
-  --green:#2ec990;--gdim:rgba(46,201,144,.08);
-  --amber:#f0a034;--adim:rgba(240,160,52,.08);
-  --red:#e85555;--rdim:rgba(232,85,85,.08);
-  --violet:#9a70f4;--vdim:rgba(154,112,244,.10);
+  /* Semantic accents */
+  --blue:#4b7bff;--bdim:rgba(75,123,255,.09);
+  --green:#2dd4a0;--gdim:rgba(45,212,160,.08);
+  --amber:#f0a523;--adim:rgba(240,165,35,.08);
+  --red:#f04e4e;--rdim:rgba(240,78,78,.08);
+  --violet:#9b6ff4;--vdim:rgba(155,111,244,.09);
 
-  /* Board-exclusive premium accents */
-  --gold:#c9a84c;--gold-dim:rgba(201,168,76,.10);--gold-glow:rgba(201,168,76,.22);
-  --teal:#22c4d4;--teal-dim:rgba(34,196,212,.09);
-  --rose:#e86a7a;--rose-dim:rgba(232,106,122,.09);
+  /* Board-exclusive gold accent */
+  --gold:#c9a84c;--gold-dim:rgba(201,168,76,.09);--gold-glow:rgba(201,168,76,.18);
 
-  /* Board rail is wider for label breathing room */
   --rail:62px;--top:52px;
 
-  /* Typography */
-  --fui:'Outfit',sans-serif;
+  /* Typography — Plus Jakarta Sans for UI, Fraunces for display */
+  --fui:'Plus Jakarta Sans',sans-serif;
   --fmono:'DM Mono',monospace;
   --fser:'Fraunces',serif;
   --fm:'DM Mono',monospace;
-  --fu:'Outfit',sans-serif;
+  --fu:'Plus Jakarta Sans',sans-serif;
 }
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;}
-body{font-family:var(--fui);background:var(--bg);color:var(--tp);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+body{font-family:var(--fui);background:var(--bg);color:var(--tp);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;letter-spacing:-.01em;}
 button{font-family:inherit;cursor:pointer;border:none;}
 input,select{font-family:inherit;}
 ::-webkit-scrollbar{width:3px;height:3px;}
@@ -98,8 +96,8 @@ input,select{font-family:inherit;}
   display:flex;align-items:center;padding:0 24px;gap:14px;flex-shrink:0;
 }
 .tb-title{
-  font-family:var(--fser);font-size:15px;font-weight:600;
-  letter-spacing:.01em;flex:1;font-style:italic;
+  font-size:14px;font-weight:700;
+  letter-spacing:-.01em;flex:1;color:var(--tp);
 }
 .tb-meta{display:flex;align-items:center;gap:12px;}
 .period-sel{
@@ -153,20 +151,18 @@ input,select{font-family:inherit;}
    BOARD CARD — premium card variant used across views
 ═══════════════════════════════════════════ */
 .bcard{
-  background:var(--bg1);border:1px solid var(--b0);border-radius:14px;
-  transition:border-color .2s;
+  background:var(--bg1);border:1px solid var(--b1);border-radius:14px;
 }
-.bcard:hover{border-color:var(--b1);}
 /* Hero KPI card with gold top border accent */
 .kpi-hero{
-  background:linear-gradient(160deg,var(--bg2) 0%,var(--bg1) 100%);
-  border:1px solid var(--b1);border-top:2px solid var(--gold);
-  border-radius:14px;padding:22px;
-  transition:all .2s;cursor:default;
+  background:var(--bg1);
+  border:1px solid var(--b1);
+  border-radius:14px;padding:24px;
+  transition:border-color .2s;cursor:default;
 }
-.kpi-hero:hover{border-color:var(--b2);border-top-color:var(--gold);}
-.khi-label{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.09em;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
-.khi-value{font-family:var(--fser);font-size:38px;font-weight:700;line-height:1;letter-spacing:-.02em;margin-bottom:8px;}
+.kpi-hero:hover{border-color:var(--b2);}
+.khi-label{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px;display:flex;align-items:center;gap:6px;font-weight:500;}
+.khi-value{font-family:var(--fser);font-size:40px;font-weight:700;line-height:1;letter-spacing:-.025em;margin-bottom:10px;}
 .khi-trend{font-size:11px;font-family:var(--fmono);color:var(--tm);}
 /* Secondary KPI card */
 .kpi-sec{
@@ -174,12 +170,12 @@ input,select{font-family:inherit;}
   padding:18px;transition:all .2s;cursor:default;
 }
 .kpi-sec:hover{border-color:var(--b1);}
-.ksi-label{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.09em;margin-bottom:8px;}
-.ksi-value{font-family:var(--fui);font-size:28px;font-weight:900;letter-spacing:-.02em;margin-bottom:5px;}
+.ksi-label{font-family:var(--fmono);font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;font-weight:500;}
+.ksi-value{font-family:var(--fui);font-size:30px;font-weight:800;letter-spacing:-.025em;margin-bottom:6px;}
 .ksi-sub{font-size:11px;font-family:var(--fmono);color:var(--tm);}
 /* Section title used throughout board views */
-.view-title{font-family:var(--fser);font-size:22px;font-weight:600;font-style:italic;letter-spacing:-.01em;margin-bottom:4px;}
-.view-sub{font-size:12px;font-family:var(--fmono);color:var(--tm);}
+.view-title{font-size:22px;font-weight:800;letter-spacing:-.025em;margin-bottom:4px;color:var(--tp);}
+.view-sub{font-size:11px;font-family:var(--fmono);color:var(--tm);letter-spacing:.02em;margin-top:2px;}
 /* Insight card — AI recommendation style */
 .insight-card{
   background:linear-gradient(135deg,var(--bg2) 0%,rgba(68,117,247,.04) 100%);
@@ -218,8 +214,8 @@ input,select{font-family:inherit;}
 .toast{background:var(--bg2);border:1px solid var(--b1);border-radius:10px;padding:11px 15px;display:flex;align-items:center;gap:10px;min-width:260px;max-width:340px;animation:tIn .22s ease;box-shadow:0 8px 28px rgba(0,0,0,.5);}
 @keyframes tIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 .ti{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
-.tt{font-size:12px;font-weight:500;}
-.ts2{font-size:10px;color:var(--tm);font-family:var(--fmono);margin-top:1px;}
+.tt{font-size:12px;font-weight:700;color:var(--tp);letter-spacing:-.01em;}
+.ts2{font-size:10px;color:var(--tm);font-family:var(--fmono);margin-top:2px;letter-spacing:.02em;}
 /* No mobile */
 .nm{display:none;position:fixed;inset:0;background:var(--bg);z-index:9999;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:32px;}
 @media(max-width:860px){.nm{display:flex;}}
@@ -243,7 +239,7 @@ input,select{font-family:inherit;}
   font-family:var(--fmono);font-size:10px;color:var(--tm);
 }
 .rc-ico{font-size:28px;margin-bottom:8px;}
-.rc-name{font-size:13px;font-weight:700;margin-bottom:2px;}
+.rc-name{font-size:13px;font-weight:700;margin-bottom:2px;color:var(--tp);letter-spacing:-.01em;}
 .rc-loc{font-size:10px;font-family:var(--fmono);color:var(--tm);margin-bottom:10px;}
 .rc-kpi-row{display:flex;gap:12px;}
 .rc-kv{flex:1;}
@@ -428,7 +424,7 @@ input,select{font-family:inherit;}
               </svg>
             </div>
           </div>
-          <div class="kpi-hero" style="border-top-color:var(--gold)">
+          <div class="kpi-hero">
             <div class="khi-label"><div class="dot da"></div>Deployment ROI</div>
             <div class="khi-value" style="color:var(--gold)">4.2×</div>
             <div class="khi-trend"><span class="tup">↑ 0.6×</span> improvement this quarter</div>
@@ -639,22 +635,22 @@ input,select{font-family:inherit;}
 
         <!-- ROI headline metrics -->
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
-          <div class="kpi-hero" style="border-top-color:var(--gold)">
+          <div class="kpi-hero">
             <div class="khi-label">Deployment ROI</div>
             <div class="khi-value" style="color:var(--gold)">4.2×</div>
             <div class="khi-trend">Every ₹1 invested returns <strong style="color:var(--gold)">₹4.20</strong></div>
           </div>
-          <div class="kpi-hero" style="border-top-color:var(--green)">
+          <div class="kpi-hero">
             <div class="khi-label">Gross Savings · Month</div>
             <div class="khi-value" style="color:var(--green)">₹12.4L</div>
             <div class="khi-trend"><span class="tup">↑ ₹1.8L</span> vs last month</div>
           </div>
-          <div class="kpi-hero" style="border-top-color:var(--blue)">
+          <div class="kpi-hero">
             <div class="khi-label">Checkout Throughput Gain</div>
             <div class="khi-value" style="color:var(--blue)">+28%</div>
             <div class="khi-trend">2.1s avg · was 2.9s baseline</div>
           </div>
-          <div class="kpi-hero" style="border-top-color:var(--violet)">
+          <div class="kpi-hero">
             <div class="khi-label">Break-even Achieved</div>
             <div class="khi-value" style="color:var(--violet)">Month 8</div>
             <div class="khi-trend">2 months ahead of projection</div>
@@ -963,7 +959,7 @@ input,select{font-family:inherit;}
   <div class="modal">
     <div class="mhd">
       <div style="width:36px;height:36px;border-radius:9px;background:var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0">◆</div>
-      <div><div style="font-size:14px;font-weight:700" id="detail-title">Detail View</div><div style="font-size:11px;font-family:var(--fmono);color:var(--tm);margin-top:2px" id="detail-sub">Strategic breakdown</div></div>
+      <div><div style="font-size:15px;font-weight:700;color:var(--tp);letter-spacing:-.01em" id="detail-title">Detail View</div><div style="font-size:11px;font-family:var(--fmono);color:var(--tm);margin-top:2px" id="detail-sub">Strategic breakdown</div></div>
     </div>
     <div style="padding:22px;font-size:13px;color:var(--ts);line-height:1.8" id="detail-body"></div>
     <div class="mft">
@@ -1233,7 +1229,7 @@ function renderIntel(){
     <div class="intel-dot" style="border-color:${ev.dot};background:linear-gradient(135deg,var(--bg2),var(--bg3))">${ev.ico}</div>
     <div style="flex:1;padding-top:5px">
       <div style="font-family:var(--fmono);font-size:10px;color:var(--tm);margin-bottom:4px">${ev.date}</div>
-      <div style="font-size:14px;font-weight:700;margin-bottom:5px">${ev.title}</div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:5px;color:var(--tp);letter-spacing:-.01em">${ev.title}</div>
       <div style="font-size:12px;color:var(--ts);line-height:1.7;margin-bottom:8px">${ev.desc}</div>
       <div style="display:flex;gap:6px">${ev.tags.map(t=>`<span style="font-size:10px;font-family:var(--fmono);padding:2px 8px;border-radius:20px;background:var(--bg3);color:var(--tm)">${t}</span>`).join('')}</div>
     </div>
